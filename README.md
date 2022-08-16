@@ -1,6 +1,6 @@
 This is Our New Era University College Java Group Project Repository
 
-1: Create a main menu, include:
+Create a main menu, include:
     1.1: Take oder - (By choose the number)
         1.0: Choose the number or lable of the table
             1.0.1: Cancle option - (By choose the number)
