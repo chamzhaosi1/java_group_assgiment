@@ -1,10 +1,14 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 public class ChickenRiceShopBuild {
     private static final String INPUT_ERROR_MESSAGE = "Your selection is invalid please try again!!";
 
     private ChickenRiceProduct chickenRiceProduct[];
     private ChickenRiceShop chickenRiceShop;
     private ChickenRiceAddOn chickenRiceAddOn[];
+    private ChickenRiceOrder chickenRiceOrder;
+    private ArrayList<ChickenRiceOrder> chickenRiceOrderList = new ArrayList<>();
+    Scanner input =  new Scanner(System.in);
 
     public ChickenRiceShopBuild(){
         registerChickenRiceShop();
@@ -53,7 +57,7 @@ public class ChickenRiceShopBuild {
 
         boolean validata = false;
         int mainMemuOptionInput = 0;
-        Scanner input;
+        
         
        //Show the list at first time, if condition false then loop again
         do{
@@ -72,9 +76,15 @@ public class ChickenRiceShopBuild {
             System.out.println ("5: Exit");
             
             // Read the user input integer
-            input =  new Scanner(System.in);
+            System.out.println("adsfasdfasdf");
+            
             try{
+                System.out.println("a");
+                
                 mainMemuOptionInput = input.nextInt();
+                
+                System.out.println("b");
+                System.out.println(mainMemuOptionInput);
 
                 // Check whether the input valid or not
                 validata = checkInputIntValidation(mainMemuOptionInput, 0, 6, INPUT_ERROR_MESSAGE);
@@ -93,25 +103,62 @@ public class ChickenRiceShopBuild {
                 }
             }catch (Exception ex){
                 // If the user not key in the integer number, then handle the exception
+                System.out.println(ex);
                 System.out.println(INPUT_ERROR_MESSAGE);
             }
-            
-            
-            
+                 
         // False inverse = true, the query again
         }while(!validata);
-
-        input.close();
+    input.close();
     }
 
     // When user select option 1
     public void productMenuOption(){
+        // Variable for checking input value valid or not 
+        boolean validate;
+
+        
+       do{
         System.out.println("\n######################################################################################################");
         System.out.println("Please choose which table label mark an order");
         String tabelLabelList[] = chickenRiceShop.getTableLable();
-        for (int i=0; i<tabelLabelList.length; i++){
-            System.out.println((i+1) +":" + tabelLabelList[i]);
+    
+        int i;
+        for (i=0; i<tabelLabelList.length; i++){
+            System.out.println((i+1) +": " + tabelLabelList[i]);
         }
+        // User allow to select cancle option to turn back main menu
+        System.out.println((i+1) +": Cancle");
+        int tabelLabelInput = -1;
+
+        //Read user input integer
+        // System.out.println(input_1.hasNextInt());
+        // if (input.hasNextInt()){
+        //     tabelLabelInput = input.nextInt();
+        // }else{
+        //     tabelLabelInput = -1;
+        // }
+
+        tabelLabelInput = input.nextInt();
+        
+        // tabelLabelList.length+2 = 7, less than 7, return true
+        validate = checkInputIntValidation(tabelLabelInput, 0, (tabelLabelList.length+2), INPUT_ERROR_MESSAGE);
+        // if validate == ture
+        if (validate &&  tabelLabelInput < 6){
+            // because the length of the array only have 5, and index 0-4, so need to minus one
+            tabelLabelInput -= 1;
+            chickenRiceOrder = new ChickenRiceOrder();
+            chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
+            // chickenRiceOrderList.add(chickenRiceOrder);
+
+        }else if(tabelLabelInput == 6){
+            System.out.println("Press cancle!");
+            validate = true;
+        }
+
+
+       }while(!validate);
+       
     }
     // When user select option 2
 
