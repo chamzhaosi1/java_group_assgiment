@@ -1,6 +1,7 @@
 import java.util.Scanner;
-
 public class ChickenRiceShopBuild {
+    private static final String INPUT_ERROR_MESSAGE = "Your selection is invalid please try again!!";
+
     private ChickenRiceProduct chickenRiceProduct[];
     private ChickenRiceShop chickenRiceShop;
     private ChickenRiceAddOn chickenRiceAddOn[];
@@ -50,8 +51,10 @@ public class ChickenRiceShopBuild {
 
     private void optionMenu(){
 
-        boolean validata = true;
-
+        boolean validata = false;
+        int mainMemuOptionInput = 0;
+        Scanner input;
+        
        //Show the list at first time, if condition false then loop again
         do{
              // Show out our shop detail
@@ -68,30 +71,91 @@ public class ChickenRiceShopBuild {
             System.out.println ("4: Summary Daily Sales");
             System.out.println ("5: Exit");
             
-            // read the user input integer
-            System.out.println("123213");
-            Scanner input =  new Scanner(System.in);
-            System.out.println("456456");
-            int mainMemuOptionInput = input.nextInt();
-            System.out.println("87978978");
+            // Read the user input integer
+            input =  new Scanner(System.in);
+            try{
+                mainMemuOptionInput = input.nextInt();
+
+                // Check whether the input valid or not
+                validata = checkInputIntValidation(mainMemuOptionInput, 0, 6, INPUT_ERROR_MESSAGE);
+                // System.out.println(validata);
+
+                if (validata){
+                    // After invoke the below function, the main menu while show again, process will not be end, becuase validate false.
+                    validata = false;
+                    switch (mainMemuOptionInput){
+                        case 1: productMenuOption(); break;
+                        // case 2: makePaymentOption(); break;
+                        // case 3: showProductBalanceOption(); break;
+                        // case 4: summaryDailtSalesOption(); break;
+                        case 5: exitOption(); break;
+                    }
+                }
+            }catch (Exception ex){
+                // If the user not key in the integer number, then handle the exception
+                System.out.println(INPUT_ERROR_MESSAGE);
+            }
             
-            // check whether the input valid or not
-            validata = checkInputIntValidation(mainMemuOptionInput, 0, 6, "Your Selection is invalid please try again!!");
-            System.out.println(validata);
-            input.close();
+            
+            
+        // False inverse = true, the query again
         }while(!validata);
+
+        input.close();
     }
 
-    // check whether the input valid or not
+    // When user select option 1
+    public void productMenuOption(){
+        
+    }
+    // When user select option 2
+
+    // When user select option 3
+
+    // When user select option 4
+
+
+    // When user select option 5
+    private void exitOption(){
+        System.out.println("Are you sure want to exit the system, your unsaved data may not be recovered! (Y/N)");
+        Scanner input = new Scanner(System.in);
+
+        // Read the first letter of user key in only
+        char charOptionInput = input.next().charAt(0);
+        
+        // Check whether the user's input validate
+        boolean validate = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+
+        // If validate format, then check whether y or n
+        if (validate && (charOptionInput == 'Y' || charOptionInput == 'y')){
+            System.exit(0);
+            input.close();
+        }
+    }
+
+    // Check whether the input valid or not
     /**
          * @param inputInt - number of the user keyin
          * @param leftBound - left interval / more than what number
          * @param rightBound - rigth interval / less than what number
          * @param message - message while invalid input
          * @return true / false
-         */
+    */
     private boolean checkInputIntValidation(int inputInt, int leftBound, int rightBound, String message){
         if (inputInt > leftBound && inputInt < rightBound){
+            return true;
+        }
+        System.out.println(message);
+        return false;
+    }
+
+    /**
+         * @param inputChar - first letter of the user keyin
+         * @param message - message while invalid input
+         * @return true / false
+    */
+    private boolean checkInputBoolValidation(char inputChar, String message){
+        if (inputChar == 'Y' || inputChar == 'y' || inputChar == 'N' || inputChar == 'n'){
             return true;
         }
         System.out.println(message);
