@@ -69,11 +69,14 @@ public class ChickenRiceShopBuild {
             System.out.println ("5: Exit");
             
             // read the user input integer
+            System.out.println("123213");
             Scanner input =  new Scanner(System.in);
+            System.out.println("456456");
             int mainMemuOptionInput = input.nextInt();
+            System.out.println("87978978");
             
             // check whether the input valid or not
-            validata = checkInputIntValidation(mainMemuOptionInput, 0, 5, "Your Selection is invalid please try again!!");
+            validata = checkInputIntValidation(mainMemuOptionInput, 0, 6, "Your Selection is invalid please try again!!");
             System.out.println(validata);
             input.close();
         }while(!validata);
@@ -82,16 +85,16 @@ public class ChickenRiceShopBuild {
     // check whether the input valid or not
     /**
          * @param inputInt - number of the user keyin
-         * @param leftBound - left interval / less than what number
-         * @param rightBound - rigth interval / more than what number
+         * @param leftBound - left interval / more than what number
+         * @param rightBound - rigth interval / less than what number
          * @param message - message while invalid input
          * @return true / false
          */
     private boolean checkInputIntValidation(int inputInt, int leftBound, int rightBound, String message){
-        if (inputInt < leftBound || inputInt > rightBound){
-            System.out.println(message);
+        if (inputInt > leftBound && inputInt < rightBound){
             return true;
         }
+        System.out.println(message);
         return false;
     }
 
