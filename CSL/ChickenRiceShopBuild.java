@@ -109,8 +109,8 @@ public class ChickenRiceShopBuild {
         System.out.println("\n######################################################################################################");
         System.out.println("Please choose which table label mark an order");
         String tabelLabelList[] = chickenRiceShop.getTableLable();
-        for (int i; i<tabelLabelList.length; i++){
-            System.out.println((i+1) ": ")
+        for (int i=0; i<tabelLabelList.length; i++){
+            System.out.println((i+1) +":" + tabelLabelList[i]);
         }
     }
     // When user select option 2
