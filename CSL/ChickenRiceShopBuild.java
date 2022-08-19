@@ -9,6 +9,8 @@ public class ChickenRiceShopBuild {
     private ChickenRiceAddOn chickenRiceAddOn[];
     private ChickenRiceOrder chickenRiceOrder;
     private ArrayList<ChickenRiceOrder> chickenRiceOrderList = new ArrayList<>();
+    private ArrayList<ChickenRiceProduct> orderProdcutList = new ArrayList<>();
+    private ArrayList<Integer> orderQuntityList = new ArrayList<>();
     Scanner input = new Scanner(System.in);
 
     public ChickenRiceShopBuild() {
@@ -125,140 +127,141 @@ public class ChickenRiceShopBuild {
 
     // When user select option 1
     public void productMenuOption() {
-        // Variable for checking input value valid or not
-        boolean validate = false;
-        int tabelLabelInput = -1;
         chickenRiceOrder = new ChickenRiceOrder();
-        int tabelLabelLength, i;
 
-        do {
-            System.out.println(
-                    "\n######################################################################################################");
-            System.out.println("Please choose which table label mark an order:");
-            String tabelLabelList[] = chickenRiceShop.getTableLable();
+        String label = "Please choose which table label mark an order";
+        String tabelLabelList[] = chickenRiceShop.getTableLable();
+        Validate_Num validate_num;
+        boolean validate, returnThisPage;
+        int tabelLabelInput = -1;
+        int tabelLabelLength = tabelLabelList.length;
 
-            // Get the list lenght
-            tabelLabelLength = tabelLabelList.length;
+        do {  
+            // invoke the function to check number input validate or not, and what numbe user keyin
+            validate_num = selectOption(label, tabelLabelList, 1);
 
-            for (i = 0; i < tabelLabelLength; i++) {
-                System.out.println((i + 1) + ": " + tabelLabelList[i]);
-            }
-            // User allow to select cancle option to turn back main menu
-            System.out.println((i + 1) + ": Return previous section");
-            System.out.println((i + 2) + ": Return to home memu");
+            // Get validate status and number input
+            validate = validate_num.getValidate();
+            tabelLabelInput = validate_num.getNumber();
 
-            try {
-                // Read user input integer
-                tabelLabelInput = input.nextInt();
-                // System.out.println(tabelLabelInput);
-                // System.out.println("1");
-                // tabelLabelList.length+2 = 8, less than 8, return true
-                validate = checkInputIntValidation(tabelLabelInput, 0, (tabelLabelLength + 3), INPUT_ERROR_MESSAGE);
-                // System.out.println("2");
-                // If validate == ture
-                if (validate && tabelLabelInput < (tabelLabelLength + 1)) {
-                    // Because the length of the array only have 5, and index 0-4, so need to minus
-                    // one
-                    tabelLabelInput -= 1;
-                    chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
+            // If validate == ture
+            if (validate && tabelLabelInput < (tabelLabelLength + 1)) {
+                // Because the length of the array only have 5, and index 0-4, so need to minus
+                // one
+                tabelLabelInput -= 1;
+                chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
 
-                    // After select the table label, call product list function
-                    boolean returnThisPage = productListOption();
+                // After select the table label, call product list function
+                returnThisPage = productListOption();
 
-                    // If the return == true, then loop again, while return == false, back to the
-                    // home menu
-                    if (returnThisPage) {
-                        validate = false;
-                    } else if (!returnThisPage) {
-
-                    }
-
-                    // Either select 6 or 7, process will return to home menu section
-                } else if (tabelLabelInput == (tabelLabelLength + 1) || tabelLabelInput == (tabelLabelLength + 2)) {
-                    System.out.println("Return to the home menu!\n");
-                    validate = true;
+                // If the return == true, then loop again, while return == false, back to the
+                // home menu
+                if (returnThisPage) {
+                    validate = false;
                 }
 
-            } catch (Exception e) {
-                // If the user not key in the integer number, then handle the exception
-                // System.out.println(e);
-                System.out.println(INPUT_ERROR_MESSAGE);
-                // Clear the system input buffer before loop again
-                clearInputBuffer();
+                // Either select 6 or 7, process will return to home menu section
+            } else if (tabelLabelInput == (tabelLabelLength + 1) || tabelLabelInput == (tabelLabelLength + 2)) {
+                System.out.println("Return to the home menu!\n");
+                validate = true;
             }
+
         } while (!validate);
     }
 
     public boolean productListOption() {
         // Variable for checking input value valid or not
-        boolean validate = false;
+        boolean validate = false, validate_quntity = false, validate_addInput = false;
+        char charOptionInput; 
         int productListInput = -1;
-        int productItemLength, i;
-        ArrayList<ChickenRiceProduct> orderProdcutList = new ArrayList<>();
-        ArrayList<Integer> orderQuntityList = new ArrayList<>();
+        int prodcutItemQuantity = -1;
+        int productItemLength = chickenRiceProduct.length;
+        Validate_Num validate_num;
+        String label = "Please choose the item:";
 
         do {
-            System.out.println(
-                    "\n######################################################################################################");
-            System.out.println("Please choose the item:");
-            // String productItemList[] = chickenRiceProduct.getProductName();
+            validate_num = selectOption(label, chickenRiceProduct, 2);
+            validate = validate_num.getValidate();
+            productListInput = validate_num.getNumber();
 
-            // Get the list lenght
-            productItemLength = chickenRiceProduct.length;
+            // if validate == ture
+            if (validate && productListInput < (productItemLength + 1)) {
+                // because the length of the array only have 5, and index 0-4, so need to minus one
+                productListInput -= 1;
+                orderProdcutList.add(chickenRiceProduct[productListInput]);
 
-            for (i = 0; i < productItemLength; i++) {
-                System.out.println((i + 1) + ": " + chickenRiceProduct[i].getProductName() + ", RM "
-                        + chickenRiceProduct[i].getProductPrice() + "\n "
-                        + chickenRiceProduct[i].getProductDescription() + "\n balance: "
-                        + chickenRiceProduct[i].getBalanceQuantity());
-            }
-            // User allow to select cancle option to turn back main menu
-            System.out.println((i + 1) + ": Return to previous section");
-            System.out.println((i + 2) + ": Return to home mune");
-
-            try {
-                // Read user input integer
-                productListInput = input.nextInt();
-                // System.out.println(productListInput);
-                // System.out.println("1");
-                // tabelLabelList.length+3 = 6, less than 6, return true
-                validate = checkInputIntValidation(productListInput, 0, (productItemLength + 3), INPUT_ERROR_MESSAGE);
-                // System.out.println("2");
-                // if validate == ture
-                if (validate && productListInput < (productItemLength + 1)) {
-                    // because the length of the array only have 5, and index 0-4, so need to minus
-                    // one
-                    productListInput -= 1;
-                    orderProdcutList.add(chickenRiceProduct[productListInput]);
-
+                do{
                     System.out.println(
-                            "\n######################################################################################################");
+                        "\n######################################################################################################");
                     System.out.print("Please enter the order quantity: ");
 
                     try {
-                        int prodcutItemQuantity = input.nextInt();
+                        prodcutItemQuantity = input.nextInt();
+                        orderQuntityList.add(prodcutItemQuantity);
+                        validate_quntity = true;
+                        do{
+                            System.out.println("Do you want add another product? (Y/N)");
+    
+                            charOptionInput = input.next().charAt(0);
+    
+                            // Check whether the user's input validate
+                            validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+    
+                            // If validate format, then check whether y or n
+                            if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+                                clearInputBuffer();
+                                validate = false;
+                                break;
+                            }else {
+                                clearInputBuffer();
+                                addOnListOption();
+                            }
+                        }while(!validate_addInput);
                     } catch (Exception e) {
-                        // TODO: handle exception
+                        // If the user not key in the integer number, then handle the exception
+                        // System.out.println(ex);
+                        System.out.println(INPUT_ERROR_MESSAGE);
+                        // Clear the system input buffer before loop again
+                        input.nextLine();
+                        validate_quntity = false;
                     }
+                }while(!validate_quntity);
 
-                } else if (productListInput == (productItemLength + 1)) {
-                    System.out.println("Return to previous menu!");
-                    break;
-                } else if (productListInput == (productItemLength + 2)) {
-                    System.out.println("Return to home menu!");
-                    return false;
-                }
-
-            } catch (Exception e) {
-                // If the user not key in the integer number, then handle the exception
-                // System.out.println(e);
-                System.out.println(INPUT_ERROR_MESSAGE);
-                // Clear the system input buffer before loop again
-                clearInputBuffer();
+            } else if (productListInput == (productItemLength + 1)) {
+                System.out.println("Return to previous menu!");
+                break;
+            } else if (productListInput == (productItemLength + 2)) {
+                System.out.println("Return to home menu!");
+                return false;
             }
+ 
         } while (!validate);
-
         return true;
+    }
+
+
+    private void addOnListOption(){
+        char charOptionInput;
+        boolean validate_addInput;
+
+        System.out.println("Do you want add on? (Y/N)");
+    
+        charOptionInput = input.next().charAt(0);
+
+        // Check whether the user's input validate
+        validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+
+        // If validate format, then check whether y or n
+        if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+           
+        }else {
+            // remark
+        }
+
+
+        do{
+            
+        }while();
     }
 
     // When user select option 2
@@ -270,7 +273,6 @@ public class ChickenRiceShopBuild {
     // When user select option 5
     private void exitOption() {
         System.out.println("Are you sure want to exit the system, your unsaved data may not be recovered! (Y/N)");
-        Scanner input = new Scanner(System.in);
 
         // Read the first letter of user key in only
         char charOptionInput = input.next().charAt(0);
@@ -281,8 +283,64 @@ public class ChickenRiceShopBuild {
         // If validate format, then check whether y or n
         if (validate && (charOptionInput == 'Y' || charOptionInput == 'y')) {
             System.exit(0);
+        }
+
+        clearInputBuffer();
+    }
+
+     /**
+     * @param label   - Label hits for user 
+     * @param itemList  - item that need to let user choose
+     * @param flag - each invoke the item list may be different so use the flag to identify them
+     * @return validate_num, whether the number validate and what is the number
+     */
+
+    private Validate_Num selectOption(String label, Object[] itemList, int flag){
+        // Variable for checking input value valid or not
+        boolean validate = false;
+        int itemListInput = -1;
+        int itemListLength, i = 0;
+        
+        System.out.println(
+                "\n######################################################################################################");
+        System.out.println(label);
+
+        // Get the list lenght
+        itemListLength = itemList.length;
+
+        if (flag == 1){
+            for (i = 0; i < itemListLength; i++) {
+                System.out.println((i + 1) + ": " + itemList[i]);
+            }
+
+        }else if(flag == 2){
+            for (i = 0; i < itemListLength; i++) {
+                System.out.println((i + 1) + ": " + chickenRiceProduct[i].getProductName() + ", RM "
+                        + chickenRiceProduct[i].getProductPrice() + "\n "
+                        + chickenRiceProduct[i].getProductDescription() + "\n balance: "
+                        + chickenRiceProduct[i].getBalanceQuantity());
+            }
+        }
+        // User allow to select cancle option to turn back main menu
+        System.out.println((i + 1) + ": Return previous section");
+        System.out.println((i + 2) + ": Return to home memu");
+
+        try {
+            // Read user input integer
+            itemListInput = input.nextInt();
+  
+            // tabelLabelList.length+2 = 8, less than 8, return true
+            validate = checkInputIntValidation(itemListInput, 0, (itemListLength + 3), INPUT_ERROR_MESSAGE);
+
+        } catch (Exception e) {
+            // If the user not key in the integer number, then handle the exception
+            // System.out.println(e);
+            System.out.println(INPUT_ERROR_MESSAGE);
+            // Clear the system input buffer before loop again
             clearInputBuffer();
         }
+
+        return new Validate_Num(validate, itemListInput);
     }
 
     // Check whether the input valid or not
