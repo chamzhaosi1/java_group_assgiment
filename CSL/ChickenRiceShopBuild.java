@@ -231,7 +231,7 @@ public class ChickenRiceShopBuild {
                                 // to record down how many product added
                                 count++;
                                 break;
-                            }else if (!validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+                            }else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                                 clearInputBuffer();
 
                                 //invoke the add on menu function
@@ -280,14 +280,14 @@ public class ChickenRiceShopBuild {
         char charOptionInput;
         boolean validate_addInput;
 
-        System.out.println("Do you want add on? (Y/N)");
+        do{
+            System.out.println("Do you want add on? (Y/N)");
     
-        charOptionInput = input.next().charAt(0);
+            charOptionInput = input.next().charAt(0);
 
-        // Check whether the user's input validate
-        validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+            // Check whether the user's input validate
+            validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
 
-        do {
             // If validate format, then check whether y or n
             if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
                 clearInputBuffer();
@@ -335,7 +335,6 @@ public class ChickenRiceShopBuild {
             
                                     // Check whether the user's input validate
                                     validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
-            
                                     // If validate format, then check whether y or n
                                     if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
                                         clearInputBuffer();
@@ -343,12 +342,13 @@ public class ChickenRiceShopBuild {
                                         // false then process will loop again
                                         validate = false;
                                         break;
-                                    }else if (!validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')){
+                                    }else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')){
                                         clearInputBuffer();
 
                                         //invoke the add remark function
                                         remarkOption();
                                     }
+
                                 }while(!validate_addInput);
                             } catch (Exception e) {
                                 // If the user not key in the integer number, then handle the exception
@@ -361,22 +361,49 @@ public class ChickenRiceShopBuild {
                             }
                         }while(!validate_quntity);
                     }
-
-
                 }while(!validate);
 
                 // if user dont want add on, then will direct to remark function
-            }else if (!validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+            }else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                 clearInputBuffer();
 
                 //invoke the add remark function
                 remarkOption();
             }
+            
         }while(!validate_addInput);
     }
 
     private void remarkOption(){
+            char charOptionInput;
+            boolean validate_remarkInput;
+            String remark;
 
+        do {
+            System.out.println("Do you want add remark? (Y/N)");
+        
+            charOptionInput = input.next().charAt(0);
+
+            // Check whether the user's input validate
+            validate_remarkInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+
+            // If validate format, then check whether y or n
+            if (validate_remarkInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+                clearInputBuffer();
+
+                System.out.println(
+                    "\n######################################################################################################");
+                System.out.print("Please enter the remark: ");
+
+                remark = input.next();
+                // System.out.println(remark);
+
+                // if user dont want add on, then will direct to remark function
+            }else if (!validate_remarkInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+                clearInputBuffer();
+
+            }
+        }while(!validate_remarkInput);
     }
 
     // When user select option 2
