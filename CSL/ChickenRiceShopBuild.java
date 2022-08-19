@@ -9,8 +9,10 @@ public class ChickenRiceShopBuild {
     private ChickenRiceAddOn chickenRiceAddOn[];
     private ChickenRiceOrder chickenRiceOrder;
     private ArrayList<ChickenRiceOrder> chickenRiceOrderList = new ArrayList<>();
-    private ArrayList<ChickenRiceProduct> orderProdcutList = new ArrayList<>();
-    private ArrayList<Integer> orderQuntityList = new ArrayList<>();
+    private ArrayList<ChickenRiceProduct> orderChickeRiceList = new ArrayList<>();
+    private ArrayList<Integer> orderChickeRiceQuantityList = new ArrayList<>();
+    private ArrayList<ChickenRiceAddOn> orderAddOnList = new ArrayList<>();
+    private ArrayList<Integer> orderAddOnQuantityList = new ArrayList<>();
     Scanner input = new Scanner(System.in);
 
     public ChickenRiceShopBuild() {
@@ -149,6 +151,8 @@ public class ChickenRiceShopBuild {
                 // Because the length of the array only have 5, and index 0-4, so need to minus
                 // one
                 tabelLabelInput -= 1;
+
+                // set table label number 
                 chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
 
                 // After select the table label, call product list function
@@ -178,17 +182,22 @@ public class ChickenRiceShopBuild {
         int productItemLength = chickenRiceProduct.length;
         Validate_Num validate_num;
         String label = "Please choose the item:";
+        int count = 0;
 
         do {
+            // invoke the function to check number input validate or not, and what numbe user keyin
             validate_num = selectOption(label, chickenRiceProduct, 2);
+
+            // Get validate status and number input
             validate = validate_num.getValidate();
             productListInput = validate_num.getNumber();
 
-            // if validate == ture
+            // if validate == true
             if (validate && productListInput < (productItemLength + 1)) {
-                // because the length of the array only have 5, and index 0-4, so need to minus one
+                // because the length of the array only have 3, and index 0-2, so need to minus one
                 productListInput -= 1;
-                orderProdcutList.add(chickenRiceProduct[productListInput]);
+                // add the seleted chicken rice product into an array
+                orderChickeRiceList.add(chickenRiceProduct[productListInput]);
 
                 do{
                     System.out.println(
@@ -196,8 +205,13 @@ public class ChickenRiceShopBuild {
                     System.out.print("Please enter the order quantity: ");
 
                     try {
+                        // read the input quantity
                         prodcutItemQuantity = input.nextInt();
-                        orderQuntityList.add(prodcutItemQuantity);
+
+                        // add the seleted chicken rice product quantity into an array
+                        orderChickeRiceQuantityList.add(prodcutItemQuantity);
+
+                        // true then process without loop again
                         validate_quntity = true;
                         do{
                             System.out.println("Do you want add another product? (Y/N)");
@@ -210,10 +224,17 @@ public class ChickenRiceShopBuild {
                             // If validate format, then check whether y or n
                             if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
                                 clearInputBuffer();
+
+                                // false then process loop again
                                 validate = false;
+
+                                // to record down how many product added
+                                count++;
                                 break;
-                            }else {
+                            }else if (!validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                                 clearInputBuffer();
+
+                                //invoke the add on menu function
                                 addOnListOption();
                             }
                         }while(!validate_addInput);
@@ -223,18 +244,33 @@ public class ChickenRiceShopBuild {
                         System.out.println(INPUT_ERROR_MESSAGE);
                         // Clear the system input buffer before loop again
                         input.nextLine();
+
+                        // false then process loop again
                         validate_quntity = false;
                     }
                 }while(!validate_quntity);
 
+            // because above have minus 1, [0-3], so add one to become 4
             } else if (productListInput == (productItemLength + 1)) {
                 System.out.println("Return to previous menu!");
-                break;
+
+                // To avoid the user select return to previous section, after selectingt "Y" for add aother chicken rice product
+                // if count = 0, then return to table list option
+                if(count == 0){
+                    break;
+
+                // if count > 0, then redirect ro add on list menu
+                }else {
+                    addOnListOption();
+                    break;
+                }
+
+                // return to the main menu
             } else if (productListInput == (productItemLength + 2)) {
                 System.out.println("Return to home menu!");
                 return false;
             }
- 
+
         } while (!validate);
         return true;
     }
@@ -251,17 +287,96 @@ public class ChickenRiceShopBuild {
         // Check whether the user's input validate
         validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
 
-        // If validate format, then check whether y or n
-        if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
-           
-        }else {
-            // remark
-        }
+        do {
+            // If validate format, then check whether y or n
+            if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+                clearInputBuffer();
 
+                Validate_Num validate_num;
+                String label = "Please select one of the item:";
+                int addOnItemLength = chickenRiceAddOn.length;
+                int addOnitemInput, addOnItemQuantity;
+                boolean validate, validate_quntity;
 
-        do{
+                do{
+                    // invoke the function to check number input validate or not, and what numbe user keyin
+                    validate_num = selectOption(label, chickenRiceAddOn, 2);
+
+                    // Get validate status and number input
+                    validate = validate_num.getValidate();
+                    addOnitemInput = validate_num.getNumber();
+
+                    // if validate == true
+                    if (validate && addOnitemInput < (addOnItemLength + 1)) {
+
+                        // because the length of the array only have 3, and index 0-2, so need to minus one
+                        addOnitemInput -= 1;
+                        // add the seleted chicken rice product into an array
+                        orderAddOnList.add(chickenRiceAddOn[addOnitemInput]);
+
+                        do{
+                            System.out.println(
+                                "\n######################################################################################################");
+                            System.out.print("Please enter the order quantity: ");
+        
+                            try {
+                                // read the input quantity
+                                addOnItemQuantity = input.nextInt();
+
+                                // add the seleted add on product quantity into an array
+                                orderChickeRiceQuantityList.add(addOnItemQuantity);
+
+                                // true then process without loop again
+                                validate_quntity = true;
+                                do{
+                                    System.out.println("Do you want add another add on? (Y/N)");
+                                    // read the input char
+                                    charOptionInput = input.next().charAt(0);
             
-        }while();
+                                    // Check whether the user's input validate
+                                    validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+            
+                                    // If validate format, then check whether y or n
+                                    if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+                                        clearInputBuffer();
+
+                                        // false then process will loop again
+                                        validate = false;
+                                        break;
+                                    }else if (!validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')){
+                                        clearInputBuffer();
+
+                                        //invoke the add remark function
+                                        remarkOption();
+                                    }
+                                }while(!validate_addInput);
+                            } catch (Exception e) {
+                                // If the user not key in the integer number, then handle the exception
+                                // System.out.println(ex);
+                                System.out.println(INPUT_ERROR_MESSAGE);
+                                // Clear the system input buffer before loop again
+                                input.nextLine();
+                                // false then process will loop again
+                                validate_quntity = false;
+                            }
+                        }while(!validate_quntity);
+                    }
+
+
+                }while(!validate);
+
+                // if user dont want add on, then will direct to remark function
+            }else if (!validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+                clearInputBuffer();
+
+                //invoke the add remark function
+                remarkOption();
+            }
+        }while(!validate_addInput);
+    }
+
+    private void remarkOption(){
+
     }
 
     // When user select option 2
@@ -295,7 +410,7 @@ public class ChickenRiceShopBuild {
      * @return validate_num, whether the number validate and what is the number
      */
 
-    private Validate_Num selectOption(String label, Object[] itemList, int flag){
+    private Validate_Num selectOption(String label, Object[] itemList,  int flag){
         // Variable for checking input value valid or not
         boolean validate = false;
         int itemListInput = -1;
@@ -314,12 +429,25 @@ public class ChickenRiceShopBuild {
             }
 
         }else if(flag == 2){
-            for (i = 0; i < itemListLength; i++) {
-                System.out.println((i + 1) + ": " + chickenRiceProduct[i].getProductName() + ", RM "
-                        + chickenRiceProduct[i].getProductPrice() + "\n "
-                        + chickenRiceProduct[i].getProductDescription() + "\n balance: "
-                        + chickenRiceProduct[i].getBalanceQuantity());
+   
+            if (itemList instanceof ChickenRiceProduct[]){
+                for (i = 0; i < itemListLength; i++) {
+                    System.out.println((i + 1) + ": " + ((ChickenRiceProduct) itemList[i]).getProductName() + ", RM "
+                            + ((ChickenRiceProduct) itemList[i]).getProductPrice() + "\n "
+                            + ((ChickenRiceProduct) itemList[i]).getProductDescription() + "\n balance: "
+                            + ((ChickenRiceProduct) itemList[i]).getBalanceQuantity());
+                }
+            }else if (itemList instanceof ChickenRiceAddOn[]){
+                for (i = 0; i < itemListLength; i++) {
+                    System.out.println((i + 1) + ": " + ((ChickenRiceAddOn) itemList[i]).getProductName() + ", RM "
+                            + ((ChickenRiceAddOn) itemList[i]).getProductPrice() + " - "
+                            + ((ChickenRiceAddOn) itemList[i]).getProductDescription() + "\n balance: "
+                            + ((ChickenRiceAddOn) itemList[i]).getBalanceQuantity());
+                }
             }
+
+
+            
         }
         // User allow to select cancle option to turn back main menu
         System.out.println((i + 1) + ": Return previous section");
