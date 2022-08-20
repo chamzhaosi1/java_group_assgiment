@@ -427,9 +427,14 @@ public class ChickenRiceShopBuild {
 
             // If validate format, then check whether y or n
             if (validate_confirmInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+                clearInputBuffer();
              
                 System.out.println("Order is saving..");
 
+                System.out.println("0");
+                System.out.println(validate_confirmInput);
+                System.out.println(orderChickeRiceList.toArray());
+                System.out.println((ChickenRiceProduct[])orderChickeRiceList.toArray());
                 chickenRiceOrder.setChickenRiceProduct((ChickenRiceProduct[])orderChickeRiceList.toArray());
                 System.out.println("1");
                 chickenRiceOrder.setChickenRiceOrderQuantity((Integer[])orderChickeRiceQuantityList.toArray());
@@ -443,12 +448,13 @@ public class ChickenRiceShopBuild {
 
                 // if user dont want add on, then will direct to remark function
             }else if (validate_confirmInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
-               
+                clearInputBuffer();
+
                 char charClearAllInput;
                 boolean validate_clearAllInput;
 
                 do{
-                    System.out.println("All of the previous operation will be clear. Are you sure to do that?");
+                    System.out.println("All of the previous operation will be clear. Are you sure to do that? (Y/N)");
 
                     charClearAllInput = input.next().charAt(0);
 
@@ -497,11 +503,10 @@ public class ChickenRiceShopBuild {
 
         // List out all ordered add on product
         System.out.println("Add On Product:");
+        for (int j = 0; j<orderAddOnList.size(); j++){
+            System.out.println((j+1) + " : " + orderAddOnList.get(j).getProductName() + "\t x " + orderAddOnQuantityList.get(0) +"\tRM " + String.format( "%.2f",orderAddOnList.get(j).getProductPrice() * orderAddOnQuantityList.get(0)));
 
-        for (int i = 0; i<orderAddOnList.size(); i++){
-            System.out.println((i+1) + " : " + orderAddOnList.get(i).getProductName() + "\t x " + orderAddOnQuantityList.get(0) +"\tRM " + String.format( "%.2f",orderAddOnList.get(i).getProductPrice() * orderAddOnQuantityList.get(0)));
-
-            addOnTotal += orderAddOnList.get(i).getProductPrice() * orderAddOnQuantityList.get(0);
+            addOnTotal += orderAddOnList.get(j).getProductPrice() * orderAddOnQuantityList.get(0);
         }
 
         System.out.print("Remark:");
@@ -635,7 +640,8 @@ public class ChickenRiceShopBuild {
     }
 
     private void clearInputBuffer() {
-        input.nextLine();
+        String text = input.nextLine();
+        System.out.println(text + "123123");
     }
 
 }
