@@ -324,7 +324,7 @@ public class ChickenRiceShopBuild {
                                 addOnItemQuantity = input.nextInt();
 
                                 // add the seleted add on product quantity into an array
-                                orderChickeRiceQuantityList.add(addOnItemQuantity);
+                                orderAddOnQuantityList.add(addOnItemQuantity);
 
                                 // true then process without loop again
                                 validate_quntity = true;
@@ -395,15 +395,122 @@ public class ChickenRiceShopBuild {
                     "\n######################################################################################################");
                 System.out.print("Please enter the remark: ");
 
-                remark = input.next();
+                remark = input.nextLine();
+                
+                chickenRiceOrder.setRemark(remark);
+
+                confirmMakeOrder();
+
                 // System.out.println(remark);
 
                 // if user dont want add on, then will direct to remark function
-            }else if (!validate_remarkInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+            }else if (validate_remarkInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                 clearInputBuffer();
 
             }
         }while(!validate_remarkInput);
+    }
+
+    public void confirmMakeOrder(){
+        char charOptionInput;
+        boolean validate_confirmInput;
+
+        do {
+            // Invoke the function to show the order list
+            receipt("Order List");
+            System.out.println("Are you sure mark the order? (Y/N)");
+
+            charOptionInput = input.next().charAt(0);
+
+            // Check whether the user's input validate
+            validate_confirmInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+
+            // If validate format, then check whether y or n
+            if (validate_confirmInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+             
+                System.out.println("Order is saving..");
+
+                chickenRiceOrder.setChickenRiceProduct((ChickenRiceProduct[])orderChickeRiceList.toArray());
+                System.out.println("1");
+                chickenRiceOrder.setChickenRiceOrderQuantity((Integer[])orderChickeRiceQuantityList.toArray());
+                System.out.println("2");
+                chickenRiceOrder.setChickenRiceAddOn((ChickenRiceAddOn[])orderAddOnList.toArray());
+                System.out.println("3");
+                chickenRiceOrder.setChickenAddOnOrderQuantity((Integer[])orderAddOnQuantityList.toArray());
+                System.out.println("4");
+
+                System.out.println("Order has been saved..");
+
+                // if user dont want add on, then will direct to remark function
+            }else if (validate_confirmInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+               
+                char charClearAllInput;
+                boolean validate_clearAllInput;
+
+                do{
+                    System.out.println("All of the previous operation will be clear. Are you sure to do that?");
+
+                    charClearAllInput = input.next().charAt(0);
+
+                    // Check whether the user's input validate
+                    validate_clearAllInput = checkInputBoolValidation(charClearAllInput, INPUT_ERROR_MESSAGE);
+
+                    if (validate_clearAllInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
+                        clearInputBuffer();
+                        break;
+                    } else if(validate_clearAllInput && (charOptionInput == 'N' || charOptionInput == 'n')){
+                        validate_confirmInput = false;
+                        clearInputBuffer();
+                        break; 
+                    }
+
+                }while(!validate_clearAllInput);
+
+            }
+        }while(!validate_confirmInput);
+    }
+
+    private void receipt(String title){
+        double mainTotal = 0;
+        double addOnTotal = 0;
+
+        System.out.println(
+                "######################################################################################################");
+        System.out.println("Shop Name: " + chickenRiceShop.getshopName() + " ( "
+                + chickenRiceShop.getshopRegisterNumber() + " )");
+        System.out.println("Address: " + chickenRiceShop.getlocation());
+        System.out.println(
+                    "######################################################################################################");
+    
+        System.out.println("####################################### "+ title +" ################################### ");
+
+        System.out.println("Tabel: " + chickenRiceOrder.getTableLabel());
+
+        // List out all ordered chicker rice product
+        System.out.println("Main Product:");
+
+        for (int i = 0; i<orderChickeRiceList.size(); i++){
+            System.out.println((i+1) + " : " + orderChickeRiceList.get(i).getProductName() + "\t x " + orderChickeRiceQuantityList.get(0) +"\tRM " + String.format("%.2f",orderChickeRiceList.get(i).getProductPrice() * orderChickeRiceQuantityList.get(0)));
+
+            mainTotal += orderChickeRiceList.get(i).getProductPrice() * orderChickeRiceQuantityList.get(0);
+        }
+
+        // List out all ordered add on product
+        System.out.println("Add On Product:");
+
+        for (int i = 0; i<orderAddOnList.size(); i++){
+            System.out.println((i+1) + " : " + orderAddOnList.get(i).getProductName() + "\t x " + orderAddOnQuantityList.get(0) +"\tRM " + String.format( "%.2f",orderAddOnList.get(i).getProductPrice() * orderAddOnQuantityList.get(0)));
+
+            addOnTotal += orderAddOnList.get(i).getProductPrice() * orderAddOnQuantityList.get(0);
+        }
+
+        System.out.print("Remark:");
+        System.out.println(chickenRiceOrder.getRemark());
+
+        System.out.println("Total Price: RM " + String.format("%.2f", (mainTotal+addOnTotal)));
+
+        System.out.println(
+                "\n######################################################################################################");
     }
 
     // When user select option 2

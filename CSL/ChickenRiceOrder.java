@@ -1,9 +1,9 @@
 public class ChickenRiceOrder{
     private String tableLabel;
     private ChickenRiceProduct[] chickenRiceProduct;
-    private int[] chickenRiceOrderQuantity;
+    private Integer[] chickenRiceOrderQuantity;
     private ChickenRiceAddOn[] chickenRiceAddOn;
-    private int[] chickenAddOnOrderQuantity;
+    private Integer[] chickenAddOnOrderQuantity;
     private String remark;
 
     public String getTableLabel() {
@@ -22,11 +22,11 @@ public class ChickenRiceOrder{
         this.chickenRiceProduct = chickenRiceProduct;
     }
 
-    public int[] getChickenRiceOrderQuantity() {
+    public Integer[] getChickenRiceOrderQuantity() {
         return this.chickenRiceOrderQuantity;
     }
 
-    public void setChickenRiceOrderQuantity(int[] chickenRiceOrderQuantity) {
+    public void setChickenRiceOrderQuantity(Integer[] chickenRiceOrderQuantity) {
         this.chickenRiceOrderQuantity = chickenRiceOrderQuantity;
     }
 
@@ -38,11 +38,11 @@ public class ChickenRiceOrder{
         this.chickenRiceAddOn = chickenRiceAddOn;
     }
 
-    public int[] getChickenAddOnOrderQuantity() {
+    public Integer[] getChickenAddOnOrderQuantity() {
         return this.chickenAddOnOrderQuantity;
     }
 
-    public void setChickenAddOnOrderQuantity(int[] chickenAddOnOrderQuantity) {
+    public void setChickenAddOnOrderQuantity(Integer[] chickenAddOnOrderQuantity) {
         this.chickenAddOnOrderQuantity = chickenAddOnOrderQuantity;
     }
 
