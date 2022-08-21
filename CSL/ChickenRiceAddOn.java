@@ -28,5 +28,18 @@ public class ChickenRiceAddOn extends Product{
         this.balanceQuantity = balanceQuantity;
     }
 
+    public void addProductQuantity(int quantity){
+        this.balanceQuantity += quantity;
+    }
+    
+    public boolean minusProductQuantity(int quantity){
+        if (this.balanceQuantity >= quantity ){
+            this.balanceQuantity -= quantity;
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
 

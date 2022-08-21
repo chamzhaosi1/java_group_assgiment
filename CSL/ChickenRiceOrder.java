@@ -54,16 +54,4 @@ public class ChickenRiceOrder{
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-            " tableLabel='" + getTableLabel() + "'" +
-            ", chickenRiceProduct='" + getChickenRiceProduct() + "'" +
-            ", chickenRiceOrderQuantity='" + getChickenRiceOrderQuantity() + "'" +
-            ", chickenRiceAddOn='" + getChickenRiceAddOn() + "'" +
-            ", chickenAddOnOrderQuantity='" + getChickenAddOnOrderQuantity() + "'" +
-            ", remark='" + getRemark() + "'" +
-            "}";
-    }
-
 }
