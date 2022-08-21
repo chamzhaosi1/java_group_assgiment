@@ -1,9 +1,9 @@
 public class ChickenRiceOrder{
     private String tableLabel;
     private ChickenRiceProduct[] chickenRiceProduct;
-    private Integer[] chickenRiceOrderQuantity;
+    private int[] chickenRiceOrderQuantity;
     private ChickenRiceAddOn[] chickenRiceAddOn;
-    private Integer[] chickenAddOnOrderQuantity;
+    private int[] chickenAddOnOrderQuantity;
     private String remark;
 
     public String getTableLabel() {
@@ -22,11 +22,11 @@ public class ChickenRiceOrder{
         this.chickenRiceProduct = chickenRiceProduct;
     }
 
-    public Integer[] getChickenRiceOrderQuantity() {
+    public int[] getChickenRiceOrderQuantity() {
         return this.chickenRiceOrderQuantity;
     }
 
-    public void setChickenRiceOrderQuantity(Integer[] chickenRiceOrderQuantity) {
+    public void setChickenRiceOrderQuantity(int[] chickenRiceOrderQuantity) {
         this.chickenRiceOrderQuantity = chickenRiceOrderQuantity;
     }
 
@@ -38,11 +38,11 @@ public class ChickenRiceOrder{
         this.chickenRiceAddOn = chickenRiceAddOn;
     }
 
-    public Integer[] getChickenAddOnOrderQuantity() {
+    public int[] getChickenAddOnOrderQuantity() {
         return this.chickenAddOnOrderQuantity;
     }
 
-    public void setChickenAddOnOrderQuantity(Integer[] chickenAddOnOrderQuantity) {
+    public void setChickenAddOnOrderQuantity(int[] chickenAddOnOrderQuantity) {
         this.chickenAddOnOrderQuantity = chickenAddOnOrderQuantity;
     }
 
@@ -52,6 +52,18 @@ public class ChickenRiceOrder{
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " tableLabel='" + getTableLabel() + "'" +
+            ", chickenRiceProduct='" + getChickenRiceProduct() + "'" +
+            ", chickenRiceOrderQuantity='" + getChickenRiceOrderQuantity() + "'" +
+            ", chickenRiceAddOn='" + getChickenRiceAddOn() + "'" +
+            ", chickenAddOnOrderQuantity='" + getChickenAddOnOrderQuantity() + "'" +
+            ", remark='" + getRemark() + "'" +
+            "}";
     }
 
 }
