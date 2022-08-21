@@ -331,8 +331,15 @@ public class ChickenRiceShopBuild {
 
                     // if count > 0, then redirect ro add on list menu
                 } else {
-                    addOnListOption();
-                    break;
+                    // invoke the add on menu function
+                    returnThisPage = addOnListOption();
+                    // System.out.println(returnThisPage);
+                    if (returnThisPage) {
+                        validate = false;
+                    } else {
+                        // return false, then back to the home menu
+                        return false;
+                    }
                 }
 
                 // return to the main menu
@@ -737,27 +744,25 @@ public class ChickenRiceShopBuild {
     private void makePaymentOption() {
         if (chickenRiceOrder != null) {
 
-            // for (int i=0; i< chickenRiceOrderList.size(); i++){
-            // System.out.println(chickenRiceOrderList.get(i).getTableLabel() +" - RM
-            // "+chickenRiceOrderList.get(i).getTotalPrice());
+            for (int i = 0; i < chickenRiceOrderList.size(); i++) {
+                // System.out.println(chickenRiceOrderList.get(i).getTableLabel() + " - RM"
+                //         + chickenRiceOrderList.get(i).getTotalPrice());
 
-            // ChickenRiceOrder co = new ChickenRiceOrder();
-            // co.setRemark(chickenRiceOrderList.get(i).getRemark());
-            // co.setTableLabel(chickenRiceOrderList.get(i).getTableLabel());
-            // co.setTotalPrice(chickenRiceOrderList.get(i).getTotalPrice());
+                ChickenRiceOrder co = new ChickenRiceOrder();
+                co.setRemark(chickenRiceOrderList.get(i).getRemark());
+                co.setTableLabel(chickenRiceOrderList.get(i).getTableLabel());
+                co.setTotalPrice(chickenRiceOrderList.get(i).getTotalPrice());
 
-            // receipt("Receipt", co, new
-            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceProduct())),
-            // new
-            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceOrderQuantity())),
-            // new
-            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceAddOn())),new
-            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenAddOnOrderQuantity())));
-            // }
+                receipt("Receipt", co,
+                        new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceProduct())),
+                        new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceOrderQuantity())),
+                        new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceAddOn())),
+                        new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenAddOnOrderQuantity())));
+            }
 
             // System.out.println(chickenRiceOrder.toString());
             // receipt("Receipt", chickenRiceOrder, orderChickenRiceList,
-            // orderChickenRiceQuantityList, orderAddOnList, orderAddOnQuantityList);
+            //         orderChickenRiceQuantityList, orderAddOnList, orderAddOnQuantityList);
         } else {
             System.out.println("No any order yet!");
         }
