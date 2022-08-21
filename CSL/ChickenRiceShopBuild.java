@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ChickenRiceShopBuild {
     private static final String INPUT_ERROR_MESSAGE = "Your selection is invalid please try again!!\n";
@@ -107,7 +108,9 @@ public class ChickenRiceShopBuild {
                         case 1:
                             productMenuOption();
                             break;
-                        case 2: makePaymentOption(); break;
+                        case 2:
+                            makePaymentOption();
+                            break;
                         // case 3: showProductBalanceOption(); break;
                         // case 4: summaryDailtSalesOption(); break;
                         case 5:
@@ -140,8 +143,9 @@ public class ChickenRiceShopBuild {
         int tabelLabelInput = -1;
         int tabelLabelLength = tabelLabelList.length;
 
-        do {  
-            // invoke the function to check number input validate or not, and what numbe user keyin
+        do {
+            // invoke the function to check number input validate or not, and what numbe
+            // user keyin
             validate_num = selectOption(label, tabelLabelList, 1);
 
             // Get validate status and number input
@@ -154,18 +158,18 @@ public class ChickenRiceShopBuild {
                 // one
                 tabelLabelInput -= 1;
 
-
                 int i;
-                if(chickenRiceOrderList.size() != 0){
-                    for(i = 0; i<chickenRiceOrderList.size(); i++){
-                        if(chickenRiceOrderList.get(i).getTableLabel().equals(tabelLabelList[tabelLabelInput])){
-                            System.out.println("This table customer haven't leave or make a payment yet. Please select another one table label.");
+                if (chickenRiceOrderList.size() != 0) {
+                    for (i = 0; i < chickenRiceOrderList.size(); i++) {
+                        if (chickenRiceOrderList.get(i).getTableLabel().equals(tabelLabelList[tabelLabelInput])) {
+                            System.out.println(
+                                    "This table customer haven't leave or make a payment yet. Please select another one table label.");
                             validate = false;
                             break;
                         }
                     }
 
-                    if(i == chickenRiceOrderList.size()){
+                    if (i == chickenRiceOrderList.size()) {
                         chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
 
                         // After select the table label, call product list function
@@ -177,11 +181,11 @@ public class ChickenRiceShopBuild {
                             validate = false;
                         }
                     }
-                    
-                }else{
+
+                } else {
                     chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
 
-                     // After select the table label, call product list function
+                    // After select the table label, call product list function
                     returnThisPage = productListOption();
 
                     // If the return == true, then loop again, while return == false, back to the
@@ -193,8 +197,8 @@ public class ChickenRiceShopBuild {
 
                 // Either select 6 or 7, process will return to home menu section
             } else if (tabelLabelInput == (tabelLabelLength + 1) || tabelLabelInput == (tabelLabelLength + 2)) {
-                    System.out.println("Return to the home menu!\n");
-                    validate = true;
+                System.out.println("Return to the home menu!\n");
+                validate = true;
             }
 
         } while (!validate);
@@ -203,7 +207,7 @@ public class ChickenRiceShopBuild {
     public boolean productListOption() {
         // Variable for checking input value valid or not
         boolean validate = false, validate_quntity = false, validate_addInput = false, returnThisPage;
-        char charOptionInput; 
+        char charOptionInput;
         int productListInput = -1;
         int prodcutItemQuantity = -1;
         int productItemLength = chickenRiceProduct.length;
@@ -211,15 +215,17 @@ public class ChickenRiceShopBuild {
         String label = "Please choose the item:";
         int count = 0;
 
-        // assign a tempory product balace varible, for later check store balance enough or not
+        // assign a tempory product balace varible, for later check store balance enough
+        // or not
         int[] tempProductQuantity = new int[chickenRiceProduct.length];
 
-        for (int i = 0; i<chickenRiceProduct.length; i++){
+        for (int i = 0; i < chickenRiceProduct.length; i++) {
             tempProductQuantity[i] = chickenRiceProduct[i].getBalanceQuantity();
         }
 
         do {
-            // invoke the function to check number input validate or not, and what numbe user keyin
+            // invoke the function to check number input validate or not, and what numbe
+            // user keyin
             validate_num = selectOption(label, chickenRiceProduct, 2);
 
             // Get validate status and number input
@@ -229,29 +235,31 @@ public class ChickenRiceShopBuild {
             // if validate == true
             if (validate && productListInput < (productItemLength + 1)) {
 
-                // because the length of the array only have 3, and index 0-2, so need to minus one
+                // because the length of the array only have 3, and index 0-2, so need to minus
+                // one
                 productListInput -= 1;
                 // add the seleted chicken rice product into an array
                 orderChickenRiceList.add(chickenRiceProduct[productListInput]);
-                
-                do{
+
+                do {
                     System.out.println(
-                        "\n######################################################################################################");
-                    System.out.print("Please enter the order quantity (Current Store Balance "+ tempProductQuantity[productListInput] +"): ");
+                            "\n######################################################################################################");
+                    System.out.print("Please enter the order quantity (Current Store Balance "
+                            + tempProductQuantity[productListInput] + "): ");
 
                     try {
                         // read the input quantity
                         prodcutItemQuantity = input.nextInt();
                         // check whether the balance enough to sell
-                        if (prodcutItemQuantity <= tempProductQuantity[productListInput]){
+                        if (prodcutItemQuantity <= tempProductQuantity[productListInput]) {
                             clearInputBuffer();
                             // add the seleted chicken rice product quantity into an array
-                            //but only quantity bigger than 0
-                            if (prodcutItemQuantity > 0){
+                            // but only quantity bigger than 0
+                            if (prodcutItemQuantity > 0) {
                                 orderChickenRiceQuantityList.add(prodcutItemQuantity);
-                            }else {
+                            } else {
                                 // else the select item also be remove from the list
-                                orderChickenRiceList.remove(orderChickenRiceList.size()-1);
+                                orderChickenRiceList.remove(orderChickenRiceList.size() - 1);
                             }
 
                             // true then process without loop again
@@ -259,40 +267,41 @@ public class ChickenRiceShopBuild {
 
                             tempProductQuantity[productListInput] -= prodcutItemQuantity;
 
-                            do{
+                            do {
                                 System.out.println("\nDo you want add another product? (Y/N)");
-        
+
                                 charOptionInput = input.next().charAt(0);
-        
+
                                 // Check whether the user's input validate
                                 validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
-        
+
                                 // If validate format, then check whether y or n
                                 if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
                                     clearInputBuffer();
-    
+
                                     // false then process loop again
                                     validate = false;
-    
+
                                     // to record down how many product added
                                     count++;
                                     break;
-                                }else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+                                } else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                                     clearInputBuffer();
-    
-                                    //invoke the add on menu function
+
+                                    // invoke the add on menu function
                                     returnThisPage = addOnListOption();
                                     // System.out.println(returnThisPage);
                                     if (returnThisPage) {
                                         validate = false;
-                                    }else {
+                                    } else {
                                         // return false, then back to the home menu
                                         return false;
                                     }
                                 }
-                            }while(!validate_addInput);
-                        }else{
-                            System.out.println("Not enough store, current balance is : " + tempProductQuantity[productListInput]);
+                            } while (!validate_addInput);
+                        } else {
+                            System.out.println(
+                                    "Not enough store, current balance is : " + tempProductQuantity[productListInput]);
                             // false then process loop again
                             validate = false;
                             break;
@@ -308,19 +317,20 @@ public class ChickenRiceShopBuild {
                         // false then process loop again
                         validate_quntity = false;
                     }
-                }while(!validate_quntity);
+                } while (!validate_quntity);
 
-            // because above have minus 1, [0-3], so add one to become 4
+                // because above have minus 1, [0-3], so add one to become 4
             } else if (productListInput == (productItemLength + 1)) {
                 System.out.println("Return to previous menu!");
 
-                // To avoid the user select return to previous section, after selectingt "Y" for add aother chicken rice product
+                // To avoid the user select return to previous section, after selectingt "Y" for
+                // add aother chicken rice product
                 // if count = 0, then return to table list option
-                if(count == 0){
+                if (count == 0) {
                     break;
 
-                // if count > 0, then redirect ro add on list menu
-                }else {
+                    // if count > 0, then redirect ro add on list menu
+                } else {
                     addOnListOption();
                     break;
                 }
@@ -336,17 +346,16 @@ public class ChickenRiceShopBuild {
         return true;
     }
 
-
-    private boolean addOnListOption(){
+    private boolean addOnListOption() {
         char charOptionInput;
         boolean validate_addInput;
         int count = 0;
 
-        do{
+        do {
             System.out.println(
-                                "\n######################################################################################################");
+                    "\n######################################################################################################");
             System.out.println("Do you want add on? (Y/N)");
-    
+
             charOptionInput = input.next().charAt(0);
 
             // Check whether the user's input validate
@@ -362,15 +371,17 @@ public class ChickenRiceShopBuild {
                 int addOnitemInput, addOnItemQuantity;
                 boolean validate, validate_quntity;
 
-                // assign a tempory product balace varible, for later check store balance enough or not
+                // assign a tempory product balace varible, for later check store balance enough
+                // or not
                 int[] tempAddOnQuantity = new int[chickenRiceAddOn.length];
 
-                for (int i = 0; i<chickenRiceProduct.length; i++){
+                for (int i = 0; i < chickenRiceProduct.length; i++) {
                     tempAddOnQuantity[i] = chickenRiceAddOn[i].getBalanceQuantity();
                 }
 
-                do{
-                    // invoke the function to check number input validate or not, and what numbe user keyin
+                do {
+                    // invoke the function to check number input validate or not, and what numbe
+                    // user keyin
                     validate_num = selectOption(label, chickenRiceAddOn, 2);
 
                     // Get validate status and number input
@@ -380,43 +391,46 @@ public class ChickenRiceShopBuild {
                     // if validate == true
                     if (validate && addOnitemInput < (addOnItemLength + 1)) {
 
-                        // because the length of the array only have 3, and index 0-2, so need to minus one
+                        // because the length of the array only have 3, and index 0-2, so need to minus
+                        // one
                         addOnitemInput -= 1;
                         // add the seleted chicken rice product into an array
                         orderAddOnList.add(chickenRiceAddOn[addOnitemInput]);
 
-                        do{
+                        do {
                             System.out.println(
-                                "\n######################################################################################################");
-                                System.out.print("Please enter the order quantity (Current Store Balance "+ tempAddOnQuantity[addOnitemInput] +"): ");
-        
+                                    "\n######################################################################################################");
+                            System.out.print("Please enter the order quantity (Current Store Balance "
+                                    + tempAddOnQuantity[addOnitemInput] + "): ");
+
                             try {
                                 // read the input quantity
                                 addOnItemQuantity = input.nextInt();
 
                                 // check whether the balance enough to sell
-                                if (addOnItemQuantity <= tempAddOnQuantity[addOnitemInput]){
+                                if (addOnItemQuantity <= tempAddOnQuantity[addOnitemInput]) {
                                     clearInputBuffer();
                                     // add the seleted chicken rice product quantity into an array
-                                    //but only quantity bigger than 0
-                                    if (addOnItemQuantity > 0){
+                                    // but only quantity bigger than 0
+                                    if (addOnItemQuantity > 0) {
                                         orderAddOnQuantityList.add(addOnItemQuantity);
-                                    }else {
+                                    } else {
                                         // else the select item also be remove from the list
-                                        orderAddOnList.remove(orderAddOnList.size()-1);
+                                        orderAddOnList.remove(orderAddOnList.size() - 1);
                                     }
-                                
+
                                     // true then process without loop again
                                     validate_quntity = true;
 
                                     tempAddOnQuantity[addOnitemInput] -= addOnItemQuantity;
-                                    do{
+                                    do {
                                         System.out.println("\nDo you want add another add on? (Y/N)");
                                         // read the input char
                                         charOptionInput = input.next().charAt(0);
-                
+
                                         // Check whether the user's input validate
-                                        validate_addInput = checkInputBoolValidation(charOptionInput, INPUT_ERROR_MESSAGE);
+                                        validate_addInput = checkInputBoolValidation(charOptionInput,
+                                                INPUT_ERROR_MESSAGE);
                                         // If validate format, then check whether y or n
                                         if (validate_addInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
                                             clearInputBuffer();
@@ -426,18 +440,20 @@ public class ChickenRiceShopBuild {
                                             // to record down how many product added
                                             count++;
                                             break;
-                                        }else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')){
+                                        } else if (validate_addInput
+                                                && (charOptionInput == 'N' || charOptionInput == 'n')) {
                                             clearInputBuffer();
 
-                                            //invoke the add remark function
+                                            // invoke the add remark function
                                             remarkOption();
                                             // return false, then back to the home menu
                                             return false;
                                         }
 
-                                    }while(!validate_addInput);
-                                }else{
-                                    System.out.println("Not enough store, current balance is : " + tempAddOnQuantity[addOnitemInput]);
+                                    } while (!validate_addInput);
+                                } else {
+                                    System.out.println("Not enough store, current balance is : "
+                                            + tempAddOnQuantity[addOnitemInput]);
                                     // false then process loop again
                                     validate = false;
                                     break;
@@ -451,55 +467,56 @@ public class ChickenRiceShopBuild {
                                 // false then process will loop again
                                 validate_quntity = false;
                             }
-                        }while(!validate_quntity);
+                        } while (!validate_quntity);
 
-                    }else if (addOnitemInput == (addOnItemLength + 1)) {
+                    } else if (addOnitemInput == (addOnItemLength + 1)) {
                         System.out.println("Return to previous menu!");
-        
-                        // To avoid the user select return to previous section, after selectingt "Y" for add aother chicken rice product
+
+                        // To avoid the user select return to previous section, after selectingt "Y" for
+                        // add aother chicken rice product
                         // if count = 0, then return to table list option
-                        if(count == 0){
+                        if (count == 0) {
                             break;
-        
-                        // if count > 0, then redirect ro add on list menu
-                        }else {
+
+                            // if count > 0, then redirect ro add on list menu
+                        } else {
                             remarkOption();
                             // return false, then back to the home menu
                             return false;
                         }
-        
+
                         // return to the main menu
                     } else if (addOnitemInput == (addOnItemLength + 2)) {
                         System.out.println("Return to home menu!");
                         return false;
                     }
-                }while(!validate);
+                } while (!validate);
 
                 // if user dont want add on, then will direct to remark function
-            }else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+            } else if (validate_addInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                 clearInputBuffer();
 
-                //invoke the add remark function
+                // invoke the add remark function
                 remarkOption();
                 // return false, then back to the home menu
                 return false;
             }
-            
-        }while(!validate_addInput);
+
+        } while (!validate_addInput);
         // return false, then back to the previous menu
         return true;
     }
 
-    private void remarkOption(){
-            char charOptionInput;
-            boolean validate_remarkInput;
-            String remark ="No remark";
+    private void remarkOption() {
+        char charOptionInput;
+        boolean validate_remarkInput;
+        String remark = "No remark";
 
         do {
             System.out.println(
-                                "\n######################################################################################################");
+                    "\n######################################################################################################");
             System.out.println("Do you want add remark? (Y/N)");
-        
+
             charOptionInput = input.next().charAt(0);
 
             // Check whether the user's input validate
@@ -510,18 +527,17 @@ public class ChickenRiceShopBuild {
                 clearInputBuffer();
 
                 System.out.println(
-                    "\n######################################################################################################");
+                        "\n######################################################################################################");
                 System.out.print("Please enter the remark: ");
 
                 remark = input.nextLine();
-                
+
                 chickenRiceOrder.setRemark(remark);
 
                 confirmMakeOrder();
 
-
                 // if user dont want add on, then will direct to remark function
-            }else if (validate_remarkInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+            } else if (validate_remarkInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                 clearInputBuffer();
 
                 // if user select n, then default remark will be added
@@ -529,16 +545,17 @@ public class ChickenRiceShopBuild {
 
                 confirmMakeOrder();
             }
-        }while(!validate_remarkInput);
+        } while (!validate_remarkInput);
     }
 
-    public void confirmMakeOrder(){
+    public void confirmMakeOrder() {
         char charOptionInput;
         boolean validate_confirmInput;
 
         do {
             // Invoke the function to show the order list
-            receipt("Order List");
+            receipt("Order List", chickenRiceOrder, orderChickenRiceList, orderChickenRiceQuantityList, orderAddOnList,
+                    orderAddOnQuantityList);
             System.out.println("Are you sure mark the order? (Y/N)");
 
             charOptionInput = input.next().charAt(0);
@@ -549,7 +566,7 @@ public class ChickenRiceShopBuild {
             // If validate format, then check whether y or n
             if (validate_confirmInput && (charOptionInput == 'Y' || charOptionInput == 'y')) {
                 clearInputBuffer();
-             
+
                 System.out.println("Order is saving..");
 
                 // Add the item into the order class
@@ -558,13 +575,13 @@ public class ChickenRiceShopBuild {
                 System.out.println("Order has been saved..");
 
                 // if user dont want add on, then will direct to remark function
-            }else if (validate_confirmInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
+            } else if (validate_confirmInput && (charOptionInput == 'N' || charOptionInput == 'n')) {
                 clearInputBuffer();
 
                 char charClearAllInput;
                 boolean validate_clearAllInput;
 
-                do{
+                do {
                     System.out.println("All of the previous operation will be clear. Are you sure to do that? (Y/N)");
 
                     charClearAllInput = input.next().charAt(0);
@@ -577,73 +594,85 @@ public class ChickenRiceShopBuild {
                         clearInputBuffer();
                         break;
 
-                    } else if(validate_clearAllInput && (charClearAllInput == 'N' || charClearAllInput == 'n')){
+                    } else if (validate_clearAllInput && (charClearAllInput == 'N' || charClearAllInput == 'n')) {
                         validate_confirmInput = false;
                         clearInputBuffer();
-                        break; 
+                        break;
                     }
-                }while(!validate_clearAllInput);
+                } while (!validate_clearAllInput);
             }
-        }while(!validate_confirmInput);
+        } while (!validate_confirmInput);
     }
 
-    //fucntion to arrayList to array, because cannot whole arrayList cast to an array, need one element by element
-    private void orderSavingArrayOnly(){
+    // fucntion to arrayList to array, because cannot whole arrayList cast to an
+    // array, need one element by element
+    private void orderSavingArrayOnly() {
         ChickenRiceOrder tempChickenRiceOrder = new ChickenRiceOrder();
 
         // Cast chicken rice product
         int chickenRiceProductSize = orderChickenRiceList.size();
         ChickenRiceProduct[] tempChickenRiceProductList = new ChickenRiceProduct[chickenRiceProductSize];
 
-        for (int i = 0; i<chickenRiceProductSize; i++){
+        for (int i = 0; i < chickenRiceProductSize; i++) {
             tempChickenRiceProductList[i] = orderChickenRiceList.get(i);
         }
         tempChickenRiceOrder.setChickenRiceProduct(tempChickenRiceProductList);
 
         // Cast chicken rice product quantity
         int chickenRiceProductQuantitySize = orderChickenRiceQuantityList.size();
-        int[] tempChickenRiceProductQuantityList = new int [chickenRiceProductQuantitySize];
+        Integer[] tempChickenRiceProductQuantityList = new Integer[chickenRiceProductQuantitySize];
 
-        for (int i = 0; i<chickenRiceProductQuantitySize; i++){
+        for (int i = 0; i < chickenRiceProductQuantitySize; i++) {
             tempChickenRiceProductQuantityList[i] = orderChickenRiceQuantityList.get(i);
 
             tempChickenRiceProductList[i].minusProductQuantity(tempChickenRiceProductQuantityList[i]);
-            System.out.println(tempChickenRiceProductList[i].getBalanceQuantity());
         }
         tempChickenRiceOrder.setChickenRiceOrderQuantity(tempChickenRiceProductQuantityList);
 
-        // Cast chicken rice product
+        // Cast add on product
         int chickenRiceAddOnSize = orderAddOnList.size();
-        if(chickenRiceAddOnSize > 0){
+        if (chickenRiceAddOnSize > 0) {
             ChickenRiceAddOn[] tempChickenRiceAddOnList = new ChickenRiceAddOn[chickenRiceAddOnSize];
 
-            for (int i = 0; i<chickenRiceAddOnSize; i++){
+            for (int i = 0; i < chickenRiceAddOnSize; i++) {
                 tempChickenRiceAddOnList[i] = orderAddOnList.get(i);
             }
             tempChickenRiceOrder.setChickenRiceAddOn(tempChickenRiceAddOnList);
 
-
+            // Cast add on quantity product
             int chickenRiceAddOnQuantitySize = orderAddOnQuantityList.size();
-            int[] tempChickenRiceAddOnQuantiyyList = new int[chickenRiceAddOnQuantitySize];
+            Integer[] tempChickenRiceAddOnQuantiyyList = new Integer[chickenRiceAddOnQuantitySize];
 
-            for (int i = 0; i<chickenRiceAddOnQuantitySize; i++){
+            for (int i = 0; i < chickenRiceAddOnQuantitySize; i++) {
                 tempChickenRiceAddOnQuantiyyList[i] = orderAddOnQuantityList.get(i);
 
-                tempChickenRiceAddOnList[i].minusProductQuantity(orderAddOnQuantityList.get(i)); 
+                tempChickenRiceAddOnList[i].minusProductQuantity(orderAddOnQuantityList.get(i));
             }
             tempChickenRiceOrder.setChickenAddOnOrderQuantity(tempChickenRiceAddOnQuantiyyList);
-
         }
 
-        
         tempChickenRiceOrder.setTableLabel(chickenRiceOrder.getTableLabel());
         tempChickenRiceOrder.setRemark(chickenRiceOrder.getRemark());
+        tempChickenRiceOrder.setTotalPrice(chickenRiceOrder.getTotalPrice());
 
         chickenRiceOrderList.add(tempChickenRiceOrder);
         clearPreviousRecord();
     }
 
-    private void receipt(String title){
+    /**
+     * 
+     * @param title                        - reciept title
+     * @param chickenRiceOrder             - keep the table label, remark and total
+     *                                     price
+     * @param orderChickenRiceList         - all ordered the chicken rice product
+     *                                     list
+     * @param orderChickenRiceQuantityList - each of the chicken rice quantity
+     * @param orderAddOnList               - all ordered the add on list
+     * @param orderAddOnQuantityList       - each of the add on quantiyt
+     */
+    private void receipt(String title, ChickenRiceOrder chickenRiceOrder,
+            ArrayList<ChickenRiceProduct> orderChickenRiceList, ArrayList<Integer> orderChickenRiceQuantityList,
+            ArrayList<ChickenRiceAddOn> orderAddOnList, ArrayList<Integer> orderAddOnQuantityList) {
         double mainTotal = 0;
         double addOnTotal = 0;
 
@@ -653,43 +682,50 @@ public class ChickenRiceShopBuild {
                 + chickenRiceShop.getshopRegisterNumber() + " )");
         System.out.println("Address: " + chickenRiceShop.getlocation());
         System.out.println(
-                    "######################################################################################################");
-    
-        System.out.println("####################################### "+ title +" ################################### ");
+                "######################################################################################################");
+
+        System.out
+                .println("####################################### " + title + " ################################### ");
 
         System.out.println("Tabel: " + chickenRiceOrder.getTableLabel());
 
         // List out all ordered chicker rice product
         System.out.println("\nMain Product:");
 
-        for (int i = 0; i<orderChickenRiceList.size(); i++){
-            System.out.println((i+1) + " : " + orderChickenRiceList.get(i).getProductName() + "\t x " + orderChickenRiceQuantityList.get(i) +"\tRM " + String.format("%.2f",orderChickenRiceList.get(i).getProductPrice() * orderChickenRiceQuantityList.get(i)));
+        for (int i = 0; i < orderChickenRiceList.size(); i++) {
+            System.out.println((i + 1) + " : " + orderChickenRiceList.get(i).getProductName() + "\t x "
+                    + orderChickenRiceQuantityList.get(i) + "\tRM " + String.format("%.2f",
+                            orderChickenRiceList.get(i).getProductPrice() * orderChickenRiceQuantityList.get(i)));
 
             mainTotal += orderChickenRiceList.get(i).getProductPrice() * orderChickenRiceQuantityList.get(i);
         }
 
         // List out all ordered add on product
-        if(orderAddOnList.size() > 0){
+        if (orderAddOnList.size() > 0) {
             System.out.println("\nAdd On Product:");
-            for (int j = 0; j<orderAddOnList.size(); j++){
-                System.out.println((j+1) + " : " + orderAddOnList.get(j).getProductName() + "\t x " + orderAddOnQuantityList.get(j) +"\tRM " + String.format( "%.2f",orderAddOnList.get(j).getProductPrice() * orderAddOnQuantityList.get(j)));
-    
+            for (int j = 0; j < orderAddOnList.size(); j++) {
+                System.out.println((j + 1) + " : " + orderAddOnList.get(j).getProductName() + "\t x "
+                        + orderAddOnQuantityList.get(j) + "\tRM " + String.format("%.2f",
+                                orderAddOnList.get(j).getProductPrice() * orderAddOnQuantityList.get(j)));
+
                 addOnTotal += orderAddOnList.get(j).getProductPrice() * orderAddOnQuantityList.get(j);
             }
-        }else {
+        } else {
             System.out.println("\nEmpty Add On Product");
         }
 
         System.out.print("\nRemark:");
         System.out.println(chickenRiceOrder.getRemark());
 
-        System.out.println("\nTotal Price: RM " + String.format("%.2f", (mainTotal+addOnTotal)));
+        double tprice = mainTotal + addOnTotal;
+        System.out.println("\nTotal Price: RM " + String.format("%.2f", tprice));
+        chickenRiceOrder.setTotalPrice(tprice);
 
         System.out.println(
                 "\n######################################################################################################");
     }
 
-    private void clearPreviousRecord(){
+    private void clearPreviousRecord() {
         chickenRiceOrder.setTableLabel("");
         orderChickenRiceList.clear();
         orderChickenRiceQuantityList.clear();
@@ -698,13 +734,33 @@ public class ChickenRiceShopBuild {
     }
 
     // When user select option 2
-    private void makePaymentOption(){
-        if (chickenRiceOrder != null){
+    private void makePaymentOption() {
+        if (chickenRiceOrder != null) {
+
+            // for (int i=0; i< chickenRiceOrderList.size(); i++){
+            // System.out.println(chickenRiceOrderList.get(i).getTableLabel() +" - RM
+            // "+chickenRiceOrderList.get(i).getTotalPrice());
+
+            // ChickenRiceOrder co = new ChickenRiceOrder();
+            // co.setRemark(chickenRiceOrderList.get(i).getRemark());
+            // co.setTableLabel(chickenRiceOrderList.get(i).getTableLabel());
+            // co.setTotalPrice(chickenRiceOrderList.get(i).getTotalPrice());
+
+            // receipt("Receipt", co, new
+            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceProduct())),
+            // new
+            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceOrderQuantity())),
+            // new
+            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceAddOn())),new
+            // ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenAddOnOrderQuantity())));
+            // }
+
             // System.out.println(chickenRiceOrder.toString());
-            receipt("Receipt");
-        }else {
+            // receipt("Receipt", chickenRiceOrder, orderChickenRiceList,
+            // orderChickenRiceQuantityList, orderAddOnList, orderAddOnQuantityList);
+        } else {
             System.out.println("No any order yet!");
-        }   
+        }
     }
 
     // When user select option 3
@@ -729,19 +785,20 @@ public class ChickenRiceShopBuild {
         clearInputBuffer();
     }
 
-     /**
-     * @param label   - Label hits for user 
-     * @param itemList  - item that need to let user choose
-     * @param flag - each invoke the item list may be different so use the flag to identify them
+    /**
+     * @param label    - Label hits for user
+     * @param itemList - item that need to let user choose
+     * @param flag     - each invoke the item list may be different so use the flag
+     *                 to identify them
      * @return validate_num, whether the number validate and what is the number
      */
 
-    private Validate_Num selectOption(String label, Object[] itemList,  int flag){
+    private Validate_Num selectOption(String label, Object[] itemList, int flag) {
         // Variable for checking input value valid or not
         boolean validate = false;
         int itemListInput = -1;
         int itemListLength, i = 0;
-        
+
         System.out.println(
                 "\n######################################################################################################");
         System.out.println(label);
@@ -749,20 +806,20 @@ public class ChickenRiceShopBuild {
         // Get the list lenght
         itemListLength = itemList.length;
 
-        if (flag == 1){
+        if (flag == 1) {
             for (i = 0; i < itemListLength; i++) {
                 System.out.println((i + 1) + ": " + itemList[i]);
             }
 
-        }else if(flag == 2){
-   
-            if (itemList instanceof ChickenRiceProduct[]){
+        } else if (flag == 2) {
+
+            if (itemList instanceof ChickenRiceProduct[]) {
                 for (i = 0; i < itemListLength; i++) {
                     System.out.println((i + 1) + ": " + ((ChickenRiceProduct) itemList[i]).getProductName() + ", RM "
                             + ((ChickenRiceProduct) itemList[i]).getProductPrice() + "\n "
                             + ((ChickenRiceProduct) itemList[i]).getProductDescription());
                 }
-            }else if (itemList instanceof ChickenRiceAddOn[]){
+            } else if (itemList instanceof ChickenRiceAddOn[]) {
                 for (i = 0; i < itemListLength; i++) {
                     System.out.println((i + 1) + ": " + ((ChickenRiceAddOn) itemList[i]).getProductName() + ", RM "
                             + ((ChickenRiceAddOn) itemList[i]).getProductPrice() + " - "
@@ -774,12 +831,13 @@ public class ChickenRiceShopBuild {
 
         System.out.println((i + 1) + ": Return previous section");
         System.out.println((i + 2) + ": Return to home memu");
-        System.out.println("Be Careful: Select option " +(i+2) +" will be caused previous saved operation be clear.");
+        System.out
+                .println("Be Careful: Select option " + (i + 2) + " will be caused previous saved operation be clear.");
 
         try {
             // Read user input integer
             itemListInput = input.nextInt();
-  
+
             // tabelLabelList.length+2 = 8, less than 8, return true
             validate = checkInputIntValidation(itemListInput, 0, (itemListLength + 3), INPUT_ERROR_MESSAGE);
 
