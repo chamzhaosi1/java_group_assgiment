@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.time.LocalDateTime; 
 
 public class ChickenRiceShopBuild {
     private static final String INPUT_ERROR_MESSAGE = "Your selection is invalid please try again!!\n";
@@ -9,6 +10,7 @@ public class ChickenRiceShopBuild {
     private ChickenRiceShop chickenRiceShop;
     private ChickenRiceAddOn chickenRiceAddOn[];
     private ChickenRiceOrder chickenRiceOrder;
+    private ArrayList<ChickenRiceOrder> chickenRiceSoldList = new ArrayList<>();
     private ArrayList<ChickenRiceOrder> chickenRiceOrderList = new ArrayList<>();
     private ArrayList<ChickenRiceProduct> orderChickenRiceList = new ArrayList<>();
     private ArrayList<Integer> orderChickenRiceQuantityList = new ArrayList<>();
@@ -294,7 +296,7 @@ public class ChickenRiceShopBuild {
                             makePaymentOption();
                             break;
                         // case 3: showProductBalanceOption(); break;
-                        // case 4: summaryDailtSalesOption(); break;
+                        case 4: summaryDailySalesOption(); break;
                         case 5:
                             exitOption();
                             break;
@@ -953,10 +955,90 @@ public class ChickenRiceShopBuild {
 
     // When user select option 3
     private void showProductBalanceOption(){
-        
+
     }
 
     // When user select option 4
+    private void summaryDailySalesOption(){
+        chickenRiceSoldList = chickenRiceOrderList;
+
+        int[] soldMainProductQuantity = countMainProductDailySales(chickenRiceSoldList);
+        int[] soldAddOnProductQuantity = countAddOnProductDailySales(chickenRiceSoldList);
+        double totalSold = 0;
+
+        System.out.println(
+                "\n######################################################################################################");
+        System.out.println("Shop Name: " + chickenRiceShop.getshopName() + " ( "
+                + chickenRiceShop.getshopRegisterNumber() + " )");
+        System.out.println("Address: " + chickenRiceShop.getlocation());
+        System.out.println("Telephone: " + chickenRiceShop.getTelephone());
+        System.out.println(
+                "######################################################################################################");
+
+        System.out
+                .println("####################################### Daily Sales for " + java.time.LocalDate.now() + " ################################### ");  
+
+        System.out.println("Main Product Status: \n");
+
+        for (int i=0; i<chickenRiceProduct.length; i++){
+            System.out.println(chickenRiceProduct[i].getProductName() + "\t x " + soldMainProductQuantity[i] + "\t RM " + (chickenRiceProduct[i].getProductPrice()*soldMainProductQuantity[i]));
+
+            totalSold += chickenRiceProduct[i].getProductPrice()*soldMainProductQuantity[i];
+        }
+
+        System.out.println("\nAdd On Product Status: \n");
+        
+        for (int i=0; i<chickenRiceAddOn.length; i++){
+            System.out.println(chickenRiceAddOn[i].getProductName() + "\t x " + soldAddOnProductQuantity[i] + "\t RM " + (chickenRiceAddOn[i].getProductPrice()*soldAddOnProductQuantity[i]));
+
+            totalSold += chickenRiceAddOn[i].getProductPrice()*soldAddOnProductQuantity[i];
+        }
+
+        System.out.println("\nTotal daily sales : RM " + String.format("%.2f", totalSold));
+                
+    }
+
+    private int[] countMainProductDailySales(ArrayList<ChickenRiceOrder> chickenRiceSoldList){
+        int[] soldMainProductQuantity = new int[chickenRiceProduct.length];
+
+        for (int l = 0; l<soldMainProductQuantity.length; l++){
+            soldMainProductQuantity[l] = 0;
+        }
+
+        for (int i = 0; i<chickenRiceSoldList.size(); i++){
+            for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceProduct().length; j++){
+                for (int k = 0; k<chickenRiceProduct.length; k++){
+                    if(chickenRiceProduct[k].getProductName().equals(chickenRiceSoldList.get(i).getChickenRiceProduct()[j].getProductName())){
+                        soldMainProductQuantity[k]+=chickenRiceSoldList.get(i).getChickenRiceOrderQuantity()[j];
+                        break;
+                    }
+                }
+            }
+        }
+
+        return soldMainProductQuantity;
+    }
+
+    private int[] countAddOnProductDailySales(ArrayList<ChickenRiceOrder> chickenRiceSoldList){
+        int[] soldAddOnProductQuantity = new int[chickenRiceProduct.length];
+
+        for (int l = 0; l<soldAddOnProductQuantity.length; l++){
+            soldAddOnProductQuantity[l] = 0;
+        }
+
+        for (int i = 0; i<chickenRiceSoldList.size(); i++){
+            for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceAddOn().length; j++){
+                for (int k = 0; k<chickenRiceAddOn.length; k++){
+                    if(chickenRiceAddOn[k].getProductName().equals(chickenRiceSoldList.get(i).getChickenRiceAddOn()[j].getProductName())){
+                        soldAddOnProductQuantity[k]+=chickenRiceSoldList.get(i).getChickenAddOnOrderQuantity()[j];
+                        break;
+                    }
+                }
+            }
+        }
+
+        return soldAddOnProductQuantity;
+    }
 
     // When user select option 5
     private void exitOption() {

@@ -20,7 +20,7 @@ Create a main menu, include:
         1.4: Remark (By choose the number)
             1.4.1: Enter the note (By keyin the string)
             1.4.2: Cancel option - (By choose the number)
-        1.5: Edit (By choose the number)
+        <!-- 1.5: Edit (By choose the number)
             1.5.1: List all the item
                 1.5.1.1: Choose the number to edit one (By choose the number)
                 1.5.1.2: Cancel option - (By choose the number)
@@ -29,7 +29,7 @@ Create a main menu, include:
                         1.5.1.1.2.1 Choose the number to edit one (By choose the number)
                         1.5.1.1.2.2 Cancel option - (By choose the number)
                     1.5.1.1.3 Cancel option - (By choose the number)
-            1.5.2: Cancel option - (By choose the number)
+            1.5.2: Cancel option - (By choose the number) -->
         1.6: Comfirm 
             1.6.1: Double comfirm (By choose the Y/N)
 
