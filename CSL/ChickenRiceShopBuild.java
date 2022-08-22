@@ -952,6 +952,9 @@ public class ChickenRiceShopBuild {
     }
 
     // When user select option 3
+    private void showProductBalanceOption(){
+        
+    }
 
     // When user select option 4
 
