@@ -960,8 +960,10 @@ public class ChickenRiceShopBuild {
 
     // When user select option 4
     private void summaryDailySalesOption(){
+        // this should be the option 2 remove, which mean after confirm payment, then count into the sales
         chickenRiceSoldList = chickenRiceOrderList;
 
+        // invoke function to consolidate the production quantity
         int[] soldMainProductQuantity = countMainProductDailySales(chickenRiceSoldList);
         int[] soldAddOnProductQuantity = countAddOnProductDailySales(chickenRiceSoldList);
         double totalSold = 0;
@@ -980,6 +982,7 @@ public class ChickenRiceShopBuild {
 
         System.out.println("Main Product Status: \n");
 
+        // list the product and its sold quantity
         for (int i=0; i<chickenRiceProduct.length; i++){
             System.out.println(chickenRiceProduct[i].getProductName() + "\t x " + soldMainProductQuantity[i] + "\t RM " + (chickenRiceProduct[i].getProductPrice()*soldMainProductQuantity[i]));
 
@@ -988,6 +991,7 @@ public class ChickenRiceShopBuild {
 
         System.out.println("\nAdd On Product Status: \n");
         
+        // list the product and its sold quantity
         for (int i=0; i<chickenRiceAddOn.length; i++){
             System.out.println(chickenRiceAddOn[i].getProductName() + "\t x " + soldAddOnProductQuantity[i] + "\t RM " + (chickenRiceAddOn[i].getProductPrice()*soldAddOnProductQuantity[i]));
 
@@ -999,12 +1003,15 @@ public class ChickenRiceShopBuild {
     }
 
     private int[] countMainProductDailySales(ArrayList<ChickenRiceOrder> chickenRiceSoldList){
+        // to keep the quantity
         int[] soldMainProductQuantity = new int[chickenRiceProduct.length];
 
+        // initial all element equal to 0 (Actually is to avoid the sequace of the item)
         for (int l = 0; l<soldMainProductQuantity.length; l++){
             soldMainProductQuantity[l] = 0;
         }
 
+        // check if the name same, than record it sold quantity
         for (int i = 0; i<chickenRiceSoldList.size(); i++){
             for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceProduct().length; j++){
                 for (int k = 0; k<chickenRiceProduct.length; k++){
@@ -1020,12 +1027,15 @@ public class ChickenRiceShopBuild {
     }
 
     private int[] countAddOnProductDailySales(ArrayList<ChickenRiceOrder> chickenRiceSoldList){
+        // to keep the quantity
         int[] soldAddOnProductQuantity = new int[chickenRiceProduct.length];
 
+        // initial all element equal to 0 (Actually is to avoid the sequace of the item)
         for (int l = 0; l<soldAddOnProductQuantity.length; l++){
             soldAddOnProductQuantity[l] = 0;
         }
 
+        // check if the name same, than record it sold quantity
         for (int i = 0; i<chickenRiceSoldList.size(); i++){
             for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceAddOn().length; j++){
                 for (int k = 0; k<chickenRiceAddOn.length; k++){
