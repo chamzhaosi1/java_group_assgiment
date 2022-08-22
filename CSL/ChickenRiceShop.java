@@ -2,8 +2,8 @@
 public class ChickenRiceShop extends Shop {
     private String[] tableLabel;
 
-    public ChickenRiceShop(String shopName, String location, String shopRegisterNumber) {
-        super(shopName, location, shopRegisterNumber);
+    public ChickenRiceShop(String shopName, String location, String shopRegisterNumber, String telephone) {
+        super(shopName, location, shopRegisterNumber, telephone);
     }
 
     public String[] getTableLable() {
