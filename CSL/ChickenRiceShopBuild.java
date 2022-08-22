@@ -323,9 +323,10 @@ public class ChickenRiceShopBuild {
         String label = "Please choose which table label mark an order";
         String tabelLabelList[] = chickenRiceShop.getTableLable();
         Validate_Num validate_num;
-        boolean validate, returnThisPage;
+        boolean validate, returnThisPage, validate_deleteInput, validate_DbCfdeleteInput;
         int tabelLabelInput = -1;
         int tabelLabelLength = tabelLabelList.length;
+        char charDeleteConfirm, charDbCfDelete;
 
         do {
             // invoke the function to check number input validate or not, and what numbe
@@ -342,18 +343,75 @@ public class ChickenRiceShopBuild {
                 // one
                 tabelLabelInput -= 1;
 
-                int i;
+                int i, delectCount = 0;
                 if (chickenRiceOrderList.size() != 0) {
                     for (i = 0; i < chickenRiceOrderList.size(); i++) {
                         if (chickenRiceOrderList.get(i).getTableLabel().equals(tabelLabelList[tabelLabelInput])) {
-                            System.out.println(
-                                    "This table customer haven't leave or make a payment yet. Please select another one table label.");
+                            
+                            do{
+                                System.out.println(
+                                    "This table customer haven't leave or make a payment yet. "+
+                                    " Please select another one table label. Or you want delete (Y/N)");
+
+                                    charDeleteConfirm =  input.next().charAt(0);
+
+                                    validate_deleteInput = checkInputBoolValidation(charDeleteConfirm, INPUT_ERROR_MESSAGE);
+
+                                    if (validate_deleteInput && (charDeleteConfirm == 'Y' || charDeleteConfirm == 'y')){
+                                        ChickenRiceOrder co = new ChickenRiceOrder();
+                                        co.setRemark(chickenRiceOrderList.get(i).getRemark());
+                                        co.setTableLabel(chickenRiceOrderList.get(i).getTableLabel());
+                                        co.setTotalPrice(chickenRiceOrderList.get(i).getTotalPrice());
+
+                                        // because only the add on will empty so we need identify whether null or not
+                                        ArrayList<ChickenRiceAddOn> tempChickenRiceAddOnList;
+                                        if (chickenRiceOrderList.get(i).getChickenRiceAddOn() == null){
+                                            tempChickenRiceAddOnList = null;
+                                        }else {
+                                            tempChickenRiceAddOnList = new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceAddOn()));
+                                        }
+
+                                        ArrayList<Integer> tempChickenRiceAddOnQuantityList;
+                                        if (chickenRiceOrderList.get(i).getChickenRiceAddOn() == null){
+                                            tempChickenRiceAddOnQuantityList = null;
+                                        }else {
+                                            tempChickenRiceAddOnQuantityList = new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenAddOnOrderQuantity()));
+                                        }
+
+                                        receipt("Pre-view", co,
+                                                new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceProduct())),
+                                                new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceOrderQuantity())),
+                                                tempChickenRiceAddOnList,
+                                                tempChickenRiceAddOnQuantityList);
+
+                                        
+                                        do{
+                                            System.out.println("Are you sure delete this order? (Y/N)");
+
+                                            charDbCfDelete = input.next().charAt(0);
+    
+                                            validate_DbCfdeleteInput = checkInputBoolValidation(charDeleteConfirm, INPUT_ERROR_MESSAGE);
+
+                                            if (validate_DbCfdeleteInput && (charDbCfDelete == 'Y' || charDbCfDelete == 'y')){
+                                                chickenRiceOrderList.remove(i);
+                                                delectCount++;
+
+                                            }else if (validate_DbCfdeleteInput && (charDbCfDelete == 'N' || charDbCfDelete == 'n')){
+                                                break;
+                                            }
+
+                                        }while(!validate_DbCfdeleteInput);
+
+                                    }
+  
+                            }while(!validate_deleteInput);
+
                             validate = false;
                             break;
                         }
                     }
 
-                    if (i == chickenRiceOrderList.size()) {
+                    if (i == (chickenRiceOrderList.size() + delectCount)) {
                         chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
 
                         // After select the table label, call product list function
@@ -893,7 +951,7 @@ public class ChickenRiceShopBuild {
         }
 
         // List out all ordered add on product
-        if (orderAddOnList.size() > 0) {
+        if (orderAddOnList != null) {
             System.out.println("\nAdd On Product:");
             for (int j = 0; j < orderAddOnList.size(); j++) {
                 System.out.println((j + 1) + " : " + orderAddOnList.get(j).getProductName() + "\t x "
@@ -1035,13 +1093,16 @@ public class ChickenRiceShopBuild {
             soldAddOnProductQuantity[l] = 0;
         }
 
+
         // check if the name same, than record it sold quantity
         for (int i = 0; i<chickenRiceSoldList.size(); i++){
-            for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceAddOn().length; j++){
-                for (int k = 0; k<chickenRiceAddOn.length; k++){
-                    if(chickenRiceAddOn[k].getProductName().equals(chickenRiceSoldList.get(i).getChickenRiceAddOn()[j].getProductName())){
-                        soldAddOnProductQuantity[k]+=chickenRiceSoldList.get(i).getChickenAddOnOrderQuantity()[j];
-                        break;
+            if (chickenRiceSoldList.get(i).getChickenRiceAddOn() != null){
+                for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceAddOn().length; j++){
+                    for (int k = 0; k<chickenRiceAddOn.length; k++){
+                        if(chickenRiceAddOn[k].getProductName().equals(chickenRiceSoldList.get(i).getChickenRiceAddOn()[j].getProductName())){
+                            soldAddOnProductQuantity[k]+=chickenRiceSoldList.get(i).getChickenAddOnOrderQuantity()[j];
+                            break;
+                        }
                     }
                 }
             }

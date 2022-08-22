@@ -64,5 +64,18 @@ public class ChickenRiceOrder{
         this.totalPrice = totalPrice;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+            " tableLabel='" + getTableLabel() + "'" +
+            ", chickenRiceProduct='" + getChickenRiceProduct() + "'" +
+            ", chickenRiceOrderQuantity='" + getChickenRiceOrderQuantity() + "'" +
+            ", chickenRiceAddOn='" + getChickenRiceAddOn() + "'" +
+            ", chickenAddOnOrderQuantity='" + getChickenAddOnOrderQuantity() + "'" +
+            ", remark='" + getRemark() + "'" +
+            ", totalPrice='" + getTotalPrice() + "'" +
+            "}";
+    }
+
 
 }
