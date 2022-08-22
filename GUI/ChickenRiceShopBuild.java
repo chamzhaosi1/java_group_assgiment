@@ -1070,7 +1070,7 @@ public class ChickenRiceShopBuild {
     }
 
     private void clearInputBuffer() {
-        String text = input.nextLine();
+        input.nextLine();
     }
 
 }
