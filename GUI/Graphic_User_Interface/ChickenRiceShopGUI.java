@@ -90,7 +90,7 @@ public class ChickenRiceShopGUI extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
             ChickenRiceShopGUI.super.dispose();
-            new ChickenRiceShopTableLabel("Chicken Rice Shop");
+            new ChickenRiceShopTableLabelFrame("Chicken Rice Shop");
         }
     }
 }
