@@ -9,6 +9,10 @@ public class ChickenRiceShopTableLabel extends JFrame{
     private static final int WIDTH = 500;
     private static final int HEIGHT = 350; 
     private JPanel mainPanel;
+    private JPanel buttonPanel;
+    private JButton addMore_SaveBtn;
+    private JButton finishBtn;
+    private JTextField[] tableLabelTextFieldsLis; 
 
     public ChickenRiceShopTableLabel(String label){
         setTitle(title + " - " + label);
@@ -23,10 +27,26 @@ public class ChickenRiceShopTableLabel extends JFrame{
     }
 
     public void makePanel(){
-        JLabel testLabel = new JLabel("testing");
-        JPanel testPanel = new JPanel();
         mainPanel = new JPanel();
-        testPanel.add(testLabel);
-        mainPanel.add(testPanel);
+        JPanel leftPanel = new JPanel();
+        JLabel tabelLabel = new JLabel("Table Label");
+
+        buttonPanel = new JPanel();
+        addMore_SaveBtn = new JButton("Add More & Save");
+        finishBtn = new JButton("Finish");
+
+        buttonPanel.setLayout(new GridLayout(1,2));
+        buttonPanel.add(addMore_SaveBtn);
+        buttonPanel.add(finishBtn);
+        
+        leftPanel.add(tabelLabel, BorderLayout.NORTH);
+        leftPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainPanel.add(leftPanel, BorderLayout.WEST);
+
+        JPanel centerPanel = new JPanel();
+        tableLabelTextFieldsLis = new JTextField[9]; 
+        
+        for (int )
     }
 }
