@@ -5,17 +5,22 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ChickenRiceShopTableLabelFrame extends JFrame{
+    private ChickenRiceShop chickenRiceShop = new ChickenRiceShop();
+    private String label;
+    private String[] tabelLabel;
+
     private String title = "POS System"; 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 350; 
     private JPanel mainPanel;
-    private JPanel buttonPanel;
-    private JButton addMore_SaveBtn;
     private JButton finishBtn;
-    private JTextField[] tableLabelTextFieldsLis; 
+    private JTextField[] tableLabelTextFieldsList; 
 
-    public ChickenRiceShopTableLabelFrame(String label){
-        setTitle(title + " - " + label);
+    public ChickenRiceShopTableLabelFrame(String label, ChickenRiceShop chickenRiceShop){
+        this.label = label;
+        this.chickenRiceShop = chickenRiceShop;
+
+        setTitle(title + " - " + this.label);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
@@ -31,29 +36,18 @@ public class ChickenRiceShopTableLabelFrame extends JFrame{
         mainPanel.setLayout(new BorderLayout());
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
+        leftPanel.setBorder(new EmptyBorder(10,10,10,10));
         JLabel tabelLabel = new JLabel("Table Label : ", SwingConstants.RIGHT);
-
-        buttonPanel = new JPanel();
-        addMore_SaveBtn = new JButton("Save");
-        // addMore_SaveBtn.setBorder(new EmptyBorder(10,10,10,10));
-        addMore_SaveBtn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.gray, 1), 
-            BorderFactory.createEmptyBorder(5, 5, 10, 10)));
+        tabelLabel.setBorder(new EmptyBorder(20,0,0,10));
 
         finishBtn = new JButton("Finish");
-        finishBtn.addActionListener(new finishButtonListener());
-        // finishBtn.setBorder(new EmptyBorder(10,10,10,10));
+        finishBtn.addActionListener(new finishButtonListener()); 
         finishBtn.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.gray, 1), 
             BorderFactory.createEmptyBorder(5, 5, 10, 10)));
-
-        buttonPanel.setLayout(new GridLayout(2,1, 0, 10));
-        buttonPanel.setBorder(new EmptyBorder(10,10,10,10));
-        buttonPanel.add(addMore_SaveBtn);
-        buttonPanel.add(finishBtn);
         
         leftPanel.add(tabelLabel, BorderLayout.NORTH);
-        leftPanel.add(buttonPanel, BorderLayout.SOUTH);
+        leftPanel.add(finishBtn, BorderLayout.SOUTH);
         leftPanel.setPreferredSize(new Dimension(WIDTH/3, HEIGHT));
 
         mainPanel.add(leftPanel, BorderLayout.WEST);
@@ -61,11 +55,11 @@ public class ChickenRiceShopTableLabelFrame extends JFrame{
         JPanel centerPanel = new JPanel();
         centerPanel.setBorder(new EmptyBorder(10,10,10,10));
         centerPanel.setLayout(new GridLayout(3,3, 15, 15));
-        tableLabelTextFieldsLis = new JTextField[9]; 
+        tableLabelTextFieldsList = new JTextField[9]; 
         
-        for (int i = 0; i<tableLabelTextFieldsLis.length; i++){
-            tableLabelTextFieldsLis[i] = new JTextField(5);
-            centerPanel.add(tableLabelTextFieldsLis[i]);
+        for (int i = 0; i<tableLabelTextFieldsList.length; i++){
+            tableLabelTextFieldsList[i] = new JTextField(5);
+            centerPanel.add(tableLabelTextFieldsList[i]);
         }
         mainPanel.add(centerPanel, BorderLayout.CENTER);
     }
@@ -74,8 +68,53 @@ public class ChickenRiceShopTableLabelFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ChickenRiceShopTableLabelFrame.super.dispose();
-            new ChickenRiceShopProductFrame("Chicken Rice Shop", "Main Product");
+            
+            //check whether had fill in the table label, at least one.
+            if (checkAllTabelLabelTextFields()){
+
+                // retrieve all table label data
+                retrieveAllTableLabel();
+                // for (String s : tabelLabel){
+                //     System.out.println(s);
+                // }
+
+                // assign to chickenRiceShopProduct, becuase it need to pass for next Jframe
+                chickenRiceShop.setTableLabel(tabelLabel);
+
+                new ChickenRiceShopProductFrame(label, "Main Product", chickenRiceShop, null, null);
+                ChickenRiceShopTableLabelFrame.super.dispose();
+                
+            }else{
+                JOptionPane.showMessageDialog(mainPanel, "You have to fill at least one of the table label!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
+    }
+
+    private void retrieveAllTableLabel(){
+
+        tabelLabel = new String[tableLabelTextFieldsList.length];
+        int index = 0;
+
+        for (JTextField tempTextField: tableLabelTextFieldsList){
+            if (tempTextField.getText().equals("")){
+                continue;
+            }else{
+                tabelLabel[index] = tempTextField.getText();
+                index++;
+            }
+        }
+    }
+
+    private boolean checkAllTabelLabelTextFields(){
+
+        for (JTextField tempTextField: tableLabelTextFieldsList){
+            if (tempTextField.getText().equals("")){
+                continue;
+            }else{
+                // at least one of the table label text field has fill in, then can return true
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -32,10 +32,10 @@ public class ChickenRiceShopGUI extends JFrame{
         mainPanel = new JPanel();
         JPanel shopDetialPanel = new JPanel();
         GridBagConstraints gbc = new GridBagConstraints();  
-        JLabel shopNameLabel = new JLabel("Shop Name: ");
-        JLabel registerNumberLabel = new JLabel("Register Number: ");
-        JLabel addressLabel = new JLabel("Address: ");
-        JLabel telphoneLabel = new JLabel("Telphone: ");
+        JLabel shopNameLabel = new JLabel("Shop Name*: ");
+        JLabel registerNumberLabel = new JLabel("Register Number*: ");
+        JLabel addressLabel = new JLabel("Address*: ");
+        JLabel telphoneLabel = new JLabel("Telphone*: ");
          
         shopNameTextField = new JTextField(30);
         registerNumTextField = new JTextField(15);
@@ -89,8 +89,51 @@ public class ChickenRiceShopGUI extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ChickenRiceShopGUI.super.dispose();
-            new ChickenRiceShopTableLabelFrame("Chicken Rice Shop");
+            //check whether all textfield is entered
+            if (checkAllTextField()){
+
+                //get all shop's information
+                ChickenRiceShop chickenRiceShopData = retrieveAllShopData();
+
+                //becuase we didn't have database, so all of the data will need to pass when invoke next jframe
+                new ChickenRiceShopTableLabelFrame(chickenRiceShopData.getShopName(), chickenRiceShopData);
+                ChickenRiceShopGUI.super.dispose();
+                
+            }else{
+                JOptionPane.showMessageDialog(mainPanel, "You have to fill in all shop's information that we required..", "Error", JOptionPane.ERROR_MESSAGE);
+            }  
         }
+    }
+
+    private ChickenRiceShop retrieveAllShopData(){
+
+        ChickenRiceShop tempChickenRiceShopData = new ChickenRiceShop();
+
+        tempChickenRiceShopData.setShopName(shopNameTextField.getText());
+        tempChickenRiceShopData.setShopRegisterNumber(registerNumTextField.getText());
+        tempChickenRiceShopData.setLocation(addressTextArea.getText());
+        tempChickenRiceShopData.setTelephone(telTextField.getText());
+
+        return tempChickenRiceShopData;
+    }
+
+    private boolean checkAllTextField(){
+        if (shopNameTextField.getText().equals("")){
+            return false;
+        }
+
+        if (registerNumTextField.getText().equals("")){
+            return false;
+        }
+
+        if (addressTextArea.getText().equals("")){
+            return false;
+        }
+
+        if (telTextField.getText().equals("")){
+            return false;
+        }
+
+        return true;
     }
 }

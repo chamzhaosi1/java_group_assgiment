@@ -3,6 +3,10 @@ package Graphic_User_Interface;
 public class ChickenRiceShop extends Shop {
     private String[] tableLabel;
 
+    public ChickenRiceShop() {
+        super();
+    }
+
     public ChickenRiceShop(String shopName, String location, String shopRegisterNumber, String telephone) {
         super(shopName, location, shopRegisterNumber, telephone);
     }

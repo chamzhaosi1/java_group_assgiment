@@ -6,6 +6,9 @@ public class Shop{
     private String shopRegisterNumber;
     private String telephone;
 
+    public Shop() {
+    }
+
     public Shop(String shopName, String location, String shopRegisterNumber, String telephone) {
         this.shopName = shopName;
         this.location = location;
