@@ -1,3 +1,4 @@
+package Graphic_User_Interface;
 public class Validate_Num {
     private boolean validate;
     private int number;

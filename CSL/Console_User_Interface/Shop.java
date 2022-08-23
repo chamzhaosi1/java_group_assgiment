@@ -1,3 +1,4 @@
+package Console_User_Interface;
 // Shop Super class
 public class Shop{
     private String shopName;

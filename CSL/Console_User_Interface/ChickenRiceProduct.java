@@ -1,3 +1,4 @@
+package Console_User_Interface;
 //Subclass of the Product
 public class ChickenRiceProduct extends Product{
     private int initialQuantity;

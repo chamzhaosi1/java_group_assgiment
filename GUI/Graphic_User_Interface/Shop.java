@@ -1,3 +1,4 @@
+package Graphic_User_Interface;
 // Shop Super class
 public class Shop{
     private String shopName;

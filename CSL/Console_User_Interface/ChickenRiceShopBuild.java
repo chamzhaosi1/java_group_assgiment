@@ -1,6 +1,8 @@
+package Console_User_Interface;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.time.LocalDateTime; 
 
 public class ChickenRiceShopBuild {
     private static final String INPUT_ERROR_MESSAGE = "Your selection is invalid please try again!!\n";
@@ -9,6 +11,7 @@ public class ChickenRiceShopBuild {
     private ChickenRiceShop chickenRiceShop;
     private ChickenRiceAddOn chickenRiceAddOn[];
     private ChickenRiceOrder chickenRiceOrder;
+    private ArrayList<ChickenRiceOrder> chickenRiceSoldList = new ArrayList<>();
     private ArrayList<ChickenRiceOrder> chickenRiceOrderList = new ArrayList<>();
     private ArrayList<ChickenRiceProduct> orderChickenRiceList = new ArrayList<>();
     private ArrayList<Integer> orderChickenRiceQuantityList = new ArrayList<>();
@@ -294,7 +297,7 @@ public class ChickenRiceShopBuild {
                             makePaymentOption();
                             break;
                         // case 3: showProductBalanceOption(); break;
-                        // case 4: summaryDailtSalesOption(); break;
+                        case 4: summaryDailySalesOption(); break;
                         case 5:
                             exitOption();
                             break;
@@ -321,9 +324,10 @@ public class ChickenRiceShopBuild {
         String label = "Please choose which table label mark an order";
         String tabelLabelList[] = chickenRiceShop.getTableLable();
         Validate_Num validate_num;
-        boolean validate, returnThisPage;
+        boolean validate, returnThisPage, validate_deleteInput, validate_DbCfdeleteInput;
         int tabelLabelInput = -1;
         int tabelLabelLength = tabelLabelList.length;
+        char charDeleteConfirm, charDbCfDelete;
 
         do {
             // invoke the function to check number input validate or not, and what numbe
@@ -340,18 +344,83 @@ public class ChickenRiceShopBuild {
                 // one
                 tabelLabelInput -= 1;
 
-                int i;
+                int i, delectCount = 0;
                 if (chickenRiceOrderList.size() != 0) {
                     for (i = 0; i < chickenRiceOrderList.size(); i++) {
                         if (chickenRiceOrderList.get(i).getTableLabel().equals(tabelLabelList[tabelLabelInput])) {
-                            System.out.println(
-                                    "This table customer haven't leave or make a payment yet. Please select another one table label.");
+                            
+                            do{
+                                System.out.println(
+                                    "This table customer haven't leave or make a payment yet. "+
+                                    " Please select another one table label. Or you want delete (Y/N)");
+
+                                    charDeleteConfirm =  input.next().charAt(0);
+
+                                    validate_deleteInput = checkInputBoolValidation(charDeleteConfirm, INPUT_ERROR_MESSAGE);
+
+                                    if (validate_deleteInput && (charDeleteConfirm == 'Y' || charDeleteConfirm == 'y')){
+                                        ChickenRiceOrder co = new ChickenRiceOrder();
+                                        co.setRemark(chickenRiceOrderList.get(i).getRemark());
+                                        co.setTableLabel(chickenRiceOrderList.get(i).getTableLabel());
+                                        co.setTotalPrice(chickenRiceOrderList.get(i).getTotalPrice());
+
+                                        // because only the add on will empty so we need identify whether null or not
+                                        ArrayList<ChickenRiceAddOn> tempChickenRiceAddOnList;
+                                        if (chickenRiceOrderList.get(i).getChickenRiceAddOn() == null){
+                                            tempChickenRiceAddOnList = null;
+                                        }else {
+                                            tempChickenRiceAddOnList = new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceAddOn()));
+                                        }
+
+                                        ArrayList<Integer> tempChickenRiceAddOnQuantityList;
+                                        if (chickenRiceOrderList.get(i).getChickenRiceAddOn() == null){
+                                            tempChickenRiceAddOnQuantityList = null;
+                                        }else {
+                                            tempChickenRiceAddOnQuantityList = new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenAddOnOrderQuantity()));
+                                        }
+
+                                        receipt("Pre-view", co,
+                                                new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceProduct())),
+                                                new ArrayList<>(Arrays.asList(chickenRiceOrderList.get(i).getChickenRiceOrderQuantity())),
+                                                tempChickenRiceAddOnList,
+                                                tempChickenRiceAddOnQuantityList);
+
+                                        
+                                        do{
+                                            System.out.println("Are you sure delete this order? (Y/N)");
+
+                                            charDbCfDelete = input.next().charAt(0);
+    
+                                            validate_DbCfdeleteInput = checkInputBoolValidation(charDeleteConfirm, INPUT_ERROR_MESSAGE);
+
+                                            if (validate_DbCfdeleteInput && (charDbCfDelete == 'Y' || charDbCfDelete == 'y')){
+                                                // add back the quantity
+                                                chickenRiceSoldCancel(i);
+
+                                                // remove the element inside the array
+                                                chickenRiceOrderList.remove(i);
+                                                
+                                                // to know whether the product had deleted
+                                                delectCount++;
+
+                                            }else if (validate_DbCfdeleteInput && (charDbCfDelete == 'N' || charDbCfDelete == 'n')){
+                                                break;
+                                            }
+
+                                        }while(!validate_DbCfdeleteInput);
+
+                                    }
+  
+                            }while(!validate_deleteInput);
+
                             validate = false;
                             break;
                         }
                     }
 
-                    if (i == chickenRiceOrderList.size()) {
+
+                    // then if product be deleted, current lenght need to add 1, because if got deleted item, then this justfy may error
+                    if (i == (chickenRiceOrderList.size() + delectCount)) {
                         chickenRiceOrder.setTableLabel(tabelLabelList[tabelLabelInput]);
 
                         // After select the table label, call product list function
@@ -848,6 +917,34 @@ public class ChickenRiceShopBuild {
         clearPreviousRecord();
     }
 
+    public void chickenRiceSoldCancel(int index){
+        // retrive the product list 
+        ChickenRiceProduct[] tempChickenRiceProducts =  chickenRiceOrderList.get(index).getChickenRiceProduct();
+
+        // if product is same, then add back the sold quantity
+        for (int i = 0; i<tempChickenRiceProducts.length; i++){
+            for (int j=0; j<chickenRiceProduct.length; j++){
+                if (tempChickenRiceProducts[i].getProductName().equals(chickenRiceProduct[j].getProductName())){
+                    chickenRiceProduct[j].addProductQuantity(chickenRiceOrderList.get(index).getChickenRiceOrderQuantity()[i]);
+                    break;
+                }
+            }
+        }
+
+        // retrive the add on product list 
+        ChickenRiceAddOn[] tempChickenRiceAddOn =  chickenRiceOrderList.get(index).getChickenRiceAddOn();
+
+        // if product is same, then add back the sold quantity
+        for (int i = 0; i<tempChickenRiceAddOn.length; i++){
+            for (int j=0; j<chickenRiceAddOn.length; j++){
+                if (tempChickenRiceAddOn[i].getProductName().equals(chickenRiceAddOn[j].getProductName())){
+                    chickenRiceAddOn[j].addProductQuantity(chickenRiceOrderList.get(index).getChickenAddOnOrderQuantity()[i]);
+                    break;
+                }
+            }
+        }
+    }
+
     /**
      * 
      * @param title                        - reciept title
@@ -891,7 +988,7 @@ public class ChickenRiceShopBuild {
         }
 
         // List out all ordered add on product
-        if (orderAddOnList.size() > 0) {
+        if (orderAddOnList != null) {
             System.out.println("\nAdd On Product:");
             for (int j = 0; j < orderAddOnList.size(); j++) {
                 System.out.println((j + 1) + " : " + orderAddOnList.get(j).getProductName() + "\t x "
@@ -952,8 +1049,104 @@ public class ChickenRiceShopBuild {
     }
 
     // When user select option 3
+    private void showProductBalanceOption(){
+
+    }
 
     // When user select option 4
+    private void summaryDailySalesOption(){
+        // this should be the option 2 remove, which mean after confirm payment, then count into the sales
+        chickenRiceSoldList = chickenRiceOrderList;
+
+        // invoke function to consolidate the production quantity
+        int[] soldMainProductQuantity = countMainProductDailySales(chickenRiceSoldList);
+        int[] soldAddOnProductQuantity = countAddOnProductDailySales(chickenRiceSoldList);
+        double totalSold = 0;
+
+        System.out.println(
+                "\n######################################################################################################");
+        System.out.println("Shop Name: " + chickenRiceShop.getshopName() + " ( "
+                + chickenRiceShop.getshopRegisterNumber() + " )");
+        System.out.println("Address: " + chickenRiceShop.getlocation());
+        System.out.println("Telephone: " + chickenRiceShop.getTelephone());
+        System.out.println(
+                "######################################################################################################");
+
+        System.out
+                .println("####################################### Daily Sales for " + java.time.LocalDate.now() + " ################################### ");  
+
+        System.out.println("Main Product Status: \n");
+
+        // list the product and its sold quantity
+        for (int i=0; i<chickenRiceProduct.length; i++){
+            System.out.println(chickenRiceProduct[i].getProductName() + "\t x " + soldMainProductQuantity[i] + "\t RM " + (chickenRiceProduct[i].getProductPrice()*soldMainProductQuantity[i]));
+
+            totalSold += chickenRiceProduct[i].getProductPrice()*soldMainProductQuantity[i];
+        }
+
+        System.out.println("\nAdd On Product Status: \n");
+        
+        // list the product and its sold quantity
+        for (int i=0; i<chickenRiceAddOn.length; i++){
+            System.out.println(chickenRiceAddOn[i].getProductName() + "\t x " + soldAddOnProductQuantity[i] + "\t RM " + (chickenRiceAddOn[i].getProductPrice()*soldAddOnProductQuantity[i]));
+
+            totalSold += chickenRiceAddOn[i].getProductPrice()*soldAddOnProductQuantity[i];
+        }
+
+        System.out.println("\nTotal daily sales : RM " + String.format("%.2f", totalSold));
+                
+    }
+
+    private int[] countMainProductDailySales(ArrayList<ChickenRiceOrder> chickenRiceSoldList){
+        // to keep the quantity
+        int[] soldMainProductQuantity = new int[chickenRiceProduct.length];
+
+        // initial all element equal to 0 (Actually is to avoid the sequace of the item)
+        for (int l = 0; l<soldMainProductQuantity.length; l++){
+            soldMainProductQuantity[l] = 0;
+        }
+
+        // check if the name same, than record it sold quantity
+        for (int i = 0; i<chickenRiceSoldList.size(); i++){
+            for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceProduct().length; j++){
+                for (int k = 0; k<chickenRiceProduct.length; k++){
+                    if(chickenRiceProduct[k].getProductName().equals(chickenRiceSoldList.get(i).getChickenRiceProduct()[j].getProductName())){
+                        soldMainProductQuantity[k]+=chickenRiceSoldList.get(i).getChickenRiceOrderQuantity()[j];
+                        break;
+                    }
+                }
+            }
+        }
+
+        return soldMainProductQuantity;
+    }
+
+    private int[] countAddOnProductDailySales(ArrayList<ChickenRiceOrder> chickenRiceSoldList){
+        // to keep the quantity
+        int[] soldAddOnProductQuantity = new int[chickenRiceProduct.length];
+
+        // initial all element equal to 0 (Actually is to avoid the sequace of the item)
+        for (int l = 0; l<soldAddOnProductQuantity.length; l++){
+            soldAddOnProductQuantity[l] = 0;
+        }
+
+
+        // check if the name same, than record it sold quantity
+        for (int i = 0; i<chickenRiceSoldList.size(); i++){
+            if (chickenRiceSoldList.get(i).getChickenRiceAddOn() != null){
+                for (int j = 0; j<chickenRiceSoldList.get(i).getChickenRiceAddOn().length; j++){
+                    for (int k = 0; k<chickenRiceAddOn.length; k++){
+                        if(chickenRiceAddOn[k].getProductName().equals(chickenRiceSoldList.get(i).getChickenRiceAddOn()[j].getProductName())){
+                            soldAddOnProductQuantity[k]+=chickenRiceSoldList.get(i).getChickenAddOnOrderQuantity()[j];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return soldAddOnProductQuantity;
+    }
 
     // When user select option 5
     private void exitOption() {
@@ -1070,7 +1263,7 @@ public class ChickenRiceShopBuild {
     }
 
     private void clearInputBuffer() {
-        input.nextLine();
+       input.nextLine();
     }
 
 }

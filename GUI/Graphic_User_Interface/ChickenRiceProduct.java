@@ -1,12 +1,14 @@
-// Subclass of the Product
-public class ChickenRiceAddOn extends Product{
+package Graphic_User_Interface;
+//Subclass of the Product
+public class ChickenRiceProduct extends Product{
     private int initialQuantity;
     private int balanceQuantity;
 
-    public ChickenRiceAddOn() {
+    public ChickenRiceProduct() {
+        super();
     }
 
-    public ChickenRiceAddOn(String productName, double productPrice, String productDescription, int initialQuantity, int balanceQuantity) {
+    public ChickenRiceProduct(String productName, double productPrice, String productDescription, int initialQuantity, int balanceQuantity) {
         super(productName, productPrice, productDescription);
         this.initialQuantity = initialQuantity;
         this.balanceQuantity = balanceQuantity;
@@ -40,6 +42,4 @@ public class ChickenRiceAddOn extends Product{
             return false;
         }
     }
-
 }
-

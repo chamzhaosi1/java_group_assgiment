@@ -1,3 +1,4 @@
+package Graphic_User_Interface;
 // Subclass of the Shop
 public class ChickenRiceShop extends Shop {
     private String[] tableLabel;

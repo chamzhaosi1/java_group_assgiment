@@ -1,3 +1,4 @@
+package Graphic_User_Interface;
 public class ChickenRiceOrder{
     private String tableLabel;
     private ChickenRiceProduct[] chickenRiceProduct;

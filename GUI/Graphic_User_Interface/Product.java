@@ -1,3 +1,4 @@
+package Graphic_User_Interface;
 // Product Supper Class
 public class Product{
     private String productName;

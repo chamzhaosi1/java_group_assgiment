@@ -1,3 +1,4 @@
+package Console_User_Interface;
 public class Validate_Num {
     private boolean validate;
     private int number;
