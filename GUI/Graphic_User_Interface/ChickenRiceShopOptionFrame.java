@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class ChickenRiceShopOptionFrame extends JFrame {
-    private ChickenRiceShop chickenRiceShop = new ChickenRiceShop();
+    private ChickenRiceShop chickenRiceShop;
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
     private ChickenRiceProduct chickenRiceProduct;
@@ -79,7 +79,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             System.out.println(chickenRiceProductsList);
             System.out.println(chickenRiceAddOnsList);
             ChickenRiceShopOptionFrame.super.setVisible(false);
-            ChickenRiceShopProductMemuFrame productMenu = new ChickenRiceShopProductMemuFrame("Chicken Rice Shop");
+            ChickenRiceShopProductMemuFrame productMenu = new ChickenRiceShopProductMemuFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
             productMenu.addWindowListener(new CustomWindowListener());
 

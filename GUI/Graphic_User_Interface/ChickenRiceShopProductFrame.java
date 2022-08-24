@@ -3,15 +3,13 @@ package Graphic_User_Interface;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import org.omg.CORBA.FloatSeqHelper;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
 
 public class ChickenRiceShopProductFrame extends JFrame{
-    private ChickenRiceShop chickenRiceShop = new ChickenRiceShop();
+    private ChickenRiceShop chickenRiceShop;
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
     private ChickenRiceProduct chickenRiceProduct;
