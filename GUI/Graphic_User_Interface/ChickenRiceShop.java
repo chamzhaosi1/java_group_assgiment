@@ -11,11 +11,21 @@ public class ChickenRiceShop extends Shop {
         super(shopName, location, shopRegisterNumber, telephone);
     }
 
-    public String[] getTableLable() {
+    public String[] getTableLabel() {
         return this.tableLabel;
     }
 
     public void setTableLabel(String[] tableLabel) {
         this.tableLabel = tableLabel;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " tableLabel='" + getTableLabel() + "'" +
+            "}";
+    }
+
 }
+
+

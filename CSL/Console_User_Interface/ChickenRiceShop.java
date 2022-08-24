@@ -1,4 +1,5 @@
 package Console_User_Interface;
+
 // Subclass of the Shop
 public class ChickenRiceShop extends Shop {
     private String[] tableLabel;
@@ -7,7 +8,7 @@ public class ChickenRiceShop extends Shop {
         super(shopName, location, shopRegisterNumber, telephone);
     }
 
-    public String[] getTableLable() {
+    public String[] getTableLabel() {
         return this.tableLabel;
     }
 

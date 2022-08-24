@@ -76,8 +76,6 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(chickenRiceProductsList);
-            System.out.println(chickenRiceAddOnsList);
             ChickenRiceShopOptionFrame.super.setVisible(false);
             ChickenRiceShopProductMemuFrame productMenu = new ChickenRiceShopProductMemuFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
