@@ -833,7 +833,7 @@ public class ChickenRiceShopBuild {
             // Invoke the function to show the order list
             receipt("Order List", chickenRiceOrder, orderChickenRiceList, orderChickenRiceQuantityList, orderAddOnList,
                     orderAddOnQuantityList);
-            System.out.println("Are you sure mark the order? (Y/N)");
+            System.out.println("Are you sure make the order? (Y/N)");
 
             charOptionInput = input.next().charAt(0);
 
@@ -951,19 +951,21 @@ public class ChickenRiceShopBuild {
             }
         }
 
-        // retrive the add on product list
-        ChickenRiceAddOn[] tempChickenRiceAddOn = chickenRiceOrderList.get(index).getChickenRiceAddOn();
+       if (chickenRiceOrderList.get(index).getChickenRiceAddOn() != null && chickenRiceOrderList.get(index).getChickenRiceAddOn().length > 0){
+            // retrive the add on product list
+            ChickenRiceAddOn[] tempChickenRiceAddOn = chickenRiceOrderList.get(index).getChickenRiceAddOn();
 
-        // if product is same, then add back the sold quantity
-        for (int i = 0; i < tempChickenRiceAddOn.length; i++) {
-            for (int j = 0; j < chickenRiceAddOn.length; j++) {
-                if (tempChickenRiceAddOn[i].getProductName().equals(chickenRiceAddOn[j].getProductName())) {
-                    chickenRiceAddOn[j]
-                            .addProductQuantity(chickenRiceOrderList.get(index).getChickenAddOnOrderQuantity()[i]);
-                    break;
+            // if product is same, then add back the sold quantity
+            for (int i = 0; i < tempChickenRiceAddOn.length; i++) {
+                for (int j = 0; j < chickenRiceAddOn.length; j++) {
+                    if (tempChickenRiceAddOn[i].getProductName().equals(chickenRiceAddOn[j].getProductName())) {
+                        chickenRiceAddOn[j]
+                                .addProductQuantity(chickenRiceOrderList.get(index).getChickenAddOnOrderQuantity()[i]);
+                        break;
+                    }
                 }
             }
-        }
+       }
     }
 
     /**
@@ -995,7 +997,7 @@ public class ChickenRiceShopBuild {
         System.out
                 .println("####################################### " + title + " ################################### ");
 
-        System.out.println("Tabel: " + chickenRiceOrder.getTableLabel());
+        System.out.println("Table: " + chickenRiceOrder.getTableLabel());
 
         // List out all ordered chicker rice product
         System.out.println("\nMain Product:");
@@ -1062,57 +1064,64 @@ public class ChickenRiceShopBuild {
 
             do {
                 System.out.println("Please select your table label: ");
-                int tableNum = input.nextInt();
+                try {
+                    int tableNum = input.nextInt();
 
-                validate = checkInputIntValidation(tableNum, 0, (chickenRiceOrderList.size() + 2), INPUT_ERROR_MESSAGE);
+                    validate = checkInputIntValidation(tableNum, 0, (chickenRiceOrderList.size() + 2), INPUT_ERROR_MESSAGE);
 
-                if (validate && tableNum < (chickenRiceOrderList.size() + 1)) {
-                    ChickenRiceOrder co = new ChickenRiceOrder();
-                    co.setRemark(chickenRiceOrderList.get(tableNum - 1).getRemark());
-                    co.setTableLabel(chickenRiceOrderList.get(tableNum - 1).getTableLabel());
-                    co.setTotalPrice(chickenRiceOrderList.get(tableNum - 1).getTotalPrice());
+                    if (validate && tableNum < (chickenRiceOrderList.size() + 1)) {
+                        ChickenRiceOrder co = new ChickenRiceOrder();
+                        co.setRemark(chickenRiceOrderList.get(tableNum - 1).getRemark());
+                        co.setTableLabel(chickenRiceOrderList.get(tableNum - 1).getTableLabel());
+                        co.setTotalPrice(chickenRiceOrderList.get(tableNum - 1).getTotalPrice());
 
-                    // because only the add on will empty so we need identify whether null or not
-                    ArrayList<ChickenRiceAddOn> tempChickenRiceAddOnList;
-                    if (chickenRiceOrderList.get(tableNum - 1).getChickenRiceAddOn() == null) {
-                        tempChickenRiceAddOnList = null;
-                    } else {
-                        tempChickenRiceAddOnList = new ArrayList<>(
-                                Arrays.asList(chickenRiceOrderList.get(tableNum - 1).getChickenRiceAddOn()));
-                    }
-
-                    ArrayList<Integer> tempChickenRiceAddOnQuantityList;
-                    if (chickenRiceOrderList.get(tableNum - 1).getChickenRiceAddOn() == null) {
-                        tempChickenRiceAddOnQuantityList = null;
-                    } else {
-                        tempChickenRiceAddOnQuantityList = new ArrayList<>(Arrays
-                                .asList(chickenRiceOrderList.get(tableNum - 1).getChickenAddOnOrderQuantity()));
-                    }
-
-                    receipt("Receipt", co,
-                            new ArrayList<>(
-                                    Arrays.asList(chickenRiceOrderList.get(tableNum - 1).getChickenRiceProduct())),
-                            new ArrayList<>(Arrays
-                                    .asList(chickenRiceOrderList.get(tableNum - 1).getChickenRiceOrderQuantity())),
-                            tempChickenRiceAddOnList,
-                            tempChickenRiceAddOnQuantityList);
-
-                    do {
-                        System.out.println("Do you want to make payment? (Y/N): ");
-                        char pay = input.next().charAt(0);
-
-                        payValidate = checkInputBoolValidation(pay, INPUT_ERROR_MESSAGE);
-
-                        if (payValidate && (pay == 'Y' || pay == 'y')) {
-                            chickenRiceOrderList.remove(tableNum - 1);
+                        // because only the add on will empty so we need identify whether null or not
+                        ArrayList<ChickenRiceAddOn> tempChickenRiceAddOnList;
+                        if (chickenRiceOrderList.get(tableNum - 1).getChickenRiceAddOn() == null) {
+                            tempChickenRiceAddOnList = null;
+                        } else {
+                            tempChickenRiceAddOnList = new ArrayList<>(
+                                    Arrays.asList(chickenRiceOrderList.get(tableNum - 1).getChickenRiceAddOn()));
                         }
-                    } while (!payValidate);
+
+                        ArrayList<Integer> tempChickenRiceAddOnQuantityList;
+                        if (chickenRiceOrderList.get(tableNum - 1).getChickenRiceAddOn() == null) {
+                            tempChickenRiceAddOnQuantityList = null;
+                        } else {
+                            tempChickenRiceAddOnQuantityList = new ArrayList<>(Arrays
+                                    .asList(chickenRiceOrderList.get(tableNum - 1).getChickenAddOnOrderQuantity()));
+                        }
+
+                        receipt("Receipt", co,
+                                new ArrayList<>(
+                                        Arrays.asList(chickenRiceOrderList.get(tableNum - 1).getChickenRiceProduct())),
+                                new ArrayList<>(Arrays
+                                        .asList(chickenRiceOrderList.get(tableNum - 1).getChickenRiceOrderQuantity())),
+                                tempChickenRiceAddOnList,
+                                tempChickenRiceAddOnQuantityList);
+
+                        do {
+                            System.out.println("Do you want to make payment? (Y/N): ");
+                            char pay = input.next().charAt(0);
+
+                            payValidate = checkInputBoolValidation(pay, INPUT_ERROR_MESSAGE);
+
+                            if (payValidate && (pay == 'Y' || pay == 'y')) {
+
+                                chickenRiceSoldList.add(chickenRiceOrderList.remove(tableNum - 1));
+                            }
+                        } while (!payValidate);
+                    }
+                } catch (Exception e) {
+                    // If the user not key in the integer number, then handle the exception
+                    // System.out.println(e);
+                    System.out.println(INPUT_ERROR_MESSAGE);
+                    // Clear the system input buffer before loop again
+                    clearInputBuffer();
+                    validate = false;
                 }
             } while (!validate);
-
-        } else
-
-        {
+        }else{
             System.out.println("No any order yet!");
         }
     }
@@ -1180,41 +1189,47 @@ public class ChickenRiceShopBuild {
                 do {
                     System.out.println("\nPlease enter the number of the product: ");
 
-                    int inputNumber = input.nextInt();
+                    try{
+                        int inputNumber = input.nextInt();
                 
-                    validate = checkInputIntValidation (inputNumber, 0, (chickenRiceProduct.length + chickenRiceAddOn.length + 1), INPUT_ERROR_MESSAGE);
-                    
-                    if (validate) {
-                        do {
-                            System.out.println("\nPlease enter the quantity: ");
-                            
-                            try {
-                                // Read user input quantity 
-                                int input_addNum = input.nextInt();
-
-                                validate_addNum = checkInputIntValidation (input_addNum, 0, 100, INPUT_ERROR_MESSAGE);
-
-                                if (inputNumber <= chickenRiceProduct.length) {
-                                    chickenRiceProduct[inputNumber - 1].addProductQuantity(input_addNum);
-
-                                } else {
-                                    inputNumber -= chickenRiceProduct.length;
-                                    chickenRiceAddOn[inputNumber - 1].addProductQuantity(input_addNum);
+                        validate = checkInputIntValidation (inputNumber, 0, (chickenRiceProduct.length + chickenRiceAddOn.length + 1), INPUT_ERROR_MESSAGE);
+                        
+                        if (validate) {
+                            do {
+                                System.out.println("\nPlease enter the quantity: ");
+                                
+                                try {
+                                    // Read user input quantity 
+                                    int input_addNum = input.nextInt();
+    
+                                    validate_addNum = checkInputIntValidation (input_addNum, 0, 100, INPUT_ERROR_MESSAGE);
+    
+                                    if (inputNumber <= chickenRiceProduct.length) {
+                                        chickenRiceProduct[inputNumber - 1].addProductQuantity(input_addNum);
+    
+                                    } else {
+                                        inputNumber -= chickenRiceProduct.length;
+                                        chickenRiceAddOn[inputNumber - 1].addProductQuantity(input_addNum);
+                                    }
+    
+                                    validate_addNum = true;
+    
+                                } catch (Exception ex){
+                                    // If the user not key in the integer number, then handle the exception
+                                    // System.out.println(e);
+                                    System.out.println(INPUT_ERROR_MESSAGE);
+                                    // Clear the system input buffer before loop again
+                                    clearInputBuffer();
+                                    validate_addNum = false;
                                 }
-
-                                validate_addNum = true;
-
-                            } catch (Exception ex){
-                                // If the user not key in the integer number, then handle the exception
-                                // System.out.println(e);
-                                System.out.println(INPUT_ERROR_MESSAGE);
-                                // Clear the system input buffer before loop again
-                                clearInputBuffer();
-                                validate_addNum = false;
-                            }
-
-                        } while (!validate_addNum);
-                            validate_String = false;
+    
+                            } while (!validate_addNum);
+                                validate_String = false;
+                        }
+                    }catch(Exception ex){
+                        System.out.println(INPUT_ERROR_MESSAGE);
+                        clearInputBuffer();
+                        validate = false;
                     }
                 } while (!validate);
             }
@@ -1240,7 +1255,7 @@ public class ChickenRiceShopBuild {
     private void summaryDailySalesOption() {
         // this should be the option 2 remove, which mean after confirm payment, then
         // count into the sales
-        chickenRiceSoldList = chickenRiceOrderList;
+        // chickenRiceSoldList = chickenRiceOrderList;
 
         // invoke function to consolidate the production quantity
         int[] soldMainProductQuantity = countMainProductDailySales(chickenRiceSoldList);
