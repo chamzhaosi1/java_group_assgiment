@@ -515,6 +515,7 @@ public class ChickenRiceShopBuild {
                             "\n######################################################################################################");
                     System.out.print("Please enter the order quantity (Current Store Balance "
                             + tempProductQuantity[productListInput] + "): ");
+                    
 
                     try {
                         // read the input quantity
