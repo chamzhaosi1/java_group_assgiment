@@ -11,19 +11,24 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
     private ChickenRiceShop chickenRiceShop;
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
-    private ChickenRiceProduct chickenRiceProduct;
-    private ChickenRiceAddOn chickenRiceAddOn;
+    private ArrayList<ChickenRiceProduct> chickenRiceMainProductsOrderList;
+    private ArrayList<ChickenRiceAddOn> chickenRiceAddOnProductOrderList;
+    private ArrayList<Integer> chickenRiceMainProductsOrderQuantityList;
+    private ArrayList<Integer> chickenRiceAddOnProductsOrderQuantityList;
+    private ChickenRiceOrder chickenRiceOrder;
     private String label;
+    private String header;
 
     private String title = "POS System";
-    private static final int WIDTH = 700;
-    private static final int HEIGHT = 300;
+    private static final int WIDTH = 720;
+    private static final int HEIGHT = 400;
     private JPanel mainPanel;
     private JComboBox<String> mainProductComboBox;
     private JComboBox<String> addOnProductComboBox;
     private JSpinner mainProductQuantitySpinner;
     private JSpinner addOnProductQuantitySpinner;
     private JTextArea remarkTextArea;
+    private JTextArea orderProductListTArea;
     private JButton addButton;
     private JButton resetButton;
     private JButton finishButton;
@@ -35,6 +40,11 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         this.chickenRiceProductsList = chickenRiceProductsList;
         this.chickenRiceAddOnsList = chickenRiceAddOnsList;
         this.label = label;
+
+        this.header = "###############################################\n" + 
+                            "Shop Name: " + chickenRiceShop.getShopName() + "   (" + chickenRiceShop.getShopRegisterNumber()  + ")\n" +
+                            "Location: " + chickenRiceShop.getLocation() + "\n###############################################\n" + 
+                            "---------------------------------- Order List -------------------------------\n";
 
         setTitle(title + " - " + label);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,9 +83,16 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         remarkTextArea = new JTextArea(5,10);
 
         addButton = new JButton("Add");
+        addButton.addActionListener(new addButtonListener());
+
         resetButton = new JButton("Reset");
+        resetButton.addActionListener(new resetButtonListener());
+
         finishButton = new JButton("Finish");
+        finishButton.addActionListener(new finishButtonListener());
+
         returnButton = new JButton("Return");
+        returnButton.addActionListener(new returnButtonListener());
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
@@ -126,12 +143,79 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         mainPanel.add(leftPanel);
 
         JPanel rightPanel = new JPanel();
-        JTextArea orderProductListTArea = new JTextArea(15,20);
+        orderProductListTArea = new JTextArea(21,30);
+        orderProductListTArea.setText(header);
         // orderProductListTArea.setPreferredSize(this.getPreferredSize());
         orderProductListTArea.setEditable(false);
+        orderProductListTArea.setLineWrap(true);
         rightPanel.add(orderProductListTArea);
         
         mainPanel.add(rightPanel);
+
+        chickenRiceMainProductsOrderList = new ArrayList<>();
+        chickenRiceAddOnProductOrderList = new ArrayList<>();
+        chickenRiceMainProductsOrderQuantityList =  new ArrayList<>();
+        chickenRiceAddOnProductsOrderQuantityList =  new ArrayList<>();
+
+    }
+
+    private class addButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int mainProductSelectedIndex = mainProductComboBox.getSelectedIndex();
+            int mainProductOrderQuantity = (Integer) mainProductQuantitySpinner.getValue();
+            int AddOnProductSelectedIndex = addOnProductComboBox.getSelectedIndex();
+            int AddOnProductOrderQuantity = (Integer) addOnProductQuantitySpinner.getValue();
+
+            String tempMainProductName = chickenRiceProductsList.get(mainProductSelectedIndex).getProductName();
+            String tempAddOnProductName = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductName();
+            double tempMainProductTotalPrice = chickenRiceProductsList.get(mainProductSelectedIndex).getProductPrice() * mainProductOrderQuantity;
+            double tempAddOnProductTotalPrice = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductPrice() * AddOnProductOrderQuantity;
+
+            chickenRiceMainProductsOrderList.add(chickenRiceProductsList.get(mainProductSelectedIndex));
+            chickenRiceAddOnProductOrderList.add(chickenRiceAddOnsList.get(AddOnProductSelectedIndex));
+            chickenRiceMainProductsOrderQuantityList.add(mainProductOrderQuantity);
+            chickenRiceAddOnProductsOrderQuantityList.add(AddOnProductOrderQuantity);
+
+            orderProductListTArea.append(new String(tempMainProductName + "\n\tx " + mainProductOrderQuantity + "\n\t" + tempMainProductTotalPrice + "\n"));
+            orderProductListTArea.append(new String(tempAddOnProductName + "\n\tx " + AddOnProductOrderQuantity + "\n\t" + tempAddOnProductTotalPrice + "\n"));
+        }
+    }
+
+    private class resetButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int resetAnwser = JOptionPane.showConfirmDialog(mainPanel, "Are you sure want to reset all? Be Careful, this operation would be recovered..");
+
+            if (resetAnwser == 0){
+                orderProductListTArea.setText(header);
+                chickenRiceMainProductsOrderList.removeAll(chickenRiceMainProductsOrderList);
+                chickenRiceAddOnProductOrderList.removeAll(chickenRiceAddOnProductOrderList);
+            }
+        }
+
+    }
+
+    private class finishButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+    }
+
+    private class returnButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
     }
 
     /**
