@@ -180,6 +180,9 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
             orderProductListTArea.append(new String(tempMainProductName + "\n\tx " + mainProductOrderQuantity + "\t" + tempMainProductTotalPrice + "\n"));
             orderProductListTArea.append(new String(tempAddOnProductName + "\n\tx " + AddOnProductOrderQuantity + "\t" + tempAddOnProductTotalPrice + "\n"));
+
+            // auto resize
+            ChickenRiceShopOrderProductFrame.super.pack();
         }
     }
 
