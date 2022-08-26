@@ -273,7 +273,17 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
+            int returnAnwser;
+
+            if (!addButton.isEnabled()){
+                returnAnwser = JOptionPane.showConfirmDialog(mainPanel, "Please make sure you has been finished order for this table, because you will not be allowed to edit it after return..");
+            }else {
+                returnAnwser = JOptionPane.showConfirmDialog(mainPanel, "You haven't save the order, do u want cancel the order?");
+            }
+
+            if (returnAnwser == 0){
+                ChickenRiceShopOrderProductFrame.super.dispose();
+            }
             
         }
 
