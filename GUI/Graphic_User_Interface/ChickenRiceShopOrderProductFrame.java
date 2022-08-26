@@ -288,7 +288,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         }
 
     }
-
+  
     /**
      * 
      * @param flag - 1= main product, 2 add on product
