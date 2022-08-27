@@ -353,7 +353,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
     }
 
     public ChickenRiceOrder getChickenRiceOrderDetail(){
-        System.out.println(chickenRiceOrder);
+        // System.out.println(chickenRiceOrder);
         return chickenRiceOrder;
     }
   

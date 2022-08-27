@@ -19,9 +19,8 @@ public class ChickenRiceShopProductBalanceFrame extends JFrame{
     private JSpinner mainProductQuantitySpinner;
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
-    private ArrayList<ChickenRiceProduct> chickenRiceMainProductsOrderList;
-    private ArrayList<Integer> chickenRiceMainProductsOrderQuantityList;
     private String label;
+    private JLabel productBlLabel;
     private JTable productBlTable;
     private GridBagConstraints gbc = new GridBagConstraints();  
     
@@ -122,12 +121,12 @@ public class ChickenRiceShopProductBalanceFrame extends JFrame{
         DefaultTableModel tableModel = new DefaultTableModel(data, column);
         // tableModel.fireTableDataChanged();
 
-        JLabel productBlLabel = new JLabel("Inventory List");
+        productBlLabel = new JLabel("Inventory List");
         productBlTable = new JTable(tableModel);
 
         // Center text
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(productBlLabel.CENTER );
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER );
         productBlTable.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
 
         scrollPane = new JScrollPane(productBlTable);
@@ -144,7 +143,6 @@ public class ChickenRiceShopProductBalanceFrame extends JFrame{
         gbc.gridy = 1;
         productBlPanel.add(scrollPane,gbc);
 
-        chickenRiceMainProductsOrderQuantityList =  new ArrayList<>();
     }
 
     private String[][] retrieveProductData() {
@@ -218,9 +216,8 @@ public class ChickenRiceShopProductBalanceFrame extends JFrame{
             DefaultTableModel tableModel = new DefaultTableModel(data, column);
             productBlTable.setModel(tableModel);
 
-            JLabel productBlLabel = new JLabel("Inventory List");
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(productBlLabel.CENTER );
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER );
             productBlTable.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
             
             // productBlTable = new JTable(data, column);

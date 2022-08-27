@@ -16,7 +16,6 @@ public class ChickenRiceShopProductMenuFrame extends JFrame {
     private JButton tempButton;
 
     private ChickenRiceOrder chickenRiceOrder;
-    private ArrayList<ChickenRiceOrder> chickenRiceOrderList;
 
     private ChickenRiceShopOrderProductFrame chickenRiceShopOrderProductFrame;
 
@@ -39,6 +38,8 @@ public class ChickenRiceShopProductMenuFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
+        // System.out.println(chickenRiceProductsList.get(0).getBalanceQuantity());
+        // System.out.println(chickenRiceAddOnsList.get(0).getBalanceQuantity());
 
         makePanel();
         add(mainPanel);
@@ -111,10 +112,10 @@ public class ChickenRiceShopProductMenuFrame extends JFrame {
 
             // if the select button is not orange backgroundm then it mean this table can make a order
             if (!(tempButton.getBackground() == Color.ORANGE)){
-                String tableLabel = tempButton.getText();
+                // String tableLabel = tempButton.getText();
 
-                chickenRiceOrder = new ChickenRiceOrder();
-                chickenRiceOrder.setTableLabel(tableLabel);
+                // chickenRiceOrder = new ChickenRiceOrder();
+                // chickenRiceOrder.setTableLabel(tableLabel);
 
                 // invoke the product select manu Jframe
                 chickenRiceShopOrderProductFrame = new ChickenRiceShopOrderProductFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
@@ -136,16 +137,10 @@ public class ChickenRiceShopProductMenuFrame extends JFrame {
     public class CustomWindowListener implements WindowListener{
 
         @Override
-        public void windowOpened(WindowEvent e) {
-            // TODO Auto-generated method stub
-            
-        }
+        public void windowOpened(WindowEvent e){}
 
         @Override
-        public void windowClosing(WindowEvent e) {
-            
-            
-        }
+        public void windowClosing(WindowEvent e){}
 
         @Override
         public void windowClosed(WindowEvent e) {
@@ -153,14 +148,20 @@ public class ChickenRiceShopProductMenuFrame extends JFrame {
             // because afthe that we need to retrun the order list to previous class, that invoked this class
             ChickenRiceOrder temChickenRiceOrder = chickenRiceShopOrderProductFrame.getChickenRiceOrderDetail();
             
+            
             if(temChickenRiceOrder != null){
+                chickenRiceOrder = new ChickenRiceOrder();
+
+                chickenRiceOrder.setTableLabel(tempButton.getText());
                 chickenRiceOrder.setChickenRiceProduct(temChickenRiceOrder.getChickenRiceProduct());
                 chickenRiceOrder.setChickenRiceOrderQuantity(temChickenRiceOrder.getChickenRiceOrderQuantity());
                 chickenRiceOrder.setChickenRiceAddOn(temChickenRiceOrder.getChickenRiceAddOn());
                 chickenRiceOrder.setChickenAddOnOrderQuantity(temChickenRiceOrder.getChickenAddOnOrderQuantity());
                 chickenRiceOrder.setRemark(temChickenRiceOrder.getRemark());
                 chickenRiceOrder.setTotalPrice(temChickenRiceOrder.getTotalPrice());
-                System.out.println(chickenRiceOrder.getTotalPrice());
+                // System.out.println(chickenRiceOrder.getTotalPrice());
+
+                orderTableLabel.add(tempButton.getText());
             }
 
             // System.out.println(chickenRiceOrder);
@@ -169,28 +170,16 @@ public class ChickenRiceShopProductMenuFrame extends JFrame {
         }
 
         @Override
-        public void windowIconified(WindowEvent e) {
-            // TODO Auto-generated method stub
-            
-        }
+        public void windowIconified(WindowEvent e) {}
 
         @Override
-        public void windowDeiconified(WindowEvent e) {
-            // TODO Auto-generated method stub
-            
-        }
+        public void windowDeiconified(WindowEvent e) {}
 
         @Override
-        public void windowActivated(WindowEvent e) {
-            // TODO Auto-generated method stub
-            
-        }
+        public void windowActivated(WindowEvent e) {}
 
         @Override
-        public void windowDeactivated(WindowEvent e) {
-            // TODO Auto-generated method stub
-            
-        }
+        public void windowDeactivated(WindowEvent e) {}
         
     }
 

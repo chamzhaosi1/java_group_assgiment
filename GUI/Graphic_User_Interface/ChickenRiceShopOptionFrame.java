@@ -81,11 +81,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            // if user has make a order, then the balance of the product need to deduct
-            if (chickenRiceOrdersList.size() > 0){
-                minusProductBalance(); 
-            }
-
+            // System.out.println(newOrderedTableLabel);
+            // System.out.println(oldOrderedTableLabel);
             // if newOrderedTablelabel lower then oldOrderTableLabel, then mean had order been deleteChickenRiceOrder
             // so we need delete the order in the list, and add back the quantity
             if(newOrderedTableLabel.size() < oldOrderedTableLabel.size()){
@@ -99,6 +96,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
             // temporary hide the option Jframe vision
             ChickenRiceShopOptionFrame.super.setVisible(false);
+            // System.out.println(chickenRiceProductsList.get(0).getBalanceQuantity());
+            // System.out.println(chickenRiceAddOnsList.get(0).getBalanceQuantity());
             productMenu = new ChickenRiceShopProductMenuFrame(label, newOrderedTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
             productMenu.addWindowListener(new OrderProductWindowListener());
@@ -125,50 +124,25 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         for (int i=0; i<tempChickenRiceOrder.getChickenRiceProduct().length; i++){
             for (int j=0; j<chickenRiceProductsList.size(); j++){
-                if (chickenRiceProductsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceProduct()[i].getProductName()));
-                chickenRiceProductsList.get(j).addProductQuantity(tempChickenRiceOrder.getChickenRiceOrderQuantity()[i]);
-                break;
+                if (chickenRiceProductsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceProduct()[i].getProductName())){
+                    chickenRiceProductsList.get(j).addProductQuantity(tempChickenRiceOrder.getChickenRiceOrderQuantity()[i]);
+                    break;
+                }
+                
             }
         }
 
         if(tempChickenRiceOrder.getChickenRiceAddOn() != null && tempChickenRiceOrder.getChickenRiceAddOn() != null){
             for (int i=0; i<tempChickenRiceOrder.getChickenRiceAddOn().length; i++){
                 for (int j=0; j<chickenRiceAddOnsList.size(); j++){
-                    if (chickenRiceAddOnsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceAddOn()[i].getProductName()));
-                    chickenRiceAddOnsList.get(j).addProductQuantity(tempChickenRiceOrder.getChickenAddOnOrderQuantity()[i]);
-                    break;
-                }
-            }
-        }
-
-    }
-
-    // deduct the product quantity after finish take an order
-    private void minusProductBalance(){
-        ChickenRiceOrder tempChickenRiceOrder = productMenu.getOrderDetail();
-
-        if(tempChickenRiceOrder !=null && tempChickenRiceOrder.getChickenRiceProduct() != null){
-            newOrderedTableLabel.add(tempChickenRiceOrder.getTableLabel());
-            
-
-            for (int i=0; i<tempChickenRiceOrder.getChickenRiceProduct().length; i++){
-                for (int j=0; j<chickenRiceProductsList.size(); j++){
-                    if (chickenRiceProductsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceProduct()[i].getProductName()));
-                    chickenRiceProductsList.get(j).minusProductQuantity(tempChickenRiceOrder.getChickenRiceOrderQuantity()[i]);
-                    break;
-                }
-            }
-      
-            if(tempChickenRiceOrder.getChickenRiceAddOn() != null && tempChickenRiceOrder.getChickenRiceAddOn() != null){
-                for (int i=0; i<tempChickenRiceOrder.getChickenRiceAddOn().length; i++){
-                    for (int j=0; j<chickenRiceAddOnsList.size(); j++){
-                        if (chickenRiceAddOnsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceAddOn()[i].getProductName()));
-                        chickenRiceAddOnsList.get(j).minusProductQuantity(tempChickenRiceOrder.getChickenAddOnOrderQuantity()[i]);
+                    if (chickenRiceAddOnsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceAddOn()[i].getProductName())){
+                        chickenRiceAddOnsList.get(j).addProductQuantity(tempChickenRiceOrder.getChickenAddOnOrderQuantity()[i]);
                         break;
                     }
                 }
             }
         }
+
     }
 
     public class OrderProductWindowListener implements WindowListener {
@@ -194,7 +168,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
             //get the latest table label, which has been make an order
             newOrderedTableLabel = productMenu.getLatestOrderedTableLabel();
-
+            // System.out.println(newOrderedTableLabel);
+        
         }
 
         @Override
@@ -218,6 +193,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             // if newOrderedTablelabel lower then oldOrderTableLabel, then mean had order
             // been deleteChickenRiceOrder
             // so we need delete the order in the list, and add back the quantity
+            // System.out.println(newOrderedTableLabel);
+            // System.out.println(oldOrderedTableLabel);
             if (newOrderedTableLabel.size() < oldOrderedTableLabel.size()) {
                 deleteChickenRiceOrder();
             }
@@ -226,6 +203,10 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             // in order to compere whether has order been deleted
             oldOrderedTableLabel.removeAll(oldOrderedTableLabel);
             oldOrderedTableLabel.addAll(newOrderedTableLabel);
+            // System.out.println(newOrderedTableLabel);
+            // System.out.println(oldOrderedTableLabel);
+
+            // System.out.println(chickenRiceOrdersList);
             paymentMenu = new ChickenRiceShopPaymentMenuFrame(label,
                     chickenRiceShop, chickenRiceOrdersList);
 
@@ -244,7 +225,11 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void windowClosed(WindowEvent e) {
+            if (paymentMenu.getPaidOrder() != null){
+                chickenRiceShopSoldList.add(paymentMenu.getPaidOrder());
+            }
             chickenRiceOrdersList = paymentMenu.getLatestOrderList();
+            newOrderedTableLabel = paymentMenu.getLatestTableLabelList();
         }
 
         @Override
@@ -275,12 +260,6 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (chickenRiceOrdersList != null){
-                chickenRiceShopSoldList.removeAll(chickenRiceShopSoldList);
-                chickenRiceShopSoldList.addAll(chickenRiceOrdersList);
-            }else {
-                chickenRiceShopSoldList.add(defaultOrderList());
-            }
             ChickenRiceShopDailySalesFrame balanceFrame = new ChickenRiceShopDailySalesFrame(label, chickenRiceShop, chickenRiceShopSoldList, chickenRiceProductsList, chickenRiceAddOnsList);
             balanceFrame.addWindowListener(new dailySalesWindowListener());
             ChickenRiceShopOptionFrame.super.setVisible(false);
@@ -314,29 +293,29 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
     }
 
-    public ChickenRiceOrder defaultOrderList(){
-        ChickenRiceOrder defualtChickenRiceOrder = new ChickenRiceOrder();
+    // public ChickenRiceOrder defaultOrderList(){
+    //     ChickenRiceOrder defualtChickenRiceOrder = new ChickenRiceOrder();
 
-        ChickenRiceProduct[] defaultChickenRiceProductList = new ChickenRiceProduct[chickenRiceProductsList.size()];
-        Integer[] defaultChickenRiceProductOrderedQuantityList = new Integer[chickenRiceProductsList.size()];
-        for (int i=0; i<chickenRiceProductsList.size(); i++){
-            defaultChickenRiceProductList[i] = chickenRiceProductsList.get(i);
-            defaultChickenRiceProductOrderedQuantityList[i] = 0;
-        }
-        defualtChickenRiceOrder.setChickenRiceProduct(defaultChickenRiceProductList);
-        defualtChickenRiceOrder.setChickenRiceOrderQuantity(defaultChickenRiceProductOrderedQuantityList);
+    //     ChickenRiceProduct[] defaultChickenRiceProductList = new ChickenRiceProduct[chickenRiceProductsList.size()];
+    //     Integer[] defaultChickenRiceProductOrderedQuantityList = new Integer[chickenRiceProductsList.size()];
+    //     for (int i=0; i<chickenRiceProductsList.size(); i++){
+    //         defaultChickenRiceProductList[i] = chickenRiceProductsList.get(i);
+    //         defaultChickenRiceProductOrderedQuantityList[i] = 0;
+    //     }
+    //     defualtChickenRiceOrder.setChickenRiceProduct(defaultChickenRiceProductList);
+    //     defualtChickenRiceOrder.setChickenRiceOrderQuantity(defaultChickenRiceProductOrderedQuantityList);
 
-        ChickenRiceAddOn[] defaultChickenRiceAddOnList = new ChickenRiceAddOn[chickenRiceAddOnsList.size()];
-        Integer[] defaultChickenRiceAddOnOrderedQuantityList = new Integer[chickenRiceAddOnsList.size()];
-        for (int i=0; i<chickenRiceProductsList.size(); i++){
-            defaultChickenRiceAddOnList[i] = chickenRiceAddOnsList.get(i);
-            defaultChickenRiceAddOnOrderedQuantityList[i] = 0;
-        }
-        defualtChickenRiceOrder.setChickenRiceAddOn(defaultChickenRiceAddOnList);
-        defualtChickenRiceOrder.setChickenAddOnOrderQuantity(defaultChickenRiceAddOnOrderedQuantityList);
+    //     ChickenRiceAddOn[] defaultChickenRiceAddOnList = new ChickenRiceAddOn[chickenRiceAddOnsList.size()];
+    //     Integer[] defaultChickenRiceAddOnOrderedQuantityList = new Integer[chickenRiceAddOnsList.size()];
+    //     for (int i=0; i<chickenRiceProductsList.size(); i++){
+    //         defaultChickenRiceAddOnList[i] = chickenRiceAddOnsList.get(i);
+    //         defaultChickenRiceAddOnOrderedQuantityList[i] = 0;
+    //     }
+    //     defualtChickenRiceOrder.setChickenRiceAddOn(defaultChickenRiceAddOnList);
+    //     defualtChickenRiceOrder.setChickenAddOnOrderQuantity(defaultChickenRiceAddOnOrderedQuantityList);
 
-        return defualtChickenRiceOrder;
-    }
+    //     return defualtChickenRiceOrder;
+    // }
 
     public class ExitBtnListener implements ActionListener {
 

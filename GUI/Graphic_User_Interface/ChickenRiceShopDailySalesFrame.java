@@ -1,5 +1,6 @@
 package Graphic_User_Interface;
 
+import javax.swing.table.*;
 import javax.swing.*;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -55,6 +56,11 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
         String data [][] = retrieveSoldOrderData();
         salesSummaryTable = new JTable(data, columnHeader);
 
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        salesSummaryTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        salesSummaryTable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+
         JScrollPane salesSummaryScrollPane = new JScrollPane(salesSummaryTable);   
         salesSummaryScrollPane.setPreferredSize(new Dimension(WIDTH, 200)); 
         
@@ -74,21 +80,28 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
 
         int[] soldMainProductQuantity = countMainProductDailySales(chickenRiceShopSoldList);
         int[] soldAddOnProductQuantity = countAddOnProductDailySales(chickenRiceShopSoldList);
+        double totalAmount=0;
 
         int lenghArray = chickenRiceProductsList.size() + chickenRiceProductsList.size();
-        String data [][] = new String[lenghArray][3];
+        // one more for total amount
+        String data [][] = new String[lenghArray+1][3];
 
         for (int i=0; i< lenghArray; i++){
             if (i < chickenRiceProductsList.size()){
                 data[i][0] = chickenRiceProductsList.get(i).getProductName();
                 data[i][1] = ""+soldMainProductQuantity[i];
                 data[i][2] = String.format("%.2f", (Double.parseDouble(""+chickenRiceProductsList.get(i).getProductPrice() *soldMainProductQuantity[i])));
+                totalAmount += chickenRiceProductsList.get(i).getProductPrice() *soldMainProductQuantity[i];
             }else {
                 data[i][0] = chickenRiceAddOnsList.get(i-chickenRiceProductsList.size()).getProductName();
                 data[i][1] = ""+soldAddOnProductQuantity[i-chickenRiceProductsList.size()];
                 data[i][2] = String.format("%.2f", (Double.parseDouble(""+chickenRiceAddOnsList.get(i-chickenRiceProductsList.size()).getProductPrice() *soldAddOnProductQuantity[i-3])));
+                totalAmount += chickenRiceAddOnsList.get(i-chickenRiceProductsList.size()).getProductPrice() *soldAddOnProductQuantity[i-3];
             }
         }
+        
+        data[lenghArray][1]= "Total Amount";
+        data[lenghArray][2]= String.format("%.2f", totalAmount);
         return data;
     }
 
@@ -102,6 +115,7 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
         }
 
         // check if the name same, than record it sold quantity
+        // System.out.println(chickenRiceSoldList.size());
         for (int i = 0; i < chickenRiceSoldList.size(); i++) {
             for (int j = 0; j < chickenRiceSoldList.get(i).getChickenRiceProduct().length; j++) {
                 for (int k = 0; k < chickenRiceProductsList.size(); k++) {
@@ -147,10 +161,7 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
     public class generateBtnListener implements ActionListener{
 
         @Override
-        public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-            
-        }
+        public void actionPerformed(ActionEvent e) {}
 
     }
 

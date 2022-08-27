@@ -78,14 +78,14 @@ public class ChickenRiceReceiptFrame extends JFrame {
         String receiptData = "";
         for (int i = 0; i < chickenRiceOrder.getChickenRiceProduct().length; i++) {
             receiptData = receiptData + chickenRiceOrder.getChickenRiceProduct()[i].getProductName() + "\n\t x "
-                    + chickenRiceOrder.getChickenRiceOrderQuantity()[i] + "\t" + chickenRiceOrder.getTotalPrice()
+                    + chickenRiceOrder.getChickenRiceOrderQuantity()[i] + "\t" + (chickenRiceOrder.getChickenRiceProduct()[i].getProductPrice() * chickenRiceOrder.getChickenRiceOrderQuantity()[i])
                     + "\n";
         }
 
         if (chickenRiceOrder.getChickenRiceAddOn() != null) {
-            for (int i = 0; i < chickenRiceOrder.getChickenRiceProduct().length; i++) {
-                receiptData = receiptData + chickenRiceOrder.getChickenRiceProduct()[i].getProductName() + "\n\t x "
-                        + chickenRiceOrder.getChickenRiceOrderQuantity()[i] + "\t" + chickenRiceOrder.getTotalPrice()
+            for (int i = 0; i < chickenRiceOrder.getChickenRiceAddOn().length; i++) {
+                receiptData = receiptData + chickenRiceOrder.getChickenRiceAddOn()[i].getProductName() + "\n\t x "
+                        + chickenRiceOrder.getChickenAddOnOrderQuantity()[i] + "\t" + (chickenRiceOrder.getChickenRiceAddOn()[i].getProductPrice() * chickenRiceOrder.getChickenAddOnOrderQuantity()[i])
                         + "\n";
             }
         }

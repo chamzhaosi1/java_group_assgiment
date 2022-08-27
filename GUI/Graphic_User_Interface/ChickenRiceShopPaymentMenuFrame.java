@@ -12,10 +12,8 @@ public class ChickenRiceShopPaymentMenuFrame extends JFrame {
     private String label;
     private JButton tempButton;
 
-    private ChickenRiceOrder chickenRiceOrder;
     private ArrayList<ChickenRiceOrder> chickenRiceOrderList;
-
-    private ChickenRiceShopOrderProductFrame chickenRiceShopOrderProductFrame;
+    private ChickenRiceOrder chickenRiceOrderPaid;
 
     private String title = "POS System - Payment";
     private static final int WIDTH = 500;
@@ -79,24 +77,7 @@ public class ChickenRiceShopPaymentMenuFrame extends JFrame {
         mainPanel.add(returnBtn, BorderLayout.SOUTH);
     }
 
-    /**
-     * if the tabel had been take order than, table button become orange
-     */
-    /*
-     * private void orderTableLabelDisable() {
-     * if (orderTableLabel.size() > 0) {
-     * for (int i = 0; i < orderTableLabel.size(); i++) {
-     * for (int j = 0; j < tableLabelBtnList.length; j++) {
-     * if (orderTableLabel.get(i).equals(tableLabelBtnList[j].getText())) {
-     * tableLabelBtnList[j].setBackground(Color.ORANGE);
-     * break;
-     * }
-     * }
-     * }
-     * }
-     * }
-     */
-
+    
     public class ReturnBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -129,24 +110,19 @@ public class ChickenRiceShopPaymentMenuFrame extends JFrame {
     public class PaymentWindowListener implements WindowListener {
 
         @Override
-        public void windowOpened(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowOpened(WindowEvent e){}
 
         @Override
-        public void windowClosing(WindowEvent e) {
-
-        }
+        public void windowClosing(WindowEvent e){}
 
         @Override
-        public void windowClosed(WindowEvent e) {
-            // System.out.println(chickenRiceOrder);
+        public void windowClosed(WindowEvent e){
 
             ChickenRiceShopPaymentMenuFrame.super.dispose();
             if (chickenRiceReceiptFrame.getDeleteResult()) {
                 for (int i = 0; i < chickenRiceOrderList.size(); i++) {
                     if (chickenRiceOrderList.get(i).getTableLabel().equals(tempButton.getText())) {
+                        chickenRiceOrderPaid = chickenRiceOrderList.get(i);
                         chickenRiceOrderList.remove(i);
                     }
                 }
@@ -154,32 +130,34 @@ public class ChickenRiceShopPaymentMenuFrame extends JFrame {
         }
 
         @Override
-        public void windowIconified(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowIconified(WindowEvent e){}
 
         @Override
-        public void windowDeiconified(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowDeiconified(WindowEvent e){}
 
         @Override
-        public void windowActivated(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowActivated(WindowEvent e){}
 
         @Override
-        public void windowDeactivated(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowDeactivated(WindowEvent e) {}
     }
 
     public ArrayList<ChickenRiceOrder> getLatestOrderList() {
         return chickenRiceOrderList;
+    }
+
+    public ArrayList<String> getLatestTableLabelList(){
+        ArrayList<String> tempTableLabelList = new ArrayList<>();
+
+        for (int i=0; i<chickenRiceOrderList.size(); i++){
+            tempTableLabelList.add(chickenRiceOrderList.get(i).getTableLabel());
+        }
+
+        return tempTableLabelList;
+    }
+
+    public ChickenRiceOrder getPaidOrder(){
+        return chickenRiceOrderPaid;
     }
 
 }
