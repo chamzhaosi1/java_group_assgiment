@@ -78,19 +78,24 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            // if user has make a order, then the balance of the product need to deduct
             if (chickenRiceOrdersList.size() > 0){
                 minusProductBalance(); 
             }
 
+            // if newOrderedTablelabel lower then oldOrderTableLabel, then mean had order been deleteChickenRiceOrder
+            // so we need delete the order in the list, and add back the quantity
             if(newOrderedTableLabel.size() < oldOrderedTableLabel.size()){
                 deleteChickenRiceOrder();
             }
 
+            // copy and assign the latest ordered table label to a old ordered table lable
+            // in order to compere whether has order been deleted
             oldOrderedTableLabel.removeAll(oldOrderedTableLabel);
             oldOrderedTableLabel.addAll(newOrderedTableLabel);
 
+            // temporary hide the option Jframe vision
             ChickenRiceShopOptionFrame.super.setVisible(false);
-
             productMenu = new ChickenRiceShopProductMemuFrame(label, newOrderedTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
             productMenu.addWindowListener(new CustomWindowListener());
@@ -98,6 +103,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
     }
 
+    // delete an order
     private void deleteChickenRiceOrder(){
         oldOrderedTableLabel.removeAll(newOrderedTableLabel);
         
@@ -111,6 +117,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         }
     }
 
+    // add back the delete order quantity
     private void addBackDeleteOrderedProductQuantity(ChickenRiceOrder tempChickenRiceOrder){
 
         for (int i=0; i<tempChickenRiceOrder.getChickenRiceProduct().length; i++){
@@ -133,6 +140,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
     }
 
+    // deduct the product quantity after finish take an order
     private void minusProductBalance(){
         ChickenRiceOrder tempChickenRiceOrder = productMenu.getOrderDetail();
 
@@ -176,8 +184,13 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void windowClosed(WindowEvent e) {
+            // once the product order had been make/and finish, the visible this JFrame again.
             ChickenRiceShopOptionFrame.super.setVisible(true);
+
+            // get the latest order list
             chickenRiceOrdersList.add(productMenu.getOrderDetail());
+
+            //get the latest table label, which has been make an order
             newOrderedTableLabel = productMenu.getLatestOrderedTableLabel();
         }
 

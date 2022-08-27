@@ -174,10 +174,12 @@ public class ChickenRiceShopProductFrame extends JFrame{
             if (checkDataHaventSave()){
                 JOptionPane.showMessageDialog(mainPanel, "Please make sure you have saved the data before clicking the finish, if not please let them blank..", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
+                // if the sublabel is main product, then next need to invoke add on product JFrame
                 if (subLabel.equals("Main Product")){
                     ChickenRiceShopProductFrame.super.dispose();
                     new ChickenRiceShopProductFrame(label, "Add On Product", chickenRiceShop, chickenRiceProductsList, null);
                 }else{
+                    // if the sublabel not main product or add on product, then next need to invoke option frame
                     ChickenRiceShopProductFrame.super.dispose();
                     new ChickenRiceShopOptionFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
                 } 
@@ -185,6 +187,7 @@ public class ChickenRiceShopProductFrame extends JFrame{
         }
     }
 
+    // clear all the text field, ready for filling in other product
     private void clearAllTextField(){
         productNameTextField.setText("");
         initialQuantityTextField.setText("");
@@ -192,7 +195,9 @@ public class ChickenRiceShopProductFrame extends JFrame{
         unitPriceTextField.setText("");
     }
 
+
     private void retrieveAllProductData(){
+        //if sublable is main product, data will be assign to main product class
         if (subLabel.equals("Main Product")){
             chickenRiceProduct = new ChickenRiceProduct();
 
@@ -203,6 +208,7 @@ public class ChickenRiceShopProductFrame extends JFrame{
             chickenRiceProduct.setBalanceQuantity(chickenRiceProduct.getInitialQuantity());
 
         }else{
+            //if sublable is add on product, data will be assign to add on product class
             chickenRiceAddOn = new ChickenRiceAddOn();
 
             chickenRiceAddOn.setProductName(productNameTextField.getText());
@@ -223,6 +229,7 @@ public class ChickenRiceShopProductFrame extends JFrame{
         }   
     }
 
+    // if one of the text field is not clear/empty, then it may mean got item haven't save yet
     private boolean checkDataHaventSave(){
         if (!productNameTextField.getText().equals("")){
             return true;
@@ -243,7 +250,7 @@ public class ChickenRiceShopProductFrame extends JFrame{
         return false;
     }
 
-
+    // if the one of the text field is empty, then will be disallow to save
     private boolean checkAllTextField(){
         if (productNameTextField.getText().equals("")){
             return false;
@@ -264,6 +271,7 @@ public class ChickenRiceShopProductFrame extends JFrame{
         return true;
     }
 
+    
     private void createObjectArrayList(){
         if (chickenRiceProductsList == null){
             chickenRiceProductsList = new ArrayList<>();

@@ -166,10 +166,13 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // check whethe the balance is enough to provide
             if (checkBalanceQuantity()){
+                
                 resetButton.setEnabled(true);
                 finishButton.setEnabled(true);
 
+                // retrieve data
                 int mainProductSelectedIndex = mainProductComboBox.getSelectedIndex();
                 int mainProductOrderQuantity = (Integer) mainProductQuantitySpinner.getValue();
                 int AddOnProductSelectedIndex = addOnProductComboBox.getSelectedIndex();
@@ -181,21 +184,29 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
                 chickenRiceMainProductsOrderList.add(chickenRiceProductsList.get(mainProductSelectedIndex));
                 chickenRiceMainProductsOrderQuantityList.add(mainProductOrderQuantity);
 
+                // deduct the current product balance. 
                 chickenRiceProductsList.get(mainProductSelectedIndex).minusProductQuantity(mainProductOrderQuantity);
 
+                // show the order list
                 orderProductListTArea.append(new String(tempMainProductName + "\n\tx " + mainProductOrderQuantity + "\t" + tempMainProductTotalPrice + "\n"));
 
+                // because add on product is unnecessary item to order
+                // so, we need to check wheter has order add on product or not
                 if (AddOnProductOrderQuantity > 0){
                     String tempAddOnProductName = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductName();
                     double tempAddOnProductTotalPrice = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductPrice() * AddOnProductOrderQuantity;
                     chickenRiceAddOnProductOrderList.add(chickenRiceAddOnsList.get(AddOnProductSelectedIndex));
                     chickenRiceAddOnProductsOrderQuantityList.add(AddOnProductOrderQuantity);
 
+                    // deduct the current product balance. 
                     chickenRiceAddOnsList.get(AddOnProductSelectedIndex).minusProductQuantity(AddOnProductOrderQuantity);
 
+                        // show the order list
                     orderProductListTArea.append(new String(tempAddOnProductName + "\n\tx " + AddOnProductOrderQuantity + "\t" + tempAddOnProductTotalPrice + "\n"));
                 }
 
+                // because i don't want to change the ChickenRiceProduct class remark setting, so i just append
+                // them together, and after that substring to get each of the remark.
                 if (!remark.equals("")){
                     orderProductListTArea.append("**Remark: " + remark + "\n");
                     allOrderRemark = allOrderRemark + "," +remark;
@@ -209,6 +220,10 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         }
     }
 
+    /**
+     * To check whethe balance of the product is enough to provide
+     * @return if balance enough to provide then retrun true, else false
+     */
     private boolean checkBalanceQuantity(){
         String mainProductName = chickenRiceProductsList.get(mainProductComboBox.getSelectedIndex()).getProductName();
         String addOnProductName = chickenRiceAddOnsList.get(mainProductComboBox.getSelectedIndex()).getProductName();
@@ -228,6 +243,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         }
     }
 
+    // clear all of the order list, which save when click the add button
     private class resetButtonListener implements ActionListener{
 
         @Override
@@ -253,6 +269,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         }
     }
 
+    //retrieve all the data and assign to a order list variable, and count the total amount
     private class finishButtonListener implements ActionListener{
 
         @Override
@@ -317,10 +334,12 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
             int returnAnwser;
-
+            
+            // if the add button is disable to click, which mean user has add the order
             if (!addButton.isEnabled()){
                 returnAnwser = JOptionPane.showConfirmDialog(mainPanel, "Please make sure you has been finished order for this table, because you will not be allowed to edit it after return..");
             }else {
+                // if the add button is able to click, which mean user hasn't click the finish button
                 returnAnwser = JOptionPane.showConfirmDialog(mainPanel, "You haven't save the order, do u want cancel the order?");
             }
 
@@ -337,7 +356,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
     }
   
     /**
-     * 
+     * To cast the arraylist to array
      * @param flag - 1= main product, 2 add on product
      * @return after cast array 
      */

@@ -78,6 +78,9 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
         mainPanel.add(returnBtn, BorderLayout.SOUTH);
     }
 
+    /**
+     * if the tabel had been take order than, table button become orange
+     */
     private void orderTableLabelDisable(){
         if(orderTableLabel.size() > 0){
             for (int i=0; i<orderTableLabel.size(); i++){
@@ -102,21 +105,27 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // System.out.println(e.getSource());
+            
             tempButton = (JButton) e.getSource();
             tempButton.setEnabled(false);
 
+            // if the select button is not orange backgroundm then it mean this table can make a order
             if (!(tempButton.getBackground() == Color.ORANGE)){
                 String tableLabel = tempButton.getText();
 
                 chickenRiceOrder = new ChickenRiceOrder();
                 chickenRiceOrder.setTableLabel(tableLabel);
 
+                // invoke the product select manu Jframe
                 chickenRiceShopOrderProductFrame = new ChickenRiceShopOrderProductFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
                 chickenRiceShopOrderProductFrame.addWindowListener(new CustomWindowListener());
             }else{
+                // if the select button is orange background, then it mean this tabel has been ordered
                 int deleteResult = JOptionPane.showConfirmDialog(mainPanel, "This table's customer haven't leave or make a payment yet. Please select another one table label.");
+                
                 if (deleteResult == 0){
+                    // after confirm delect, then order table list will remove the tabel order recorde
+                    // because after that we need to know whether has table be deleted.
                     orderTableLabel.remove(tempButton.getText());
                     ChickenRiceShopProductMemuFrame.super.dispose();
                 }
@@ -140,6 +149,8 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
 
         @Override
         public void windowClosed(WindowEvent e) {
+            // one the select product Jframe is closing, then collect all the detail, and assign to a order variable
+            // because afthe that we need to retrun the order list to previous class, that invoked this class
             ChickenRiceOrder temChickenRiceOrder = chickenRiceShopOrderProductFrame.getChickenRiceOrderDetail();
             
             if(temChickenRiceOrder != null){
@@ -182,10 +193,12 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
         
     }
 
+    // return the order list
     public ChickenRiceOrder getOrderDetail(){
         return chickenRiceOrder;
     }
 
+    // return latest table lable list
     public ArrayList<String> getLatestOrderedTableLabel(){
         return orderTableLabel;
     }
