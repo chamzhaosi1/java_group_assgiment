@@ -356,7 +356,7 @@ public class ChickenRiceShopBuild {
                     for (i = 0; i < chickenRiceOrderList.size(); i++) {
                         if (chickenRiceOrderList.get(i).getTableLabel().equals(tabelLabelList[tabelLabelInput])) {
                             System.out.println(
-                                    "This table customer haven't leave or make a payment yet. Please select another one table label.");
+                                    "This table's customer haven't leave or make a payment yet. Please select another one table label.");
                             validate = false;
                             break;
                         }

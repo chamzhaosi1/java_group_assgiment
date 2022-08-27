@@ -117,7 +117,11 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
                 chickenRiceShopOrderProductFrame = new ChickenRiceShopOrderProductFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
                 chickenRiceShopOrderProductFrame.addWindowListener(new CustomWindowListener());
             }else{
-                
+                int deleteResult = JOptionPane.showConfirmDialog(mainPanel, "This table's customer haven't leave or make a payment yet. Please select another one table label.");
+                if (deleteResult == 0){
+                    orderTableLabel.remove(tempButton.getText());
+                    ChickenRiceShopProductMemuFrame.super.dispose();
+                }
             }
         }
     }
@@ -182,5 +186,9 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
 
     public ChickenRiceOrder getOrderDetail(){
         return chickenRiceOrder;
+    }
+
+    public ArrayList<String> getLatestOrderedTableLabel(){
+        return orderTableLabel;
     }
 }

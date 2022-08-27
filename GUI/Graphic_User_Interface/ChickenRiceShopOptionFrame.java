@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ChickenRiceShopOptionFrame extends JFrame {
     private ChickenRiceShop chickenRiceShop;
@@ -13,7 +14,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
     private String label;
-    private ArrayList<String> orderTableLabel = new ArrayList<>();
+    private ArrayList<String> newOrderedTableLabel = new ArrayList<>();
+    private ArrayList<String> oldOrderedTableLabel = new ArrayList<>();
     private ChickenRiceShopProductMemuFrame productMenu;
 
     private String title = "POS System";
@@ -81,14 +83,56 @@ public class ChickenRiceShopOptionFrame extends JFrame {
                 minusProductBalance(); 
             }
 
-            System.out.println(chickenRiceProductsList.get(0).getBalanceQuantity());
-            System.out.println(chickenRiceAddOnsList.get(0).getBalanceQuantity());
+            if(newOrderedTableLabel.size() < oldOrderedTableLabel.size()){
+                deleteChickenRiceOrder();
+            }
+
+            oldOrderedTableLabel.removeAll(oldOrderedTableLabel);
+            oldOrderedTableLabel.addAll(newOrderedTableLabel);
+
+            // System.out.println(chickenRiceProductsList.get(0).getBalanceQuantity());
+            // System.out.println(chickenRiceAddOnsList.get(0).getBalanceQuantity());
 
             ChickenRiceShopOptionFrame.super.setVisible(false);
 
-            productMenu = new ChickenRiceShopProductMemuFrame(label, orderTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
+            productMenu = new ChickenRiceShopProductMemuFrame(label, newOrderedTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
             productMenu.addWindowListener(new CustomWindowListener());
+        }
+
+    }
+
+    private void deleteChickenRiceOrder(){
+        oldOrderedTableLabel.removeAll(newOrderedTableLabel);
+        
+        for (int i = 0; i<chickenRiceOrdersList.size(); i++){
+            if (oldOrderedTableLabel.get(0).equals(chickenRiceOrdersList.get(i).getTableLabel())){
+                addBackDeleteOrderedProductQuantity(chickenRiceOrdersList.get(i));
+
+                chickenRiceOrdersList.remove(i);
+                break;
+            }
+        }
+    }
+
+    private void addBackDeleteOrderedProductQuantity(ChickenRiceOrder tempChickenRiceOrder){
+
+        for (int i=0; i<tempChickenRiceOrder.getChickenRiceProduct().length; i++){
+            for (int j=0; j<chickenRiceProductsList.size(); j++){
+                if (chickenRiceProductsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceProduct()[i].getProductName()));
+                chickenRiceProductsList.get(j).addProductQuantity(tempChickenRiceOrder.getChickenRiceOrderQuantity()[i]);
+                break;
+            }
+        }
+
+        if(tempChickenRiceOrder.getChickenRiceAddOn() != null && tempChickenRiceOrder.getChickenRiceAddOn() != null){
+            for (int i=0; i<tempChickenRiceOrder.getChickenRiceAddOn().length; i++){
+                for (int j=0; j<chickenRiceAddOnsList.size(); j++){
+                    if (chickenRiceAddOnsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceAddOn()[i].getProductName()));
+                    chickenRiceAddOnsList.get(j).addProductQuantity(tempChickenRiceOrder.getChickenAddOnOrderQuantity()[i]);
+                    break;
+                }
+            }
         }
 
     }
@@ -97,7 +141,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         ChickenRiceOrder tempChickenRiceOrder = productMenu.getOrderDetail();
 
         if(tempChickenRiceOrder !=null && tempChickenRiceOrder.getChickenRiceProduct() != null){
-            orderTableLabel.add(tempChickenRiceOrder.getTableLabel());
+            newOrderedTableLabel.add(tempChickenRiceOrder.getTableLabel());
+            
 
             for (int i=0; i<tempChickenRiceOrder.getChickenRiceProduct().length; i++){
                 for (int j=0; j<chickenRiceProductsList.size(); j++){
@@ -137,6 +182,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         public void windowClosed(WindowEvent e) {
             ChickenRiceShopOptionFrame.super.setVisible(true);
             chickenRiceOrdersList.add(productMenu.getOrderDetail());
+            newOrderedTableLabel = productMenu.getLatestOrderedTableLabel();
         }
 
         @Override

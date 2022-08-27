@@ -166,39 +166,45 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            resetButton.setEnabled(true);
-            finishButton.setEnabled(true);
+            if (checkBalanceQuantity()){
+                resetButton.setEnabled(true);
+                finishButton.setEnabled(true);
 
-            int mainProductSelectedIndex = mainProductComboBox.getSelectedIndex();
-            int mainProductOrderQuantity = (Integer) mainProductQuantitySpinner.getValue();
-            int AddOnProductSelectedIndex = addOnProductComboBox.getSelectedIndex();
-            int AddOnProductOrderQuantity = (Integer) addOnProductQuantitySpinner.getValue();
-            String remark = remarkTextArea.getText();
+                int mainProductSelectedIndex = mainProductComboBox.getSelectedIndex();
+                int mainProductOrderQuantity = (Integer) mainProductQuantitySpinner.getValue();
+                int AddOnProductSelectedIndex = addOnProductComboBox.getSelectedIndex();
+                int AddOnProductOrderQuantity = (Integer) addOnProductQuantitySpinner.getValue();
+                String remark = remarkTextArea.getText();
 
-            String tempMainProductName = chickenRiceProductsList.get(mainProductSelectedIndex).getProductName();
-            double tempMainProductTotalPrice = chickenRiceProductsList.get(mainProductSelectedIndex).getProductPrice() * mainProductOrderQuantity;
-            chickenRiceMainProductsOrderList.add(chickenRiceProductsList.get(mainProductSelectedIndex));
-            chickenRiceMainProductsOrderQuantityList.add(mainProductOrderQuantity);
-            orderProductListTArea.append(new String(tempMainProductName + "\n\tx " + mainProductOrderQuantity + "\t" + tempMainProductTotalPrice + "\n"));
+                String tempMainProductName = chickenRiceProductsList.get(mainProductSelectedIndex).getProductName();
+                double tempMainProductTotalPrice = chickenRiceProductsList.get(mainProductSelectedIndex).getProductPrice() * mainProductOrderQuantity;
+                chickenRiceMainProductsOrderList.add(chickenRiceProductsList.get(mainProductSelectedIndex));
+                chickenRiceMainProductsOrderQuantityList.add(mainProductOrderQuantity);
+                orderProductListTArea.append(new String(tempMainProductName + "\n\tx " + mainProductOrderQuantity + "\t" + tempMainProductTotalPrice + "\n"));
 
-            if (AddOnProductOrderQuantity > 0){
-                String tempAddOnProductName = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductName();
-                double tempAddOnProductTotalPrice = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductPrice() * AddOnProductOrderQuantity;
-                chickenRiceAddOnProductOrderList.add(chickenRiceAddOnsList.get(AddOnProductSelectedIndex));
-                chickenRiceAddOnProductsOrderQuantityList.add(AddOnProductOrderQuantity);
-                orderProductListTArea.append(new String(tempAddOnProductName + "\n\tx " + AddOnProductOrderQuantity + "\t" + tempAddOnProductTotalPrice + "\n"));
+                if (AddOnProductOrderQuantity > 0){
+                    String tempAddOnProductName = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductName();
+                    double tempAddOnProductTotalPrice = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductPrice() * AddOnProductOrderQuantity;
+                    chickenRiceAddOnProductOrderList.add(chickenRiceAddOnsList.get(AddOnProductSelectedIndex));
+                    chickenRiceAddOnProductsOrderQuantityList.add(AddOnProductOrderQuantity);
+                    orderProductListTArea.append(new String(tempAddOnProductName + "\n\tx " + AddOnProductOrderQuantity + "\t" + tempAddOnProductTotalPrice + "\n"));
+                }
+
+                if (!remark.equals("")){
+                    orderProductListTArea.append("**Remark: " + remark + "\n");
+                    allOrderRemark = allOrderRemark + "," +remark;
+                }else{
+                    allOrderRemark = allOrderRemark + "," +"null";
+                }
+
+                // auto resize
+                ChickenRiceShopOrderProductFrame.super.pack();
             }
-
-            if (!remark.equals("")){
-                orderProductListTArea.append("**Remark: " + remark + "\n");
-                allOrderRemark = allOrderRemark + "," +remark;
-            }else{
-                allOrderRemark = allOrderRemark + "," +"null";
-            }
-
-            // auto resize
-            ChickenRiceShopOrderProductFrame.super.pack();
         }
+    }
+
+    private boolean checkBalanceQuantity(){
+        return true;
     }
 
     private class resetButtonListener implements ActionListener{
