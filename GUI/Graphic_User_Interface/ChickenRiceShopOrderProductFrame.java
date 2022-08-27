@@ -18,6 +18,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
     private ChickenRiceOrder chickenRiceOrder;
     private String label;
     private String header;
+    private String allOrderRemark = "";
 
     private String title = "POS System";
     private static final int WIDTH = 720;
@@ -190,6 +191,9 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
             if (!remark.equals("")){
                 orderProductListTArea.append("**Remark: " + remark + "\n");
+                allOrderRemark = allOrderRemark + "," +remark;
+            }else{
+                allOrderRemark = allOrderRemark + "," +"null";
             }
 
             // auto resize
@@ -213,6 +217,8 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
                 chickenRiceAddOnProductOrderList.removeAll(chickenRiceAddOnProductOrderList);
                 chickenRiceMainProductsOrderQuantityList.removeAll(chickenRiceMainProductsOrderQuantityList);
                 chickenRiceAddOnProductsOrderQuantityList.removeAll(chickenRiceAddOnProductsOrderQuantityList);
+                
+                chickenRiceOrder = null;
             }
 
             // auto resize
@@ -224,25 +230,29 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int resetAnwser = JOptionPane.showConfirmDialog(mainPanel, "Are you sure finish take the order? Be careful, you wil not be allow to add the further product for this order bill..");
+            int finishAnwser = JOptionPane.showConfirmDialog(mainPanel, "Are you sure finish take the order? Be careful, you wil not be allow to add the further product for this order bill..");
             double totalOrderPrice = 0;
+            chickenRiceOrder = new ChickenRiceOrder();
 
-            if (resetAnwser == 0){
+            if (finishAnwser == 0){
                 // unable to add order again
                 addButton.setEnabled(false);
+                finishButton.setEnabled(false);
 
                 ChickenRiceProduct[] chickenRiceProductsOrdered = new ChickenRiceProduct[chickenRiceMainProductsOrderList.size()];
                 for (int i = 0; i<chickenRiceMainProductsOrderList.size(); i++){
                     chickenRiceProductsOrdered[i] = chickenRiceMainProductsOrderList.get(i);
                 }
 
-                int[] chickenRiceProductsOrderedQuantity = new int[chickenRiceMainProductsOrderQuantityList.size()];
+                Integer[] chickenRiceProductsOrderedQuantity = new Integer[chickenRiceMainProductsOrderQuantityList.size()];
                 for (int i = 0; i<chickenRiceMainProductsOrderQuantityList.size(); i++){
                     chickenRiceProductsOrderedQuantity[i] = chickenRiceMainProductsOrderQuantityList.get(i);
 
                     totalOrderPrice += chickenRiceProductsOrdered[i].getProductPrice() * chickenRiceProductsOrderedQuantity[i];
                 }
 
+                chickenRiceOrder.setChickenRiceProduct(chickenRiceProductsOrdered);
+                chickenRiceOrder.setChickenRiceOrderQuantity(chickenRiceProductsOrderedQuantity);
 
                 if (chickenRiceAddOnProductOrderList.size() > 0){
                     ChickenRiceAddOn[] chickenRiceAddOnOrdered = new ChickenRiceAddOn[chickenRiceAddOnProductOrderList.size()];
@@ -250,13 +260,19 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
                         chickenRiceAddOnOrdered[i] = chickenRiceAddOnProductOrderList.get(i);
                     }
 
-                    int[] chickenRiceAddOnsOrderedQuantity = new int[chickenRiceAddOnProductsOrderQuantityList.size()];
+                    Integer[] chickenRiceAddOnsOrderedQuantity = new Integer[chickenRiceAddOnProductsOrderQuantityList.size()];
                     for (int i = 0; i<chickenRiceAddOnProductsOrderQuantityList.size(); i++){
                         chickenRiceAddOnsOrderedQuantity[i] = chickenRiceAddOnProductsOrderQuantityList.get(i);
 
                         totalOrderPrice += chickenRiceAddOnOrdered[i].getProductPrice() * chickenRiceAddOnsOrderedQuantity[i];
                     }
+
+                    chickenRiceOrder.setChickenRiceAddOn(chickenRiceAddOnOrdered);
+                    chickenRiceOrder.setChickenAddOnOrderQuantity(chickenRiceAddOnsOrderedQuantity);
+                    chickenRiceOrder.setTotalPrice(totalOrderPrice);
+                    chickenRiceOrder.setRemark(allOrderRemark);
                 }
+
             }
 
             String total = "\n###############################################\n"+ "\t Total: \t" + totalOrderPrice + "\n###############################################\n";
@@ -288,6 +304,10 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
         }
 
     }
+
+    public ChickenRiceOrder getChickenRiceOrderDetail(){
+        return chickenRiceOrder;
+    }
   
     /**
      * 
@@ -312,4 +332,6 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
             return productName;
         }
     }
+
+    
 } 

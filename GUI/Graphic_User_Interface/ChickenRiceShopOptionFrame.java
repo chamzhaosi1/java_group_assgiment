@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 public class ChickenRiceShopOptionFrame extends JFrame {
     private ChickenRiceShop chickenRiceShop;
+    private ArrayList<ChickenRiceOrder> chickenRiceOrdersList = new ArrayList<>();
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
-    private ChickenRiceProduct chickenRiceProduct;
-    private ChickenRiceAddOn chickenRiceAddOn;
     private String label;
-
+    private ArrayList<String> orderTableLabel = new ArrayList<>();
+    private ChickenRiceShopProductMemuFrame productMenu;
 
     private String title = "POS System";
     private static final int WIDTH = 500;
@@ -76,13 +76,47 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            if (chickenRiceOrdersList.size() > 0){
+                minusProductBalance(); 
+            }
+
+            System.out.println(chickenRiceProductsList.get(0).getBalanceQuantity());
+            System.out.println(chickenRiceAddOnsList.get(0).getBalanceQuantity());
+
             ChickenRiceShopOptionFrame.super.setVisible(false);
-            ChickenRiceShopProductMemuFrame productMenu = new ChickenRiceShopProductMemuFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
+
+            productMenu = new ChickenRiceShopProductMemuFrame(label, orderTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
             productMenu.addWindowListener(new CustomWindowListener());
-
         }
 
+    }
+
+    private void minusProductBalance(){
+        ChickenRiceOrder tempChickenRiceOrder = productMenu.getOrderDetail();
+
+        if(tempChickenRiceOrder !=null && tempChickenRiceOrder.getChickenRiceProduct() != null){
+            orderTableLabel.add(tempChickenRiceOrder.getTableLabel());
+
+            for (int i=0; i<tempChickenRiceOrder.getChickenRiceProduct().length; i++){
+                for (int j=0; j<chickenRiceProductsList.size(); j++){
+                    if (chickenRiceProductsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceProduct()[i].getProductName()));
+                    chickenRiceProductsList.get(j).minusProductQuantity(tempChickenRiceOrder.getChickenRiceOrderQuantity()[i]);
+                    break;
+                }
+            }
+      
+            if(tempChickenRiceOrder.getChickenRiceAddOn() != null && tempChickenRiceOrder.getChickenRiceAddOn() != null){
+                for (int i=0; i<tempChickenRiceOrder.getChickenRiceAddOn().length; i++){
+                    for (int j=0; j<chickenRiceAddOnsList.size(); j++){
+                        if (chickenRiceAddOnsList.get(j).getProductName().equals(tempChickenRiceOrder.getChickenRiceAddOn()[i].getProductName()));
+                        chickenRiceAddOnsList.get(j).minusProductQuantity(tempChickenRiceOrder.getChickenAddOnOrderQuantity()[i]);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public class CustomWindowListener implements WindowListener {
@@ -102,7 +136,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         @Override
         public void windowClosed(WindowEvent e) {
             ChickenRiceShopOptionFrame.super.setVisible(true);
-
+            chickenRiceOrdersList.add(productMenu.getOrderDetail());
         }
 
         @Override

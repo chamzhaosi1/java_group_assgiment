@@ -11,12 +11,16 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
     private ChickenRiceShop chickenRiceShop;
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
+    private ArrayList<String> orderTableLabel;
     private ChickenRiceProduct chickenRiceProduct;
     private ChickenRiceAddOn chickenRiceAddOn;
     private String label;
+    private JButton tempButton;
 
     private ChickenRiceOrder chickenRiceOrder;
     private ArrayList<ChickenRiceOrder> chickenRiceOrderList;
+
+    private ChickenRiceShopOrderProductFrame chickenRiceShopOrderProductFrame;
 
     private String title = "POS System";
     private static final int WIDTH = 500;
@@ -25,11 +29,12 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
     private JButton[] tableLabelBtnList;
     private JButton returnBtn;
 
-    public ChickenRiceShopProductMemuFrame(String label, ChickenRiceShop chickenRiceShop,
+    public ChickenRiceShopProductMemuFrame(String label, ArrayList<String> orderTableLabel, ChickenRiceShop chickenRiceShop,
             ArrayList<ChickenRiceProduct> chickenRiceProductsList, ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList) {
         this.chickenRiceShop = chickenRiceShop;
         this.chickenRiceProductsList = chickenRiceProductsList;
         this.chickenRiceAddOnsList = chickenRiceAddOnsList;
+        this.orderTableLabel = orderTableLabel;
         this.label = label;
 
         setTitle(title + " - " + label);
@@ -65,12 +70,27 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
             tableLabelBtnListPanel.add(tableLabelBtnList[i]);
         }
 
+        orderTableLabelDisable();
+
         mainPanel.add(tableLabelBtnListPanel, BorderLayout.CENTER);
 
         returnBtn = new JButton("Return");
         returnBtn.addActionListener(new ReturnBtnListener());
 
         mainPanel.add(returnBtn, BorderLayout.SOUTH);
+    }
+
+    private void orderTableLabelDisable(){
+        if(orderTableLabel.size() > 0){
+            for (int i=0; i<orderTableLabel.size(); i++){
+                for(int j=0; j<tableLabelBtnList.length; j++){
+                    if (orderTableLabel.get(i).equals(tableLabelBtnList[j].getText())){
+                        tableLabelBtnList[j].setBackground(Color.ORANGE);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public class ReturnBtnListener implements ActionListener {
@@ -85,13 +105,82 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             // System.out.println(e.getSource());
-            JButton tempButton = (JButton) e.getSource();
-            String tableLabel = tempButton.getText();
+            tempButton = (JButton) e.getSource();
+            tempButton.setEnabled(false);
 
-            chickenRiceOrder = new ChickenRiceOrder();
-            chickenRiceOrder.setTableLabel(tableLabel);
+            if (!(tempButton.getBackground() == Color.ORANGE)){
+                String tableLabel = tempButton.getText();
 
-            new ChickenRiceShopOrderProductFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
+                chickenRiceOrder = new ChickenRiceOrder();
+                chickenRiceOrder.setTableLabel(tableLabel);
+
+                chickenRiceShopOrderProductFrame = new ChickenRiceShopOrderProductFrame(label, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
+                chickenRiceShopOrderProductFrame.addWindowListener(new CustomWindowListener());
+            }else{
+                
+            }
         }
+    }
+
+    public class CustomWindowListener implements WindowListener{
+
+        @Override
+        public void windowOpened(WindowEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            
+            
+        }
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+            ChickenRiceOrder temChickenRiceOrder = chickenRiceShopOrderProductFrame.getChickenRiceOrderDetail();
+            
+            if(temChickenRiceOrder != null){
+                chickenRiceOrder.setChickenRiceProduct(temChickenRiceOrder.getChickenRiceProduct());
+                chickenRiceOrder.setChickenRiceOrderQuantity(temChickenRiceOrder.getChickenRiceOrderQuantity());
+                chickenRiceOrder.setChickenRiceAddOn(temChickenRiceOrder.getChickenRiceAddOn());
+                chickenRiceOrder.setChickenAddOnOrderQuantity(temChickenRiceOrder.getChickenAddOnOrderQuantity());
+                chickenRiceOrder.setRemark(temChickenRiceOrder.getRemark());
+                chickenRiceOrder.setTotalPrice(temChickenRiceOrder.getTotalPrice());
+            }
+
+            // System.out.println(chickenRiceOrder);
+
+            ChickenRiceShopProductMemuFrame.super.dispose();
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void windowActivated(WindowEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void windowDeactivated(WindowEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+        
+    }
+
+    public ChickenRiceOrder getOrderDetail(){
+        return chickenRiceOrder;
     }
 }
