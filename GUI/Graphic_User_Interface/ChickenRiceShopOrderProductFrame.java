@@ -180,6 +180,9 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
                 double tempMainProductTotalPrice = chickenRiceProductsList.get(mainProductSelectedIndex).getProductPrice() * mainProductOrderQuantity;
                 chickenRiceMainProductsOrderList.add(chickenRiceProductsList.get(mainProductSelectedIndex));
                 chickenRiceMainProductsOrderQuantityList.add(mainProductOrderQuantity);
+
+                chickenRiceProductsList.get(mainProductSelectedIndex).minusProductQuantity(mainProductOrderQuantity);
+
                 orderProductListTArea.append(new String(tempMainProductName + "\n\tx " + mainProductOrderQuantity + "\t" + tempMainProductTotalPrice + "\n"));
 
                 if (AddOnProductOrderQuantity > 0){
@@ -187,6 +190,9 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
                     double tempAddOnProductTotalPrice = chickenRiceAddOnsList.get(AddOnProductSelectedIndex).getProductPrice() * AddOnProductOrderQuantity;
                     chickenRiceAddOnProductOrderList.add(chickenRiceAddOnsList.get(AddOnProductSelectedIndex));
                     chickenRiceAddOnProductsOrderQuantityList.add(AddOnProductOrderQuantity);
+
+                    chickenRiceAddOnsList.get(AddOnProductSelectedIndex).minusProductQuantity(AddOnProductOrderQuantity);
+
                     orderProductListTArea.append(new String(tempAddOnProductName + "\n\tx " + AddOnProductOrderQuantity + "\t" + tempAddOnProductTotalPrice + "\n"));
                 }
 
@@ -204,7 +210,22 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
     }
 
     private boolean checkBalanceQuantity(){
-        return true;
+        String mainProductName = chickenRiceProductsList.get(mainProductComboBox.getSelectedIndex()).getProductName();
+        String addOnProductName = chickenRiceAddOnsList.get(mainProductComboBox.getSelectedIndex()).getProductName();
+        int mainBalance = chickenRiceProductsList.get(mainProductComboBox.getSelectedIndex()).getBalanceQuantity();
+        int addOnBalance = chickenRiceAddOnsList.get(addOnProductComboBox.getSelectedIndex()).getBalanceQuantity();
+
+        if (mainBalance >= (Integer) mainProductQuantitySpinner.getValue()){
+            if (addOnBalance >= (Integer) addOnProductQuantitySpinner.getValue()){
+                return true;
+            }else{
+                JOptionPane.showMessageDialog(mainPanel, addOnProductName+ " Not enough to provide. Current Balance: " + addOnBalance, "Notice", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
+        }else{
+            JOptionPane.showMessageDialog(mainPanel, mainProductName+ " Not enough to provide. Current Balance: " + mainBalance, "Notice", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
     }
 
     private class resetButtonListener implements ActionListener{

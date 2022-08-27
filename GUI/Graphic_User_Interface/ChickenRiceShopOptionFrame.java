@@ -6,7 +6,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class ChickenRiceShopOptionFrame extends JFrame {
     private ChickenRiceShop chickenRiceShop;
@@ -89,9 +88,6 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
             oldOrderedTableLabel.removeAll(oldOrderedTableLabel);
             oldOrderedTableLabel.addAll(newOrderedTableLabel);
-
-            // System.out.println(chickenRiceProductsList.get(0).getBalanceQuantity());
-            // System.out.println(chickenRiceAddOnsList.get(0).getBalanceQuantity());
 
             ChickenRiceShopOptionFrame.super.setVisible(false);
 

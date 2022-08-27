@@ -3,7 +3,6 @@ package Console_User_Interface;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.time.LocalDateTime;
 
 public class ChickenRiceShopBuild {
     private static final String INPUT_ERROR_MESSAGE = "Your selection is invalid please try again!!\n";

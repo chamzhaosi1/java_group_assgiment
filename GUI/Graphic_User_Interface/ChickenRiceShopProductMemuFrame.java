@@ -12,8 +12,6 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
     private ArrayList<String> orderTableLabel;
-    private ChickenRiceProduct chickenRiceProduct;
-    private ChickenRiceAddOn chickenRiceAddOn;
     private String label;
     private JButton tempButton;
 
