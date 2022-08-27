@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class ChickenRiceShopProductMemuFrame extends JFrame {
+public class ChickenRiceShopProductMenuFrame extends JFrame {
     private ChickenRiceShop chickenRiceShop;
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
@@ -27,7 +27,7 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
     private JButton[] tableLabelBtnList;
     private JButton returnBtn;
 
-    public ChickenRiceShopProductMemuFrame(String label, ArrayList<String> orderTableLabel, ChickenRiceShop chickenRiceShop,
+    public ChickenRiceShopProductMenuFrame(String label, ArrayList<String> orderTableLabel, ChickenRiceShop chickenRiceShop,
             ArrayList<ChickenRiceProduct> chickenRiceProductsList, ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList) {
         this.chickenRiceShop = chickenRiceShop;
         this.chickenRiceProductsList = chickenRiceProductsList;
@@ -97,7 +97,7 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
     public class ReturnBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            ChickenRiceShopProductMemuFrame.super.dispose();
+            ChickenRiceShopProductMenuFrame.super.dispose();
         }
     }
 
@@ -127,7 +127,7 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
                     // after confirm delect, then order table list will remove the tabel order recorde
                     // because after that we need to know whether has table be deleted.
                     orderTableLabel.remove(tempButton.getText());
-                    ChickenRiceShopProductMemuFrame.super.dispose();
+                    ChickenRiceShopProductMenuFrame.super.dispose();
                 }
             }
         }
@@ -160,11 +160,12 @@ public class ChickenRiceShopProductMemuFrame extends JFrame {
                 chickenRiceOrder.setChickenAddOnOrderQuantity(temChickenRiceOrder.getChickenAddOnOrderQuantity());
                 chickenRiceOrder.setRemark(temChickenRiceOrder.getRemark());
                 chickenRiceOrder.setTotalPrice(temChickenRiceOrder.getTotalPrice());
+                System.out.println(chickenRiceOrder.getTotalPrice());
             }
 
             // System.out.println(chickenRiceOrder);
 
-            ChickenRiceShopProductMemuFrame.super.dispose();
+            ChickenRiceShopProductMenuFrame.super.dispose();
         }
 
         @Override

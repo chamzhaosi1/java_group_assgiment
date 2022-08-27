@@ -1325,7 +1325,7 @@ public class ChickenRiceShopBuild {
 
     private int[] countAddOnProductDailySales(ArrayList<ChickenRiceOrder> chickenRiceSoldList) {
         // to keep the quantity
-        int[] soldAddOnProductQuantity = new int[chickenRiceProduct.length];
+        int[] soldAddOnProductQuantity = new int[chickenRiceAddOn.length];
 
         // initial all element equal to 0 (Actually is to avoid the sequace of the item)
         for (int l = 0; l < soldAddOnProductQuantity.length; l++) {

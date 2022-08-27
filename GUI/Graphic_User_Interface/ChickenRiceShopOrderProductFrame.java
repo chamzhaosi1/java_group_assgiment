@@ -313,9 +313,10 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
                     chickenRiceOrder.setChickenRiceAddOn(chickenRiceAddOnOrdered);
                     chickenRiceOrder.setChickenAddOnOrderQuantity(chickenRiceAddOnsOrderedQuantity);
-                    chickenRiceOrder.setTotalPrice(totalOrderPrice);
-                    chickenRiceOrder.setRemark(allOrderRemark);
                 }
+
+                chickenRiceOrder.setTotalPrice(totalOrderPrice);
+                chickenRiceOrder.setRemark(allOrderRemark);
 
             }
 
@@ -352,6 +353,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
     }
 
     public ChickenRiceOrder getChickenRiceOrderDetail(){
+        System.out.println(chickenRiceOrder);
         return chickenRiceOrder;
     }
   

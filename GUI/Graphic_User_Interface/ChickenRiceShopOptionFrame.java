@@ -10,12 +10,13 @@ import java.util.ArrayList;
 public class ChickenRiceShopOptionFrame extends JFrame {
     private ChickenRiceShop chickenRiceShop;
     private ArrayList<ChickenRiceOrder> chickenRiceOrdersList = new ArrayList<>();
+    private ArrayList<ChickenRiceOrder> chickenRiceShopSoldList = new ArrayList<>();
     private ArrayList<ChickenRiceProduct> chickenRiceProductsList;
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
     private String label;
     private ArrayList<String> newOrderedTableLabel = new ArrayList<>();
     private ArrayList<String> oldOrderedTableLabel = new ArrayList<>();
-    private ChickenRiceShopProductMemuFrame productMenu;
+    private ChickenRiceShopProductMenuFrame productMenu;
 
     private String title = "POS System";
     private static final int WIDTH = 500;
@@ -96,9 +97,9 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
             // temporary hide the option Jframe vision
             ChickenRiceShopOptionFrame.super.setVisible(false);
-            productMenu = new ChickenRiceShopProductMemuFrame(label, newOrderedTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
+            productMenu = new ChickenRiceShopProductMenuFrame(label, newOrderedTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
-            productMenu.addWindowListener(new CustomWindowListener());
+            productMenu.addWindowListener(new orderProductWindowListener());
         }
 
     }
@@ -168,19 +169,13 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         }
     }
 
-    public class CustomWindowListener implements WindowListener {
+    public class orderProductWindowListener implements WindowListener {
 
         @Override
-        public void windowOpened(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowOpened(WindowEvent e){}
 
         @Override
-        public void windowClosing(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowClosing(WindowEvent e){}
 
         @Override
         public void windowClosed(WindowEvent e) {
@@ -188,35 +183,29 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             ChickenRiceShopOptionFrame.super.setVisible(true);
 
             // get the latest order list
-            chickenRiceOrdersList.add(productMenu.getOrderDetail());
+            if(productMenu.getOrderDetail() != null){
+                // chickenRiceOrdersList.add(productMenu.getOrderDetail());
+                chickenRiceOrdersList.add(productMenu.getOrderDetail());
+            }
+            // System.out.println(chickenRiceOrdersList);
+
 
             //get the latest table label, which has been make an order
             newOrderedTableLabel = productMenu.getLatestOrderedTableLabel();
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-            // TODO Auto-generated method stub
 
         }
 
         @Override
-        public void windowDeiconified(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowIconified(WindowEvent e){}
 
         @Override
-        public void windowActivated(WindowEvent e) {
-            // TODO Auto-generated method stub
-
-        }
+        public void windowDeiconified(WindowEvent e){}
 
         @Override
-        public void windowDeactivated(WindowEvent e) {
-            // TODO Auto-generated method stub
+        public void windowActivated(WindowEvent e){}
 
-        }
+        @Override
+        public void windowDeactivated(WindowEvent e){}
 
     }
 
@@ -244,10 +233,67 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
+            if (chickenRiceOrdersList != null){
+                chickenRiceShopSoldList.removeAll(chickenRiceShopSoldList);
+                chickenRiceShopSoldList.addAll(chickenRiceOrdersList);
+            }else {
+                chickenRiceShopSoldList.add(defaultOrderList());
+            }
+            ChickenRiceShopDailySalesFrame chickenRiceShopDailySalesFrame = new ChickenRiceShopDailySalesFrame(label, chickenRiceShop, chickenRiceShopSoldList, chickenRiceProductsList, chickenRiceAddOnsList);
+            chickenRiceShopDailySalesFrame.addWindowListener(new dailySalesWindowListener());
+            ChickenRiceShopOptionFrame.super.setVisible(false);
+        }
+    }
 
+    public class dailySalesWindowListener implements WindowListener{
+
+        @Override
+        public void windowOpened(WindowEvent e){}
+
+        @Override
+        public void windowClosing(WindowEvent e){}
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+            ChickenRiceShopOptionFrame.super.setVisible(true);
         }
 
+        @Override
+        public void windowIconified(WindowEvent e){}
+
+        @Override
+        public void windowDeiconified(WindowEvent e){}
+
+        @Override
+        public void windowActivated(WindowEvent e){}
+
+        @Override
+        public void windowDeactivated(WindowEvent e){}
+
+    }
+
+    public ChickenRiceOrder defaultOrderList(){
+        ChickenRiceOrder defualtChickenRiceOrder = new ChickenRiceOrder();
+
+        ChickenRiceProduct[] defaultChickenRiceProductList = new ChickenRiceProduct[chickenRiceProductsList.size()];
+        Integer[] defaultChickenRiceProductOrderedQuantityList = new Integer[chickenRiceProductsList.size()];
+        for (int i=0; i<chickenRiceProductsList.size(); i++){
+            defaultChickenRiceProductList[i] = chickenRiceProductsList.get(i);
+            defaultChickenRiceProductOrderedQuantityList[i] = 0;
+        }
+        defualtChickenRiceOrder.setChickenRiceProduct(defaultChickenRiceProductList);
+        defualtChickenRiceOrder.setChickenRiceOrderQuantity(defaultChickenRiceProductOrderedQuantityList);
+
+        ChickenRiceAddOn[] defaultChickenRiceAddOnList = new ChickenRiceAddOn[chickenRiceAddOnsList.size()];
+        Integer[] defaultChickenRiceAddOnOrderedQuantityList = new Integer[chickenRiceAddOnsList.size()];
+        for (int i=0; i<chickenRiceProductsList.size(); i++){
+            defaultChickenRiceAddOnList[i] = chickenRiceAddOnsList.get(i);
+            defaultChickenRiceAddOnOrderedQuantityList[i] = 0;
+        }
+        defualtChickenRiceOrder.setChickenRiceAddOn(defaultChickenRiceAddOnList);
+        defualtChickenRiceOrder.setChickenAddOnOrderQuantity(defaultChickenRiceAddOnOrderedQuantityList);
+
+        return defualtChickenRiceOrder;
     }
 
     public class ExitBtnListener implements ActionListener {
