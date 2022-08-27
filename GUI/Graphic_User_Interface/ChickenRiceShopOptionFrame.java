@@ -17,6 +17,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
     private ArrayList<String> newOrderedTableLabel = new ArrayList<>();
     private ArrayList<String> oldOrderedTableLabel = new ArrayList<>();
     private ChickenRiceShopProductMenuFrame productMenu;
+    private ChickenRiceShopPaymentMenuFrame paymentMenu;
+    private ChickenRiceShopProductBalanceFrame balanceFrame;
 
     private String title = "POS System";
     private static final int WIDTH = 500;
@@ -99,7 +101,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             ChickenRiceShopOptionFrame.super.setVisible(false);
             productMenu = new ChickenRiceShopProductMenuFrame(label, newOrderedTableLabel, chickenRiceShop, chickenRiceProductsList, chickenRiceAddOnsList);
 
-            productMenu.addWindowListener(new orderProductWindowListener());
+            productMenu.addWindowListener(new OrderProductWindowListener());
         }
 
     }
@@ -169,7 +171,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         }
     }
 
-    public class orderProductWindowListener implements WindowListener {
+    public class OrderProductWindowListener implements WindowListener {
 
         @Override
         public void windowOpened(WindowEvent e){}
@@ -213,18 +215,58 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
+            // if newOrderedTablelabel lower then oldOrderTableLabel, then mean had order
+            // been deleteChickenRiceOrder
+            // so we need delete the order in the list, and add back the quantity
+            if (newOrderedTableLabel.size() < oldOrderedTableLabel.size()) {
+                deleteChickenRiceOrder();
+            }
 
+            // copy and assign the latest ordered table label to a old ordered table lable
+            // in order to compere whether has order been deleted
+            oldOrderedTableLabel.removeAll(oldOrderedTableLabel);
+            oldOrderedTableLabel.addAll(newOrderedTableLabel);
+            paymentMenu = new ChickenRiceShopPaymentMenuFrame(label,
+                    chickenRiceShop, chickenRiceOrdersList);
+
+            paymentMenu.addWindowListener(new PaymentWindowListener());
         }
 
+    }
+
+    public class PaymentWindowListener implements WindowListener {
+
+        @Override
+        public void windowOpened(WindowEvent e) {}
+
+        @Override
+        public void windowClosing(WindowEvent e) {}
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+            chickenRiceOrdersList = paymentMenu.getLatestOrderList();
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {}
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {}
+
+        @Override
+        public void windowActivated(WindowEvent e) {}
+
+        @Override
+        public void windowDeactivated(WindowEvent e) {}
     }
 
     public class ShowProductBalanceBtnListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-
+            balanceFrame = new ChickenRiceShopProductBalanceFrame(label, chickenRiceProductsList, chickenRiceAddOnsList);
+            chickenRiceProductsList = balanceFrame.getLatestChickenRiceProduct();
+            chickenRiceAddOnsList = balanceFrame.getLatestChickenRiceAddOn();
         }
 
     }
@@ -239,8 +281,8 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             }else {
                 chickenRiceShopSoldList.add(defaultOrderList());
             }
-            ChickenRiceShopDailySalesFrame chickenRiceShopDailySalesFrame = new ChickenRiceShopDailySalesFrame(label, chickenRiceShop, chickenRiceShopSoldList, chickenRiceProductsList, chickenRiceAddOnsList);
-            chickenRiceShopDailySalesFrame.addWindowListener(new dailySalesWindowListener());
+            ChickenRiceShopDailySalesFrame balanceFrame = new ChickenRiceShopDailySalesFrame(label, chickenRiceShop, chickenRiceShopSoldList, chickenRiceProductsList, chickenRiceAddOnsList);
+            balanceFrame.addWindowListener(new dailySalesWindowListener());
             ChickenRiceShopOptionFrame.super.setVisible(false);
         }
     }
