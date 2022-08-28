@@ -194,8 +194,6 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             // if newOrderedTablelabel lower then oldOrderTableLabel, then mean had order
             // been deleteChickenRiceOrder
             // so we need delete the order in the list, and add back the quantity
-            // System.out.println(newOrderedTableLabel);
-            // System.out.println(oldOrderedTableLabel);
             if (newOrderedTableLabel.size() < oldOrderedTableLabel.size()) {
                 deleteChickenRiceOrder();
             }
@@ -204,10 +202,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
             // in order to compere whether has order been deleted
             oldOrderedTableLabel.removeAll(oldOrderedTableLabel);
             oldOrderedTableLabel.addAll(newOrderedTableLabel);
-            // System.out.println(newOrderedTableLabel);
-            // System.out.println(oldOrderedTableLabel);
 
-            // System.out.println(chickenRiceOrdersList);
 
             ChickenRiceShopOptionFrame.super.setVisible(false);
             paymentMenu = new ChickenRiceShopPaymentMenuFrame(label,
@@ -253,6 +248,19 @@ public class ChickenRiceShopOptionFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // if newOrderedTablelabel lower then oldOrderTableLabel, then mean had order
+            // been deleteChickenRiceOrder
+            // so we need delete the order in the list, and add back the quantity
+            if (newOrderedTableLabel.size() < oldOrderedTableLabel.size()) {
+                deleteChickenRiceOrder();
+            }
+
+            // copy and assign the latest ordered table label to a old ordered table lable
+            // in order to compere whether has order been deleted
+            oldOrderedTableLabel.removeAll(oldOrderedTableLabel);
+            oldOrderedTableLabel.addAll(newOrderedTableLabel);
+
+            System.out.println(chickenRiceProductsList.get(0).getBalanceQuantity());
             balanceFrame = new ChickenRiceShopProductBalanceFrame(label, chickenRiceProductsList, chickenRiceAddOnsList);
             chickenRiceProductsList = balanceFrame.getLatestChickenRiceProduct();
             chickenRiceAddOnsList = balanceFrame.getLatestChickenRiceAddOn();
@@ -296,7 +304,7 @@ public class ChickenRiceShopOptionFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             dailySalesFrame = new ChickenRiceShopDailySalesFrame(label, chickenRiceShop, chickenRiceShopSoldList, chickenRiceProductsList, chickenRiceAddOnsList);
-            balanceFrame.addWindowListener(new dailySalesWindowListener());
+            dailySalesFrame.addWindowListener(new dailySalesWindowListener());
             ChickenRiceShopOptionFrame.super.setVisible(false);
         }
     }
@@ -340,7 +348,5 @@ public class ChickenRiceShopOptionFrame extends JFrame {
                 System.exit(0);
             }
         }
-
     }
-
 }
