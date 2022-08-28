@@ -29,8 +29,9 @@ public class ChickenRiceShopBuild {
     // Register a chicken shop
     private void registerChickenRiceShop() {
         // chickenRiceShop = new ChickenRiceShop("LCL Chicken Rice Shop",
-        //         "Blok B&C, Lot, 5, Seksyen 10, Jalan Bukit, Taman Bukit Mewah, 43000 Kajang, Selangor", "LCL-12345",
-        //         "012-1234567");
+        // "Blok B&C, Lot, 5, Seksyen 10, Jalan Bukit, Taman Bukit Mewah, 43000 Kajang,
+        // Selangor", "LCL-12345",
+        // "012-1234567");
 
         // String tableLabel[] = { "A1", "A2", "A3", "A4", "A5" };
         // chickenRiceShop.setTableLabel(tableLabel);
@@ -41,7 +42,7 @@ public class ChickenRiceShopBuild {
         String telephone;
 
         System.out.println(
-        "\n######################################################################################################");
+                "\n######################################################################################################");
         System.out.println("Please enter your shop detail: ");
         System.out.print("Shop Name: ");
         shopName = input.nextLine();
@@ -57,34 +58,34 @@ public class ChickenRiceShopBuild {
 
         System.out.print("Shop detail has been configured...");
 
-        chickenRiceShop = new ChickenRiceShop(shopName, registerNumber, address,
-        telephone);
+        chickenRiceShop = new ChickenRiceShop(shopName, address,  registerNumber,
+                telephone);
 
         System.out.println(
-        "\n\n######################################################################################################");
+                "\n\n######################################################################################################");
         System.out.println("Please enter your shop table label(enter 'N' for finish): ");
         int count = 1;
         ArrayList<String> initialTabelLabelList = new ArrayList<>();
 
-        do{
-        System.out.print(count + ": ");
-        String tableLabel = input.nextLine();
+        do {
+            System.out.print(count + ": ");
+            String tableLabel = input.nextLine();
 
-        if (tableLabel.equals("N") || tableLabel.equals("n")){
-        break;
-        }else{
-        initialTabelLabelList.add(tableLabel);
-        }
-        count++;
+            if (tableLabel.equals("N") || tableLabel.equals("n")) {
+                break;
+            } else {
+                initialTabelLabelList.add(tableLabel);
+            }
+            count++;
 
-        }while(true);
+        } while (true);
 
         String[] tblLabelList = new String[initialTabelLabelList.size()];
 
-        int i=0;
-        for (String tabelList : initialTabelLabelList){
-        tblLabelList[i] = tabelList;
-        i++;
+        int i = 0;
+        for (String tabelList : initialTabelLabelList) {
+            tblLabelList[i] = tabelList;
+            i++;
         }
 
         chickenRiceShop.setTableLabel(tblLabelList);
@@ -93,17 +94,23 @@ public class ChickenRiceShopBuild {
 
     // add chicken rice product
     private void addChickenRiceProduct() {
-        // ChickenRiceProduct roastedChicken = new ChickenRiceProduct("Roasted Chicken", 10.50,
-        //         "Crispy skin, juicy meat, flavorful at every turn, Roasted Chicken is one of the tastiest & most satisfying dishes you can ever have.",
-        //         10, 10);
+        // ChickenRiceProduct roastedChicken = new ChickenRiceProduct("Roasted Chicken",
+        // 10.50,
+        // "Crispy skin, juicy meat, flavorful at every turn, Roasted Chicken is one of
+        // the tastiest & most satisfying dishes you can ever have.",
+        // 10, 10);
 
-        // ChickenRiceProduct steamChicken = new ChickenRiceProduct("Steamed Chicken", 9.50,
-        //         "An ideal method for cooking boneless chicken breasts and small whole birds such as Cornish hens.", 10,
-        //         10);
+        // ChickenRiceProduct steamChicken = new ChickenRiceProduct("Steamed Chicken",
+        // 9.50,
+        // "An ideal method for cooking boneless chicken breasts and small whole birds
+        // such as Cornish hens.", 10,
+        // 10);
 
-        // ChickenRiceProduct friedChicken = new ChickenRiceProduct("Fried Chicken", 8.50,
-        //         "Done properly, deep-frying creates a satisfying contrast between the crispy-crunchy coating and tender chicken.",
-        //         10, 10);
+        // ChickenRiceProduct friedChicken = new ChickenRiceProduct("Fried Chicken",
+        // 8.50,
+        // "Done properly, deep-frying creates a satisfying contrast between the
+        // crispy-crunchy coating and tender chicken.",
+        // 10, 10);
 
         // chickenRiceProduct = new ChickenRiceProduct[3];
 
@@ -112,7 +119,7 @@ public class ChickenRiceShopBuild {
         // chickenRiceProduct[2] = friedChicken;
 
         System.out.println(
-        "\n######################################################################################################");
+                "\n######################################################################################################");
         System.out.println("Please enter your shop's main product detail: ");
         int count = 1;
         String productName;
@@ -122,67 +129,69 @@ public class ChickenRiceShopBuild {
         int balanceQuantity;
         char confirmInput;
         ArrayList<ChickenRiceProduct> mainProductList = new ArrayList<>();
-        boolean validate_confirmInput, validate= false;
+        boolean validate_confirmInput, validate = false;
 
-        do{
-        try {
-        System.out.println(count + " Main Product");
-        System.out.print("Name: ");
-        productName = input.nextLine();
+        do {
+            try {
+                System.out.println(count + " Main Product");
+                System.out.print("Name: ");
+                productName = input.nextLine();
 
-        System.out.print("Description: ");
-        productDescription = input.nextLine();
+                System.out.print("Description: ");
+                productDescription = input.nextLine();
 
-        System.out.print("Unit Price: ");
-        productUnitPrice = input.nextDouble();
+                System.out.print("Unit Price: ");
+                productUnitPrice = input.nextDouble();
 
-        System.out.print("Initial Quantity: ");
-        initialQuantity = input.nextInt();
+                System.out.print("Initial Quantity: ");
+                initialQuantity = input.nextInt();
 
-        System.out.print("Balance Quantity: ");
-        balanceQuantity = input.nextInt();
+                System.out.print("Balance Quantity: ");
+                balanceQuantity = input.nextInt();
 
-        mainProductList.add(new ChickenRiceProduct(productName, productUnitPrice,
-        productDescription, initialQuantity, balanceQuantity));
+                mainProductList.add(new ChickenRiceProduct(productName, productUnitPrice,
+                        productDescription, initialQuantity, balanceQuantity));
 
-        System.out.println("\nDo you want add another main product? (Y/N)");
-        confirmInput = input.next().charAt(0);
+                System.out.println("\nDo you want add another main product? (Y/N)");
+                confirmInput = input.next().charAt(0);
 
-        validate_confirmInput = checkInputBoolValidation(confirmInput,
-        INPUT_ERROR_MESSAGE);
+                validate_confirmInput = checkInputBoolValidation(confirmInput,
+                        INPUT_ERROR_MESSAGE);
 
-        if (validate_confirmInput && (confirmInput == 'Y' || confirmInput == 'y')){
-        clearInputBuffer();
-        validate = false;
-        count++;
-        }else if (validate_confirmInput && (confirmInput == 'N' || confirmInput ==
-        'n')){
-        clearInputBuffer();
-        validate = true;
-        }
+                if (validate_confirmInput && (confirmInput == 'Y' || confirmInput == 'y')) {
+                    clearInputBuffer();
+                    validate = false;
+                    count++;
+                } else if (validate_confirmInput && (confirmInput == 'N' || confirmInput == 'n')) {
+                    clearInputBuffer();
+                    validate = true;
+                }
 
-        } catch (Exception e) {
-        // e.printStackTrace();
-        clearInputBuffer();
-        System.out.println(INPUT_ERROR_MESSAGE);
-        validate = false;
-        }
-        }while(!validate);
+            } catch (Exception e) {
+                // e.printStackTrace();
+                clearInputBuffer();
+                System.out.println(INPUT_ERROR_MESSAGE);
+                validate = false;
+            }
+        } while (!validate);
 
         chickenRiceProduct = new ChickenRiceProduct[mainProductList.size()];
 
-        int i=0;
-        for (ChickenRiceProduct crp : mainProductList){
-        chickenRiceProduct[i] = crp;
-        i++;
+        int i = 0;
+        for (ChickenRiceProduct crp : mainProductList) {
+            chickenRiceProduct[i] = crp;
+            i++;
         }
     }
 
     // add chicke rice add on product
     private void addChickenRiceAddOn() {
-        // ChickenRiceAddOn soup = new ChickenRiceAddOn("Soup", 1.00, "A delicous soup", 20, 20);
-        // ChickenRiceAddOn drink = new ChickenRiceAddOn("Rice", 1.00, "A sepcial drink", 20, 20);
-        // ChickenRiceAddOn tauge = new ChickenRiceAddOn("tauge", 1.00, "More tauge, more amazing", 20, 20);
+        // ChickenRiceAddOn soup = new ChickenRiceAddOn("Soup", 1.00, "A delicous soup",
+        // 20, 20);
+        // ChickenRiceAddOn drink = new ChickenRiceAddOn("Rice", 1.00, "A sepcial
+        // drink", 20, 20);
+        // ChickenRiceAddOn tauge = new ChickenRiceAddOn("tauge", 1.00, "More tauge,
+        // more amazing", 20, 20);
 
         // chickenRiceAddOn = new ChickenRiceAddOn[3];
 
@@ -191,7 +200,7 @@ public class ChickenRiceShopBuild {
         // chickenRiceAddOn[2] = tauge;
 
         System.out.println(
-        "\n######################################################################################################");
+                "\n######################################################################################################");
         System.out.println("Please enter your shop's add on product detail: ");
         int count = 1;
         String productName;
@@ -201,60 +210,59 @@ public class ChickenRiceShopBuild {
         int balanceQuantity;
         char confirmInput;
         ArrayList<ChickenRiceAddOn> addOnProductList = new ArrayList<>();
-        boolean validate_confirmInput, validate= false;
+        boolean validate_confirmInput, validate = false;
 
-        do{
-        try {
-        System.out.println(count + " Add On Product");
-        System.out.print("Name: ");
-        productName = input.nextLine();
+        do {
+            try {
+                System.out.println(count + " Add On Product");
+                System.out.print("Name: ");
+                productName = input.nextLine();
 
-        System.out.print("Description: ");
-        productDescription = input.nextLine();
+                System.out.print("Description: ");
+                productDescription = input.nextLine();
 
-        System.out.print("Unit Price: ");
-        productUnitPrice = input.nextDouble();
+                System.out.print("Unit Price: ");
+                productUnitPrice = input.nextDouble();
 
-        System.out.print("Initial Quantity: ");
-        initialQuantity = input.nextInt();
+                System.out.print("Initial Quantity: ");
+                initialQuantity = input.nextInt();
 
-        System.out.print("Balance Quantity: ");
-        balanceQuantity = input.nextInt();
+                System.out.print("Balance Quantity: ");
+                balanceQuantity = input.nextInt();
 
-        addOnProductList.add(new ChickenRiceAddOn(productName, productUnitPrice,
-        productDescription, initialQuantity, balanceQuantity));
+                addOnProductList.add(new ChickenRiceAddOn(productName, productUnitPrice,
+                        productDescription, initialQuantity, balanceQuantity));
 
-        System.out.println("\nDo you want add another add on product? (Y/N)");
-        confirmInput = input.next().charAt(0);
+                System.out.println("\nDo you want add another add on product? (Y/N)");
+                confirmInput = input.next().charAt(0);
 
-        validate_confirmInput = checkInputBoolValidation(confirmInput,
-        INPUT_ERROR_MESSAGE);
+                validate_confirmInput = checkInputBoolValidation(confirmInput,
+                        INPUT_ERROR_MESSAGE);
 
-        if (validate_confirmInput && (confirmInput == 'Y' || confirmInput == 'y')){
-        clearInputBuffer();
-        validate = false;
-        count++;
-        }else if (validate_confirmInput && (confirmInput == 'N' || confirmInput ==
-        'n')){
-        clearInputBuffer();
-        validate = true;
-        }
+                if (validate_confirmInput && (confirmInput == 'Y' || confirmInput == 'y')) {
+                    clearInputBuffer();
+                    validate = false;
+                    count++;
+                } else if (validate_confirmInput && (confirmInput == 'N' || confirmInput == 'n')) {
+                    clearInputBuffer();
+                    validate = true;
+                }
 
-        } catch (Exception e) {
-        // e.printStackTrace();
-        clearInputBuffer();
-        System.out.println(INPUT_ERROR_MESSAGE);
-        validate = false;
-        }
+            } catch (Exception e) {
+                // e.printStackTrace();
+                clearInputBuffer();
+                System.out.println(INPUT_ERROR_MESSAGE);
+                validate = false;
+            }
 
-        }while(!validate);
+        } while (!validate);
 
         chickenRiceAddOn = new ChickenRiceAddOn[addOnProductList.size()];
 
-        int i=0;
-        for (ChickenRiceAddOn crao : addOnProductList){
-        chickenRiceAddOn[i] = crao;
-        i++;
+        int i = 0;
+        for (ChickenRiceAddOn crao : addOnProductList) {
+            chickenRiceAddOn[i] = crao;
+            i++;
         }
     }
 
@@ -304,7 +312,9 @@ public class ChickenRiceShopBuild {
                         case 2:
                             makePaymentOption();
                             break;
-                        case 3: showProductBalanceOption(); break;
+                        case 3:
+                            showProductBalanceOption();
+                            break;
                         case 4:
                             summaryDailySalesOption();
                             break;
@@ -513,7 +523,6 @@ public class ChickenRiceShopBuild {
                             "\n######################################################################################################");
                     System.out.print("Please enter the order quantity (Current Store Balance "
                             + tempProductQuantity[productListInput] + "): ");
-                    
 
                     try {
                         // read the input quantity
@@ -949,7 +958,8 @@ public class ChickenRiceShopBuild {
             }
         }
 
-       if (chickenRiceOrderList.get(index).getChickenRiceAddOn() != null && chickenRiceOrderList.get(index).getChickenRiceAddOn().length > 0){
+        if (chickenRiceOrderList.get(index).getChickenRiceAddOn() != null
+                && chickenRiceOrderList.get(index).getChickenRiceAddOn().length > 0) {
             // retrive the add on product list
             ChickenRiceAddOn[] tempChickenRiceAddOn = chickenRiceOrderList.get(index).getChickenRiceAddOn();
 
@@ -963,7 +973,7 @@ public class ChickenRiceShopBuild {
                     }
                 }
             }
-       }
+        }
     }
 
     /**
@@ -1065,7 +1075,8 @@ public class ChickenRiceShopBuild {
                 try {
                     int tableNum = input.nextInt();
 
-                    validate = checkInputIntValidation(tableNum, 0, (chickenRiceOrderList.size() + 2), INPUT_ERROR_MESSAGE);
+                    validate = checkInputIntValidation(tableNum, 0, (chickenRiceOrderList.size() + 2),
+                            INPUT_ERROR_MESSAGE);
 
                     if (validate && tableNum < (chickenRiceOrderList.size() + 1)) {
                         ChickenRiceOrder co = new ChickenRiceOrder();
@@ -1119,14 +1130,14 @@ public class ChickenRiceShopBuild {
                     validate = false;
                 }
             } while (!validate);
-        }else{
+        } else {
             System.out.println("No any order yet!");
         }
     }
 
     // When user select option 3
-    private void showProductBalanceOption(){
-        orderList("Order List");
+    private void showProductBalanceOption() {
+        orderList("Inventory List");
     }
 
     private void orderList(String title) {
@@ -1142,15 +1153,15 @@ public class ChickenRiceShopBuild {
         System.out
                 .println("####################################### " + title + " ################################### ");
 
-        // List out all ordered chicker rice product
-        System.out.println("\nOrdered Product:");
-        
+        // List out all balance chicken rice product
+        System.out.println("\nProduct Balance:");
+
         // Count the product order
         boolean validate;
         boolean validate_String;
         boolean validate_addNum = false;
-        
-        do {            
+
+        do {
             int c = 0;
 
             int[] tempMainProductQuantity = new int[chickenRiceProduct.length];
@@ -1165,7 +1176,7 @@ public class ChickenRiceShopBuild {
             }
 
             for (int i = 0; i < chickenRiceProduct.length; i++) {
-                System.out.println((i + 1) + " : " + chickenRiceProduct[i].getProductName()  + " " + "-" + " "
+                System.out.println((i + 1) + " : " + chickenRiceProduct[i].getProductName() + " " + "-" + " "
                         + tempMainProductQuantity[i]);
                 c++;
             }
@@ -1180,39 +1191,41 @@ public class ChickenRiceShopBuild {
 
             char inputChar = input.next().charAt(0);
 
-            validate_String = checkInputBoolValidation (inputChar, INPUT_ERROR_MESSAGE);
-            
-            if (validate_String && (inputChar == 'Y' || inputChar == 'y')){
+            validate_String = checkInputBoolValidation(inputChar, INPUT_ERROR_MESSAGE);
+
+            if (validate_String && (inputChar == 'Y' || inputChar == 'y')) {
 
                 do {
                     System.out.println("\nPlease enter the number of the product: ");
 
-                    try{
+                    try {
                         int inputNumber = input.nextInt();
-                
-                        validate = checkInputIntValidation (inputNumber, 0, (chickenRiceProduct.length + chickenRiceAddOn.length + 1), INPUT_ERROR_MESSAGE);
-                        
+
+                        validate = checkInputIntValidation(inputNumber, 0,
+                                (chickenRiceProduct.length + chickenRiceAddOn.length + 1), INPUT_ERROR_MESSAGE);
+
                         if (validate) {
                             do {
                                 System.out.println("\nPlease enter the quantity: ");
-                                
+
                                 try {
-                                    // Read user input quantity 
+                                    // Read user input quantity
                                     int input_addNum = input.nextInt();
-    
-                                    validate_addNum = checkInputIntValidation (input_addNum, 0, 100, INPUT_ERROR_MESSAGE);
-    
+
+                                    validate_addNum = checkInputIntValidation(input_addNum, 0, 100,
+                                            INPUT_ERROR_MESSAGE);
+
                                     if (inputNumber <= chickenRiceProduct.length) {
                                         chickenRiceProduct[inputNumber - 1].addProductQuantity(input_addNum);
-    
+
                                     } else {
                                         inputNumber -= chickenRiceProduct.length;
                                         chickenRiceAddOn[inputNumber - 1].addProductQuantity(input_addNum);
                                     }
-    
+
                                     validate_addNum = true;
-    
-                                } catch (Exception ex){
+
+                                } catch (Exception ex) {
                                     // If the user not key in the integer number, then handle the exception
                                     // System.out.println(e);
                                     System.out.println(INPUT_ERROR_MESSAGE);
@@ -1220,11 +1233,11 @@ public class ChickenRiceShopBuild {
                                     clearInputBuffer();
                                     validate_addNum = false;
                                 }
-    
+
                             } while (!validate_addNum);
-                                validate_String = false;
+                            validate_String = false;
                         }
-                    }catch(Exception ex){
+                    } catch (Exception ex) {
                         System.out.println(INPUT_ERROR_MESSAGE);
                         clearInputBuffer();
                         validate = false;
@@ -1234,20 +1247,22 @@ public class ChickenRiceShopBuild {
         } while (!validate_String);
 
         // List out all ordered add on product
-        /*if (orderAddOnList != null) {
-            for (int j = 0; j < orderAddOnList.size(); j++) {
-                System.out.println((j + 1) + " : " + orderAddOnList.get(j).getProductName() + " " + "-" + " "
-                        + orderAddOnQuantityList.get(j));
+        /*
+         * if (orderAddOnList != null) {
+         * for (int j = 0; j < orderAddOnList.size(); j++) {
+         * System.out.println((j + 1) + " : " + orderAddOnList.get(j).getProductName() +
+         * " " + "-" + " "
+         * + orderAddOnQuantityList.get(j));
+         * 
+         * }
+         * } else {
+         * System.out.println("\nEmpty Add On Product");
+         * }
+         */
 
-            }
-        } else {
-            System.out.println("\nEmpty Add On Product");
-        }*/
-        
         System.out.println(
                 "\n######################################################################################################");
     }
-
 
     // When user select option 4
     private void summaryDailySalesOption() {
