@@ -6,7 +6,6 @@ import javax.swing.border.LineBorder;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class ChickenRiceReceiptFrame extends JFrame {
     private ChickenRiceShop chickenRiceShop;

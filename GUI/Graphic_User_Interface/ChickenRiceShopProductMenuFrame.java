@@ -19,7 +19,7 @@ public class ChickenRiceShopProductMenuFrame extends JFrame {
 
     private ChickenRiceShopOrderProductFrame chickenRiceShopOrderProductFrame;
 
-    private String title = "POS System";
+    private String title = "POS System - Selection Table Lable";
     private static final int WIDTH = 500;
     private static final int HEIGHT = 350;
     private JPanel mainPanel;

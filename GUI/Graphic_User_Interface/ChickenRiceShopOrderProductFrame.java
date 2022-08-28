@@ -20,7 +20,7 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
     private String header;
     private String allOrderRemark = "";
 
-    private String title = "POS System";
+    private String title = "POS System - Selection Product";
     private static final int WIDTH = 720;
     private static final int HEIGHT = 400;
     private JPanel mainPanel;

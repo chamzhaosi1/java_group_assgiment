@@ -16,7 +16,7 @@ public class ChickenRiceShopProductFrame extends JFrame{
     private ChickenRiceAddOn chickenRiceAddOn;
     private String label;
 
-    private String title = "POS System";
+    private String title = "POS System - Product";
     private String subLabel;
     private static final int WIDTH = 500;
     private static final int HEIGHT = 350;

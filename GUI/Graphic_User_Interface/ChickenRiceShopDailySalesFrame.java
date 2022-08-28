@@ -16,7 +16,7 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
     private ArrayList<ChickenRiceAddOn> chickenRiceAddOnsList;
     private ArrayList<ChickenRiceOrder> chickenRiceShopSoldList = new ArrayList<>();
 
-    private String title = "POS System";
+    private String title = "POS System - Daily Sales";
     private static final int WIDTH = 500;
     private static final int HEIGHT = 350;
     private JPanel mainPanel = new JPanel();
@@ -90,10 +90,10 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
                 data[i][2] = String.format("%.2f", (Double.parseDouble(""+chickenRiceProductsList.get(i).getProductPrice() *soldMainProductQuantity[i])));
                 totalAmount += chickenRiceProductsList.get(i).getProductPrice() *soldMainProductQuantity[i];
             }else {
-                data[i][0] = chickenRiceAddOnsList.get(i-chickenRiceProductsList.size()).getProductName();
-                data[i][1] = ""+soldAddOnProductQuantity[i-chickenRiceProductsList.size()];
-                data[i][2] = String.format("%.2f", (Double.parseDouble(""+chickenRiceAddOnsList.get(i-chickenRiceProductsList.size()).getProductPrice() *soldAddOnProductQuantity[i-3])));
-                totalAmount += chickenRiceAddOnsList.get(i-chickenRiceProductsList.size()).getProductPrice() *soldAddOnProductQuantity[i-3];
+                data[i][0] = chickenRiceAddOnsList.get(i-chickenRiceAddOnsList.size()).getProductName();
+                data[i][1] = ""+soldAddOnProductQuantity[i-chickenRiceAddOnsList.size()];
+                data[i][2] = String.format("%.2f", (Double.parseDouble(""+chickenRiceAddOnsList.get(i-chickenRiceAddOnsList.size()).getProductPrice() *soldAddOnProductQuantity[i-chickenRiceAddOnsList.size()])));
+                totalAmount += chickenRiceAddOnsList.get(i-chickenRiceAddOnsList.size()).getProductPrice() *soldAddOnProductQuantity[i-chickenRiceAddOnsList.size()];
             }
         }
         

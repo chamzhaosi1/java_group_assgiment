@@ -24,7 +24,7 @@ public class ChickenRiceShopProductBalanceFrame extends JFrame{
     private JTable productBlTable;
     private GridBagConstraints gbc = new GridBagConstraints();  
     
-    private String title = "POS System";
+    private String title = "POS System - Product Balance";
     private JComboBox<String> mainProductComboBox;
     private JButton addButton;
     private JButton returnButton;
@@ -148,16 +148,6 @@ public class ChickenRiceShopProductBalanceFrame extends JFrame{
     private String[][] retrieveProductData() {
         String data[][] = new String [chickenRiceProductsList.size() + chickenRiceAddOnsList.size()][2];
 
-        /*for (int i = 0; i<chickenRiceProductsList.size() + chickenRiceAddOnsList.size(); i++){
-            if (i < chickenRiceProductsList.size()){
-                data[i][0] = chickenRiceProductsList.get(i).getProductName();
-                data[i][1] = "" + chickenRiceProductsList.get(i).getBalanceQuantity();
-            } else {
-                data[i][0] = chickenRiceAddOnsList.get(i - chickenRiceProductsList.size()).getProductName();
-                data[i][1] = "" + chickenRiceAddOnsList.get(i - chickenRiceProductsList.size()).getBalanceQuantity();
-            }
-        }
-        */
 
         for (int i = 0; i<chickenRiceProductsList.size() + chickenRiceAddOnsList.size(); i++){
             if (i < chickenRiceProductsList.size()){

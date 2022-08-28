@@ -3,13 +3,14 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ChickenRiceShopTableLabelFrame extends JFrame{
     private ChickenRiceShop chickenRiceShop = new ChickenRiceShop();
     private String label;
     private String[] tabelLabel;
 
-    private String title = "POS System"; 
+    private String title = "POS System - Table Label"; 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 350; 
     private JPanel mainPanel;
@@ -92,17 +93,25 @@ public class ChickenRiceShopTableLabelFrame extends JFrame{
 
     private void retrieveAllTableLabel(){
 
-        tabelLabel = new String[tableLabelTextFieldsList.length];
-        int index = 0;
+        
+        ArrayList<String> tableLablelList = new ArrayList<>();
+        // int index = 0;
 
         for (JTextField tempTextField: tableLabelTextFieldsList){
             if (tempTextField.getText().equals("")){
                 continue;
             }else{
-                tabelLabel[index] = tempTextField.getText();
-                index++;
+                tableLablelList.add(tempTextField.getText());
+                // tabelLabel[index] = tempTextField.getText();
+                // index++;
             }
         }
+
+        tabelLabel = new String[tableLablelList.size()];
+        for(int i=0; i< tableLablelList.size(); i++){
+            tabelLabel[i] = tableLablelList.get(i);
+        }
+
     }
 
     private boolean checkAllTabelLabelTextFields(){

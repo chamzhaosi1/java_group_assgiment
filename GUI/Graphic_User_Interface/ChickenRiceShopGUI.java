@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ChickenRiceShopGUI extends JFrame{
-    private String title = "POS System"; 
+    private String title = "POS System - Shop Detail Configure"; 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 350;
     private JTextField shopNameTextField;
