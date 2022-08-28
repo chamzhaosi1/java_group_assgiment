@@ -44,7 +44,8 @@ public class ChickenRiceShopOrderProductFrame extends JFrame{
 
         this.header = "###############################################\n" + 
                             "Shop Name: " + chickenRiceShop.getShopName() + "   (" + chickenRiceShop.getShopRegisterNumber()  + ")\n" +
-                            "Location: " + chickenRiceShop.getLocation() + "\n###############################################\n" + 
+                            "Location: " + chickenRiceShop.getLocation() + "\n"+
+                            "Telephone: " + chickenRiceShop.getTelephone() +"\n###############################################\n" + 
                             "---------------------------------- Order List -------------------------------\n";
 
         setTitle(title + " - " + label);

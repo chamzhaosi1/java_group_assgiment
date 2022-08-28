@@ -28,10 +28,10 @@ public class ChickenRiceReceiptFrame extends JFrame {
         this.chickenRiceOrder = chickenRiceOrder;
         this.label = label;
 
-        this.header = "###############################################\n" +
-                "Shop Name: " + chickenRiceShop.getShopName() + "   (" + chickenRiceShop.getShopRegisterNumber() + ")\n"
-                +
-                "Location: " + chickenRiceShop.getLocation() + "\n###############################################\n" +
+        this.header = "###############################################\n" + 
+                            "Shop Name: " + chickenRiceShop.getShopName() + "   (" + chickenRiceShop.getShopRegisterNumber()  + ")\n" +
+                            "Location: " + chickenRiceShop.getLocation() + "\n"+
+                            "Telephone: " + chickenRiceShop.getTelephone() +"\n###############################################\n" + 
                 "---------------------------------- Receipt -------------------------------\n";
 
         setTitle(title + " - " + label);
