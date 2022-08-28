@@ -1,3 +1,11 @@
 {
-  "java.project.sourcePaths": ["CSL", "GUI"]
+  "java.project.sourcePaths": ["CSL", "GUI"],
+  "java.project.referencedLibraries": {
+    "include": [
+      "lib/**/*.jar"
+    ],
+    "exclude": [
+      "c:\\poi-4.1.2\\poi-ooxml-4.1.2.jar"
+    ]
+  }
 }

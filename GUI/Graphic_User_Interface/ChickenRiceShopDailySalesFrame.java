@@ -64,12 +64,9 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
         JScrollPane salesSummaryScrollPane = new JScrollPane(salesSummaryTable);   
         salesSummaryScrollPane.setPreferredSize(new Dimension(WIDTH, 200)); 
         
-        generateButton = new JButton("Grenerate Report");
-        generateButton.addActionListener(new generateBtnListener());
         returnButton = new JButton("Return");
         returnButton.addActionListener(new returnBtnListener());
 
-        buttonPanel.add(generateButton);
         buttonPanel.add(returnButton);
         
         mainPanel.add(salesSummaryScrollPane, BorderLayout.NORTH);
@@ -156,13 +153,6 @@ public class ChickenRiceShopDailySalesFrame extends JFrame{
         }
 
         return soldAddOnProductQuantity;
-    }
-
-    public class generateBtnListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {}
-
     }
 
     public class returnBtnListener implements ActionListener{
